@@ -4,7 +4,6 @@
   "main": "main.js",
   "scripts": {
     "test": "mocha tests/test_*.js"
-
   },
   "author": "Chivalry Studio",
   "homepage": "http://www.chivalrystudio.com/",

@@ -9,9 +9,8 @@ var source = require('vinyl-source-stream');
 var fs = require('fs');
 var path = require('path');
 
-var Server = require('karma').Server;
 
-gulp.task('default', ['build']);
+gulp.task('default', ['build','browserify']);
 
 var dirs = {
   src:"src",
@@ -48,14 +47,4 @@ gulp.task('browserify', function () {
     .bundle()
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./build/'));
-});
-
-/**
- * Run test once and exit
- */
-gulp.task('test', function (done) {
-  new Server({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true
-  }, done).start();
 });
