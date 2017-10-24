@@ -1,0 +1,25 @@
+{
+  "name": "donjon",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "mocha tests/test_*.js"
+
+  },
+  "author": "Chivalry Studio",
+  "homepage": "http://www.chivalrystudio.com/",
+  "license": "MIT",
+  "description": "",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.26.0",
+    "browserify": "^14.5.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.1",
+    "merge-stream": "^1.0.1",
+    "mocha": "^4.0.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
