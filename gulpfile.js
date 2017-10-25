@@ -9,6 +9,8 @@ var source = require('vinyl-source-stream');
 var fs = require('fs');
 var path = require('path');
 
+var jsdoc = require('gulp-jsdoc3');
+
 
 gulp.task('default', ['build', 'browserify']);
 
@@ -46,4 +48,13 @@ gulp.task('browserify', function () {
   ]).bundle()
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./build/'));
+});
+
+/**
+ *
+ */
+gulp.task('doc', function (cb) {
+  gulp.src(['./js/**/*.js'], {read: false})
+    .pipe(jsdoc(cb))
+    .pipe(gulp.dest('./docs'));
 });
