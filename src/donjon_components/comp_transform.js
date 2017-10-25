@@ -1,5 +1,5 @@
 import Component from './component';
-import Victor from '../libs/victor'
+import Victor from 'victor'
 
 /**
  * @extends Component

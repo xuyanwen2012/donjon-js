@@ -29,7 +29,7 @@ export default class GameObject {
     this.transform_ = new Transform(this);
 
     /** @private @type {String} */
-    this._name = name === 'unnamed' ? 'unnamed' + this.id : name;
+    this.name_ = name === 'unnamed' ? 'unnamed' + this.id : name;
 
     /** @private @const @type {Object} */
     this.components_ = {};

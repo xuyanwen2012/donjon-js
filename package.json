@@ -17,8 +17,11 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.1",
+    "jsdoc": "^3.5.5",
     "merge-stream": "^1.0.1",
     "mocha": "^4.0.1",
+    "pixi.js": "^4.5.6",
+    "victor": "^1.1.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }

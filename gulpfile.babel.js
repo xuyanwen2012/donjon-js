@@ -10,11 +10,11 @@ var fs = require('fs');
 var path = require('path');
 
 
-gulp.task('default', ['build','browserify']);
+gulp.task('default', ['build', 'browserify']);
 
 var dirs = {
-  src:"src",
-  dest:"js"
+  src: "src",
+  dest: "js"
 };
 
 /**
@@ -43,8 +43,7 @@ gulp.task('build', function () {
 gulp.task('browserify', function () {
   return browserify([
     'js/main.js'
-  ])
-    .bundle()
+  ]).bundle()
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./build/'));
 });
