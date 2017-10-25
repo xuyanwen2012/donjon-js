@@ -1,17 +1,29 @@
-# donjon
+DonjonJS - A HTML5 Game Framework
+=============
 
 ### Install
-` npm install `
 
-### Build
-if gulp not installed. 
+If you don't already have Node.js and NPM, go install them. Then, in the folder where you have cloned the repository, install the build dependencies using npm:
 
-` npm install gulp -g`
+```
+$> npm install
+```
 
-run command
+### How to build ###
 
-` gulp ` 
+Then, to build the source, run:
+
+```
+$> gulp
+```
 
 ### Unit Testing
-` npm test `
 
+
+``` 
+$> npm test
+```
+
+### License ###
+
+This content is released under the (http://opensource.org/licenses/MIT) MIT License.
