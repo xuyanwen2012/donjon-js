@@ -17,6 +17,7 @@
     "browserify": "^14.5.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.1",
     "gulp-header": "^1.8.9",
     "gulp-jsdoc3": "^1.0.1",

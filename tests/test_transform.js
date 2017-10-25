@@ -4,7 +4,7 @@ var Victor = require('victor');
 /**
  * @type {{GameObject, Transform}}
  */
-var Donjon = require('../build/donjon');
+var Donjon = require('../build/js/donjon');
 
 
 /**
