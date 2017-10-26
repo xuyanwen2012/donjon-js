@@ -1,5 +1,5 @@
 /build/
-/js/
+/dist/
 /node_modules/
 /.idea/
 /docs/

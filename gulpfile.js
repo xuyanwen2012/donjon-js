@@ -23,67 +23,71 @@ var fileTitle = "\n//=======================================================" +
 gulp.task('default', ['build']);
 
 //directory
-var dirs = {
-  src: "src",
-  dest: "js"
+var Directories = {
+  SOURCE: "src",
+  BUILD: "build",
+  DESTINATION: "dist",
+  TEMPLATES: "template/**",
+  DOCUMENT: "docs",
+  TEMP: "temp"
 };
 
 /**
  * clean build and compiled js
  */
 gulp.task('clean', function () {
-  return gulp.src(['build','js'])
+  return gulp.src([Directories.BUILD, Directories.DESTINATION])
     .pipe(gulpClean({force: true}))
-    .pipe(gulp.dest('temp'));
+    .pipe(gulp.dest(Directories.TEMP));
 });
 
 gulp.task('package', function () {
-  runSequence('clean','copy-template','compile', 'build:donjon', 'test', function () {});
+  runSequence('clean', 'copy-template', 'compile', 'build:donjon', 'test', function () {
+  });
 });
 
 gulp.task('build', function () {
   runSequence('compile', 'build:donjon', 'test', function () {
-    // gulpRun('npm run test').exec();
   });
 });
 
 /**
  * copy template files to the build directory
  */
-gulp.task('copy-template',function () {
-  gulp.src('template/**')
-    .pipe(gulp.dest('build'));
+gulp.task('copy-template', function () {
+  gulp.src(Directories.TEMPLATES)
+    .pipe(gulp.dest(Directories.BUILD));
 });
 
 /**
  * combine all files into one js file and then compile es6 into es5
  */
 gulp.task('compile', function () {
-  return gulp.src(['src/**/**.js'])
+  return gulp.src([Directories.SOURCE + '/**/**.js'])
     .pipe(gulpBabel())
     .pipe(gulpHeader(fileTitle))
-    .pipe(gulp.dest(dirs.dest));
+    .pipe(gulp.dest(Directories.DESTINATION));
 });
 
 /**
  * browserify and export public classes.
  */
 gulp.task('build:donjon', function () {
-  return browserify('js/index.js', {
+  return browserify(Directories.DESTINATION + '/index.js', {
     standalone: 'Donjon'
   }).bundle()
     .pipe(source('donjon.js'))
     .pipe(gulpHeader(license))
-    .pipe(gulp.dest('./build/js'));
+    .pipe(gulp.dest(Directories.BUILD + '/js'));
 });
 
 /**
  * generate jsdoc
  */
 gulp.task('doc', function (cb) {
-  gulp.src(['./js/**/*.js'], {read: false})
+  gulp.src([Directories.DESTINATION + '/**/*.js'], {read: false})
     .pipe(gulpJsdoc(cb))
-    .pipe(gulp.dest('./docs'));
+    .pipe(gulp.dest(Directories.DOCUMENT));
 });
 
 /**
