@@ -10,8 +10,9 @@ const rigidbody = obj.getComponent(Rigidbody);
 const collider = obj.getComponent(Collider);
 collider.attachToRigidbody(rigidbody);
 
+const v = new Victor(1, 5);
 for (let i = 0; i < 20; i++) {
-  obj.transform.translate(new Victor(1, 5));
+  obj.transform.translate(v);
   console.log(obj.transform.position.toString());
 }
 

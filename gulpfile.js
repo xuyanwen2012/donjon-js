@@ -27,7 +27,7 @@ var Directories = {
   SOURCE: "src",
   BUILD: "build",
   DESTINATION: "dist",
-  TEMPLATES: "template/**",
+  TEMPLATES: "template",
   DOCUMENT: "docs",
   TEMP: "temp"
 };
@@ -55,7 +55,7 @@ gulp.task('build', function () {
  * copy template files to the build directory
  */
 gulp.task('copy-template', function () {
-  gulp.src(Directories.TEMPLATES)
+  gulp.src(Directories.TEMPLATES + "/**")
     .pipe(gulp.dest(Directories.BUILD));
 });
 

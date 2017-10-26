@@ -1,5 +1,10 @@
 import Component from './component';
 import Victor from 'victor';
+import {
+  CollisionDetectionModes,
+  RigidBodyTypes,
+  SleepModes
+} from '../core/const';
 
 /**
  * @extends Component
@@ -11,13 +16,13 @@ export default class Rigidbody extends Component {
   constructor(owner) {
     super(owner);
     /** @private @type {number} */
-    this.bodyType_ = Rigidbody.BodyTypes.DYNAMIC;
+    this.bodyType_ = RigidBodyTypes.DYNAMIC;
 
     /** @private @type {number} */
-    this.detectionMode_ = Rigidbody.CollisionDetectionModes.DISCRETE;
+    this.detectionMode_ = CollisionDetectionModes.DISCRETE;
 
     /** @private @type {number} */
-    this.sleepMode_ = Rigidbody.SleepModes.START_AWAKE;
+    this.sleepMode_ = SleepModes.START_AWAKE;
 
     /** @private @type {number} */
     this.drag_ = 0.5;
@@ -79,7 +84,7 @@ export default class Rigidbody extends Component {
   }
 
   isKinematic() {
-    return this.bodyType_ === Rigidbody.BodyTypes.KINEMATIC;
+    return this.bodyType_ === RigidBodyTypes.KINEMATIC;
   }
 
   isAwake() {
@@ -171,23 +176,3 @@ export default class Rigidbody extends Component {
     this.deltaPos_.zero();
   }
 }
-
-/** @const @enum {number} */
-Rigidbody.CollisionDetectionModes = {
-  DISCRETE: 1,
-  CONTINUOUS: 2,
-};
-
-/** @const @enum {number} */
-Rigidbody.BodyTypes = {
-  DYNAMIC: 1,
-  KINEMATIC: 2,
-  STATIC: 3,
-};
-
-/** @const @enum {number} */
-Rigidbody.SleepModes = {
-  NEVER_SLEEP: 1,
-  START_AWAKE: 2,
-  START_ASLEEP: 3,
-};
