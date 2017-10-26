@@ -1,10 +1,9 @@
 var assert = require('assert');
 var Victor = require('victor');
-
 /**
  * @type {{GameObject, Transform}}
  */
-var Donjon = require('../build/js/donjon');
+var DJ = require('../build/js/donjon');
 
 
 /**
@@ -13,8 +12,8 @@ var Donjon = require('../build/js/donjon');
 describe('Transform', function () {
 
   /* create dummy test objects */
-  var obj = new Donjon.GameObject("asd");
-  var t1 = new Donjon.Transform(obj);
+  var obj = new DJ.GameObject("asd");
+  var t1 = new DJ.Transform(obj);
 
   describe('#translate()', function () {
 

@@ -61,7 +61,7 @@ export default class Transform extends Component {
   /**
    * @override
    */
-  update(){
+  update() {
 
   }
 

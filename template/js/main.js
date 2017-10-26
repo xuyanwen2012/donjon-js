@@ -30,10 +30,12 @@ PIXI.loader.add('bunny', 'img/pictures/bunny.png').load(function(loader, resourc
   });
 });
 
+Donjon.GameObject();
+
 console.log(Donjon);
 console.log(Donjon.GameObject);
 console.log(Donjon.Collider);
 console.log(Donjon.Rigidbody);
 
-// var obj = new GameObject.default("FUUUUUUUUUUUUUUUCKKKK");
-// console.log(obj);
+
+

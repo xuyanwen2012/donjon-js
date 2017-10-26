@@ -1,5 +1,6 @@
 import Component from './component';
 import Victor from 'victor';
+
 /**
  * @extends Component
  */
@@ -43,10 +44,14 @@ export default class Rigidbody extends Component {
   }
 
   /** @return {Victor} */
-  get velocity() { return this.velocity_; }
+  get velocity() {
+    return this.velocity_;
+  }
 
   /** @param value {Victor} */
-  set velocity(value) { this.velocity_ = value; }
+  set velocity(value) {
+    this.velocity_ = value;
+  }
 
   /**
    * Apply a force to the rigidbody.
