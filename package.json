@@ -4,7 +4,7 @@
   "main": "main.js",
   "scripts": {
     "test": "mocha tests/test_*.js",
-    "start": "node"
+    "editor": "electron editor/template-app"
   },
   "author": "Chivalry Studio",
   "homepage": "http://www.chivalrystudio.com/",

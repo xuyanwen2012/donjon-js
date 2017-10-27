@@ -9,8 +9,9 @@ export default class GameObject {
 
   /**
    * @param name {String=} The name that the GameObject is created with.
+   * @param other {GameObject=}
    */
-  constructor(name = 'unnamed') {
+  constructor(name = 'unnamed', other = null) {
     /** @private @type{number} */
     this.id_ = 0;//Utils.generateRuntimeId();
 
@@ -150,7 +151,7 @@ export default class GameObject {
   }
 
   /**
-   * @param type
+   * @param type {Function}
    */
   getComponent(type) {
     let comp = this.components_[type.name];
