@@ -8,13 +8,14 @@ import Transform from './comp_transform'
  *  @abstract
  */
 export default class Component {
+
   /**
    * set the owner when construct the component.js
    * @param owner {GameObject}
    */
   constructor(owner) {
     if (!owner) {
-      console.error("Creating component.js without owner.");
+      console.error("Creating component without owner.");
     }
     /** @protected @type {GameObject} */
     this.owner_ = owner;
@@ -35,6 +36,13 @@ export default class Component {
 
   /** @abstract */
   update() {
+  }
+
+  /**
+   * @abstract
+   * @param newOwner {GameObject}
+   */
+  clone(newOwner) {
   }
 
   /** @protected @abstract */

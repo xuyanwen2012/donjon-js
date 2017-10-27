@@ -26,6 +26,14 @@ export default class Transform extends Component {
 
     /** @private @type {Victor} */
     this.scale_ = scale;
+
+    /** @private @type {Transform} */
+    this.parent_ = null;
+  }
+
+  /** @return {Transform} */
+  get parent() {
+    return this.parent_;
   }
 
   /** @return {Victor} */
@@ -49,6 +57,25 @@ export default class Transform extends Component {
   }
 
   /**
+   * @param owner
+   */
+  clone(owner) {
+    let cloned = new Transform(owner);
+    cloned.position_ = this.position_.clone();
+    cloned.scale_ = this.scale_.clone();
+    cloned.height_ = this.height_;
+    cloned.rotation_ = this.rotation_;
+    return cloned;
+  }
+
+  /** @param value {Transform}*/
+  setParent(value) {
+    if (value instanceof Transform) {
+      this.parent_ = value;
+    }
+  }
+
+  /**
    * calculate the distance from first transform to the second transform.
    * @param first{Transform}
    * @param second{Transform}
@@ -62,7 +89,6 @@ export default class Transform extends Component {
    * @override
    */
   update() {
-
   }
 
   /**

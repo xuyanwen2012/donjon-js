@@ -17,6 +17,16 @@ export default class Collider extends Component {
     this.offset_ = 0;
   }
 
+  /**
+   * @param owner
+   * @returns {Collider}
+   */
+  clone(owner) {
+    let cloned = new Collider(owner);
+    cloned.offset_ = this.offset_;
+    return cloned;
+  }
+
   /** @return {Rigidbody} */
   get attachedRigidbody() {
     return this.attachedRigidbody_;

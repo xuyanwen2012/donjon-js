@@ -45,7 +45,27 @@ export default class Rigidbody extends Component {
     //this._angularVelocity = 0;
 
     //Ivan: should I add interpolation?
+    /** @private @type {Victor} */
     this.deltaPos_ = new Victor();
+  }
+
+  /**
+   * @param owner
+   * @returns {Rigidbody}
+   */
+  clone(owner) {
+    const cloned = new Rigidbody(owner);
+    cloned.bodyType_ = this.bodyType_;
+    cloned.detectionMode_ = this.detectionMode_;
+    cloned.sleepMode_ = this.sleepMode_;
+    cloned.drag_ = this.drag_;
+    cloned.mass_ = this.mass_;
+    cloned.impactForces_ = this.impactForces_.clone();
+    cloned.forces_ = this.forces_.clone();
+    cloned.velocity_ = this.velocity_.clone();
+    cloned.speed_ = this.speed_;
+    cloned.deltaPos_ = this.deltaPos_.clone();
+    return cloned;
   }
 
   /** @return {Victor} */

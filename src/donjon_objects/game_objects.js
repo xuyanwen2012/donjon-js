@@ -1,4 +1,5 @@
 import Transform from '../donjon_components/comp_transform';
+import Victor from 'victor';
 
 /**
  * Base class for all entities in Donjon scenes.
@@ -16,13 +17,13 @@ export default class GameObject {
     /** @private @type {GameObject} */
     this.parent_ = null;
 
-    /** @private @type {Array<GameObject>} */
+    /** @private @type {Array.<GameObject>} */
     this.children_ = [];
 
-    /** @private @type {GameObject.Layers|number} */
+    /** @private @type {number} */
     this.layer_ = GameObject.Layers.DEFAULT;
 
-    /** @private @type {GameObject.Tags|number} */
+    /** @private @type {number} */
     this.tag_ = GameObject.Tags.UNTAGGED;
 
     /** @private @type {Transform} */
@@ -34,7 +35,7 @@ export default class GameObject {
     /** @private @const @type {Object} */
     this.components_ = {};
 
-    /** @private @type {Object} */
+    /** @private @type {Array} */
     this.behaviours_ = [];
 
     /** @private @type {boolean} */
@@ -51,19 +52,41 @@ export default class GameObject {
     return this.transform_
   }
 
-  /** @return {GameObject.Layers|number} */
+  /** @return {number} */
   get layer() {
     return this.layer_
   }
 
-  /** @return {GameObject.Tags|number} */
+  /** @return {number} */
   get tag() {
     return this.tag_
   }
 
-  /** @param value {GameObject.Tags|number} */
-  set tag(value) {
-    this.tag_ = value
+  /**
+   * Clones the object original and returns the clone.
+   * @param original
+   * @param position
+   * @param parent
+   */
+  static instantiate(original, position = new Victor(0, 0), parent = null) {
+    const cloned = new GameObject(original.name_);
+
+
+    const originComps = original.components_;
+    for (let comp in originComps) {
+      if (originComps.hasOwnProperty(comp)) {
+        //console.log(originComps[comp]);
+        //newObject.addComponent(originComps[comp]);
+        //result += '.' + comp + ' = ' + originComps[comp].name + '\n';
+      }
+    }
+  }
+
+  /**
+   * @param tag {number}
+   * @return {Array.<GameObject>}
+   */
+  static findGameObjectsWithTag(tag) {
   }
 
   /**
@@ -74,11 +97,9 @@ export default class GameObject {
   static find(name) {
   }
 
-  /**
-   * @param tag {number}
-   * @return {Array<GameObject>}
-   */
-  static findGameObjectsWithTag(tag) {
+  /** @param value {number} */
+  setTag(value) {
+    this.tag_ = value
   }
 
   /**
@@ -86,6 +107,26 @@ export default class GameObject {
    * @return {GameObject}
    */
   static findWithTag(tag) {
+  }
+
+  /**
+   * @param parent {GameObject}
+   */
+  setParent(parent) {
+    if (parent instanceof GameObject) {
+      this.parent_ = parent;
+      this.transform.setParent(parent.transform);
+    }
+  }
+
+  /**
+   * @param child {GameObject}
+   */
+  addChild(child) {
+    if (child instanceof GameObject) {
+      child.setParent(this);
+      this.children_.push(child);
+    }
   }
 
   /**
@@ -146,32 +187,62 @@ export default class GameObject {
   }
 
   /**
-   *    Calls the method named methodName on every MonoBehaviour in this game
+   * Calls the method named methodName on every MonoBehaviour in this game
    * object or any of its children.
-   * @param methodName {Function}
-   * @param parameter {Array}
+   * @param methodName {string} Name of method to call.
+   * @param parameter {object=} Optional parameter value for the method.
    */
-  broadcastMessage(methodName, parameter = []) {
-    //methodName.apply(this, parameter);
-    //for each transform and child
+  broadcastMessage(methodName, parameter = null) {
+    this.sendMessage(methodName, parameter);
+    for (let behaviour of this.children_) {
+      behaviour[methodName](parameter);
+    }
   }
 
+  /**
+   * Calls the method named methodName on every MonoBehaviour in this game
+   * object.
+   * @param methodName {string} Name of method to call.
+   * @param value {object=} Optional parameter value for the method.
+   */
   sendMessage(methodName, value) {
+    for (let behaviour of this.behaviours_) {
+      behaviour[methodName](value);
+    }
   }
 
-  sendMessageUpwards(methodName, value) {
+  /**
+   * Calls the method named methodName on every MonoBehaviour in this game
+   * object and on every ancestor of the behaviour.
+   * @param methodName {string} Name of method to call.
+   * @param value {object=} Optional parameter value for the method.
+   */
+  sendMessageUpwards(methodName, value = null) {
+    this.sendMessage(methodName, value);
+    if (this.parent_ !== null) {
+      this.parent_.sendMessageUpwards(methodName, value);
+    }
   }
+
+  /**
+   * Note: update should only update the status of object itself.
+   * To reduce performance cost, do not update all components.
+   */
+  update() {
+
+  }
+
 
 }
 
 /** @const @enum {number} */
 GameObject.Layers = {
-  DEFAULT: 0x0000,
+  DEFAULT: 1,
 };
 
 /** @const @enum {number} */
 GameObject.Tags = {
-  UNTAGGED: 0x0000,
-  RESPAWN: 0x0001,
-  PLAYER: 0x0002,
+  UNTAGGED: 1,
+  RESPAWN: 2,
+  PLAYER: 3,
 };
