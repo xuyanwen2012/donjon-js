@@ -1,5 +1,6 @@
 import Component from './component';
-import Rigidbody from './rigidbody';
+import {Components} from '../core/const';
+//import Rigidbody from './rigidbody';
 
 /**
  * @abstract
@@ -14,7 +15,7 @@ export default class Collider extends Component {
     super(owner);
 
     /** @private @type{Rigidbody} */
-    this.attachedRigidbody_ = owner.getComponent(Rigidbody);
+    this.attachedRigidbody_ = owner.getComponent(Components.RIGIDBODY);
 
     /** @private @type{number} */
     this.offset_ = 0;

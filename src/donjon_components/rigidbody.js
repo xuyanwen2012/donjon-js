@@ -12,8 +12,9 @@ import {
 export default class Rigidbody extends Component {
   /**
    * @param owner {GameObject}
+   * @param param
    */
-  constructor(owner) {
+  constructor(owner, ...param) {
     super(owner);
     /** @private @type {number} */
     this.bodyType_ = RigidBodyTypes.DYNAMIC;

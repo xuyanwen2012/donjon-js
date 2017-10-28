@@ -7,8 +7,8 @@ import CircleCollider from '../donjon_components/circle_collider';
 
 
 /**
- * Base class for all entities in Donjon scenes.
- * @implements {QuadItem}
+ * Do not manually create object of Components, use addComponent() to do so.
+ *
  */
 export default class GameObject {
 
@@ -71,20 +71,20 @@ export default class GameObject {
   /**
    *
    * @param object {GameObject}
-   * @param componentType {Components}
+   * @param componentType {number}
    * @param param
    */
   static createComponent(object, componentType, ...param) {
     let comp;
     switch (componentType) {
       case Components.RIGIDBODY:
-        comp = Rigidbody(object, ...param);
+        comp = new Rigidbody(object, ...param);
         break;
       case Components.BOX_COLLIDER:
-        comp = BoxCollider(object, ...param);
+        comp = new BoxCollider(object, ...param);
         break;
       case Components.CIRCLE_COLLIDER:
-        comp = CircleCollider(object, ...param);
+        comp = new CircleCollider(object, ...param);
         break;
       default:
         console.log("Cannot create Component: " + componentType);
@@ -161,47 +161,49 @@ export default class GameObject {
 
   /**
    * Adds a component.js class of type componentType to the game object
-   * @param type {Function}
+   * @param type {number}
    * @param param
    */
   addComponent(type, ...param) {
-    const typeName = type.name;
-    const comp = this.components_[typeName];
-    if (typeof comp === 'object') {
-      if (!Array.isArray(comp)) {
-        let temp = comp;
-        this.components_[typeName] = [];
-        this.components_[typeName].push(temp);
+    let compObj = GameObject.createComponent(this, type, ...param);
+
+    if (typeof this.components_[type] === 'object') {
+      if (!Array.isArray(this.components_[type])) {
+        let temp = this.components_[type];
+        this.components_[type] = [];
+        this.components_[type].push(temp);
       }
-      this.components_[typeName].push(new type(this, ...param));
+      this.components_[type].push(compObj);
     } else {
-      this.components_[typeName] = new type(this, ...param);
+      this.components_[type] = compObj;
     }
+    console.log(Object.keys(this.components_));
+
   }
 
   /**
-   * @param type {Function}
+   * @param type {number}
    */
   getComponent(type) {
-    let comp = this.components_[type.name];
+    let comp = this.components_[type];
     if (!comp) {
       throw new Error('Attempted to get a Component that does not exist.');
     }
     return Array.isArray(comp) ? comp[0] : comp;
   }
 
-  /**
-   * @param type {Function}
-   * @return {Array<Component>}
-   */
-  getComponents(type) {
-    let component = this.components_[type.name];
-    if (component) {
-      return Array.isArray(component) ? component : [component];
-    } else {
-      return [];
-    }
-  }
+  // /**
+  //  * @param type {Function}
+  //  * @return {Array<Component>}
+  //  */
+  // getComponents(type) {
+  //   let component = this.components_[type.name];
+  //   if (component) {
+  //     return Array.isArray(component) ? component : [component];
+  //   } else {
+  //     return [];
+  //   }
+  // }
 
   /** @param active{boolean} */
   setActive(active) {
@@ -261,7 +263,6 @@ export default class GameObject {
   update() {
 
   }
-
 
 }
 

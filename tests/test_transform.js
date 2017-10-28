@@ -1,10 +1,10 @@
 const assert = require('assert');
 const Victor = require('victor');
-/**
- * @type {{GameObject, Transform}}
- */
+
 const DJ = require('../build/js/donjon');
 
+//local alias
+const GameObject = DJ.GameObject;
 
 /**
  * start describing
@@ -12,7 +12,7 @@ const DJ = require('../build/js/donjon');
 describe('Transform', function () {
 
   /* create dummy test objects */
-  let obj = new DJ.GameObject("asd");
+  let obj = new GameObject("asd");
 
   describe('#translate()', function () {
 
