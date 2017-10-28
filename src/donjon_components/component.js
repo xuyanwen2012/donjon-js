@@ -1,5 +1,5 @@
 import Transform from './transform'
-import GameObject from '../donjon_objects/game_objects';
+import GameObject from '../donjon_objects/game_object';
 
 /**
  *  Component Class

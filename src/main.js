@@ -1,4 +1,4 @@
-import GameObject from './donjon_objects/game_objects';
+import GameObject from './donjon_objects/game_object';
 import Rigidbody from "./donjon_components/rigidbody";
 import BoxCollider from "./donjon_components/box_collider";
 

@@ -1,5 +1,10 @@
-import Transform from '../donjon_components/transform';
 import Victor from 'victor';
+import {Components} from '../core/const';
+import Transform from '../donjon_components/transform';
+import Rigidbody from '../donjon_components/rigidbody';
+import BoxCollider from '../donjon_components/box_collider';
+import CircleCollider from '../donjon_components/circle_collider';
+
 
 /**
  * Base class for all entities in Donjon scenes.
@@ -61,6 +66,30 @@ export default class GameObject {
   /** @return {number} */
   get tag() {
     return this.tag_
+  }
+
+  /**
+   *
+   * @param object {GameObject}
+   * @param componentType {Components}
+   * @param param
+   */
+  static createComponent(object, componentType, ...param) {
+    let comp;
+    switch (componentType) {
+      case Components.RIGIDBODY:
+        comp = Rigidbody(object, ...param);
+        break;
+      case Components.BOX_COLLIDER:
+        comp = BoxCollider(object, ...param);
+        break;
+      case Components.CIRCLE_COLLIDER:
+        comp = CircleCollider(object, ...param);
+        break;
+      default:
+        console.log("Cannot create Component: " + componentType);
+    }
+    return comp;
   }
 
   /**
