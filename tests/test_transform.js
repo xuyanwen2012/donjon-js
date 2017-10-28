@@ -1,9 +1,9 @@
-var assert = require('assert');
-var Victor = require('victor');
+const assert = require('assert');
+const Victor = require('victor');
 /**
  * @type {{GameObject, Transform}}
  */
-var DJ = require('../build/js/donjon');
+const DJ = require('../build/js/donjon');
 
 
 /**
@@ -12,7 +12,7 @@ var DJ = require('../build/js/donjon');
 describe('Transform', function () {
 
   /* create dummy test objects */
-  var obj = new DJ.GameObject("asd");
+  let obj = new DJ.GameObject("asd");
 
   describe('#translate()', function () {
 

@@ -1,7 +1,8 @@
 import Component from './component';
-import Rigidbody from "./comp_rigidbody";
+import Rigidbody from './rigidbody';
 
 /**
+ * @abstract
  * @extends {Component}
  */
 export default class Collider extends Component {
@@ -11,6 +12,7 @@ export default class Collider extends Component {
    */
   constructor(owner) {
     super(owner);
+
     /** @private @type{Rigidbody} */
     this.attachedRigidbody_ = owner.getComponent(Rigidbody);
 

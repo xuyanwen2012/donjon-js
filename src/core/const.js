@@ -1,6 +1,43 @@
 /**
  * @static
  * @constant
+ * @name Components
+ * @memberof Donjon
+ * @type {object}
+ * @property {number} TRANSFORM
+ * @property {number} RIGIDBODY
+ * @property {number} BOX_COLLIDER
+ * @property {number} CIRCLE_COLLIDER
+ * @property {number} POLYGON_COLLIDER
+ */
+export const Components = {
+  TRANSFORM: 1,
+  RIGIDBODY: 2,
+  BOX_COLLIDER: 3,
+  CIRCLE_COLLIDER: 4,
+  POLYGON_COLLIDER: 5,
+};
+
+/**
+ * @static
+ * @constant
+ * @name Shapes
+ * @memberof Donjon
+ * @type {object}
+ * @property {number} POLYGON
+ * @property {number} RECTANGLE
+ * @property {number} CIRCLE
+ */
+export const Shapes = {
+  POLYGON: 0,
+  RECTANGLE: 1,
+  CIRCLE: 2,
+};
+
+
+/**
+ * @static
+ * @constant
  * @name CollisionDetectionModes
  * @memberof Donjon
  * @type {object}

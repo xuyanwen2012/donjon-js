@@ -1,18 +1,19 @@
 import GameObject from './donjon_objects/game_objects';
-import Rigidbody from "./donjon_components/comp_rigidbody";
-import Collider from "./donjon_components/comp_collider";
+import Rigidbody from "./donjon_components/rigidbody";
+import BoxCollider from "./donjon_components/box_collider";
 
 let obj = new GameObject("Robot");
 obj.addComponent(Rigidbody);
-obj.addComponent(Collider);
+obj.addComponent(BoxCollider, 1, 2, 3, 4);
+
 
 // let cloned = JSON.parse(JSON.stringify(obj));
 //let cloned = GameObject.instantiate(obj);
-const collider = obj.getComponent(Collider);
-console.log(collider.attachedRigidbody);
-if (collider.attachedRigidbody) {
-
-}
+// const collider = obj.getComponent(Collider);
+// console.log(collider.attachedRigidbody);
+// if (collider.attachedRigidbody) {
+//
+// }
 
 
 // console.log(cloned);

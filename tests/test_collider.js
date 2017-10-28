@@ -1,18 +1,18 @@
-var assert = require('assert');
-var Victor = require('victor');
+const assert = require('assert');
+const Victor = require('victor');
 /**
  * @type {{GameObject, Rigidbody, Collider}}
  */
-var DJ = require('../build/js/donjon');
+const DJ = require('../build/js/donjon');
 
 
 describe('Collider', function () {
 
-  var obj1 = new DJ.GameObject("object with R&C");
+  let obj1 = new DJ.GameObject("object with R&C");
   obj1.addComponent(DJ.Rigidbody);
   obj1.addComponent(DJ.Collider);
 
-  var obj2 = new DJ.GameObject("object with R&C");
+  let obj2 = new DJ.GameObject("object with R&C");
   obj1.addComponent(DJ.Collider);
 
   //====================================================================

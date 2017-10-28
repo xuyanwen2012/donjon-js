@@ -1,5 +1,5 @@
+import Transform from './transform'
 import GameObject from '../donjon_objects/game_objects';
-import Transform from './comp_transform'
 
 /**
  *  Component Class
@@ -15,12 +15,12 @@ export default class Component {
    */
   constructor(owner) {
     if (!owner) {
-      console.error("Creating component without owner.");
+      console.error('Creating component without owner.');
     }
     /** @protected @type {GameObject} */
     this.owner_ = owner;
     /** @protected @type {Transform} */
-    this.transform_ = owner.transform;
+    this.transform_ = owner ? owner.transform : null;
     this.setupListeners_();
   }
 

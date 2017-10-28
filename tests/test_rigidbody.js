@@ -1,4 +1,6 @@
 const assert = require('assert');
+const Victor = require('victor');
+
 /**
  * @type {{GameObject, Collider}}
  */
@@ -7,7 +9,7 @@ const DJ = require('../build/js/donjon');
 
 describe('Rigidbody', function () {
 
-  const obj1 = new DJ.GameObject("object with R");
+  let obj1 = new DJ.GameObject("object with R");
   obj1.addComponent(DJ.Rigidbody);
 
   //====================================================================
@@ -18,6 +20,15 @@ describe('Rigidbody', function () {
       assert.notEqual(cloned, rigidbody);
     });
   });
+  //====================================================================
+  describe('#movePosition', function () {
+    //obj1.transform.
+
+    it('should ', function () {
+      assert.ok(true);
+    });
+  });
+
 
 });
 

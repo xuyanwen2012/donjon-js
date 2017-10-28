@@ -1,4 +1,4 @@
-import Transform from '../donjon_components/comp_transform';
+import Transform from '../donjon_components/transform';
 import Victor from 'victor';
 
 /**
@@ -156,7 +156,7 @@ export default class GameObject {
   getComponent(type) {
     let comp = this.components_[type.name];
     if (!comp) {
-      throw new Error("Attempted to get a Component that does not exist.");
+      throw new Error('Attempted to get a Component that does not exist.');
     }
     return Array.isArray(comp) ? comp[0] : comp;
   }
