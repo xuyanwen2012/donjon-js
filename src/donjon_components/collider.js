@@ -15,20 +15,11 @@ export default class Collider extends Component {
     super(owner);
 
     /** @private @type{Rigidbody} */
-    this.attachedRigidbody_ = owner.getComponent(Components.RIGIDBODY);
+    this.attachedRigidbody_ = owner ?
+      owner.getComponent(Components.RIGIDBODY) : null;
 
     /** @private @type{number} */
     this.offset_ = 0;
-  }
-
-  /**
-   * @param owner
-   * @returns {Collider}
-   */
-  clone(owner) {
-    let cloned = new Collider(owner);
-    cloned.offset_ = this.offset_;
-    return cloned;
   }
 
   /** @return {Rigidbody} */

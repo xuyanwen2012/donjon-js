@@ -39,10 +39,10 @@ export default class Component {
   }
 
   /**
-   * @abstract
-   * @param newOwner {GameObject}
+   * @param origin {Object}
    */
-  clone(newOwner) {
+  copy(origin) {
+    Object.assign(this, origin);
   }
 
   /** @protected @abstract */

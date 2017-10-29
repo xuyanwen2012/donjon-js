@@ -19,10 +19,7 @@ describe('Rigidbody', function () {
   //====================================================================
   describe('#clone()', function () {
     const rigidbody = obj1.getComponent(EnumRigidbody);
-    const cloned = rigidbody.clone(obj1);
-    it('should clone but not equal', function () {
-      assert.notEqual(cloned, rigidbody);
-    });
+
   });
 
 

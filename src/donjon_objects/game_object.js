@@ -38,10 +38,10 @@ export default class GameObject {
     /** @private @type {String} */
     this.name_ = name === 'unnamed' ? 'unnamed' + this.id : name;
 
-    /** @private @const @type {Object} */
-    this.components_ = {};
+    /** @private @const @type {Array.<Components>} */
+    this.components_ = [];
 
-    /** @private @type {Array} */
+    /** @private @type {Array.<Behaviour>} */
     this.behaviours_ = [];
 
     /** @private @type {boolean} */
@@ -99,17 +99,13 @@ export default class GameObject {
    * @param parent
    */
   static instantiate(original, position = new Victor(0, 0), parent = null) {
-    const cloned = new GameObject(original.name_);
+    //const cloned = new GameObject(original.name_);
 
+    //let cloned = JsonEx.makeDeepCopy(original)
 
-    const originComps = original.components_;
-    for (let comp in originComps) {
-      if (originComps.hasOwnProperty(comp)) {
-        //console.log(originComps[comp]);
-        //newObject.addComponent(originComps[comp]);
-        //result += '.' + comp + ' = ' + originComps[comp].name + '\n';
-      }
-    }
+    //console.log(cloned);
+    //
+
   }
 
   /**
@@ -160,8 +156,8 @@ export default class GameObject {
   }
 
   /**
-   * Adds a component.js class of type componentType to the game object
-   * @param type {number}
+   * Adds a component.js class of type type to the game object
+   * @param type {number} Enum to Game Components
    * @param param
    */
   addComponent(type, ...param) {
@@ -177,12 +173,14 @@ export default class GameObject {
     } else {
       this.components_[type] = compObj;
     }
-    console.log(Object.keys(this.components_));
 
+    this.components_.forEach(
+      comp => console.log(comp.constructor.name)
+    );
   }
 
   /**
-   * @param type {number}
+   * @param type {number} Enum to Game Components
    */
   getComponent(type) {
     let comp = this.components_[type];
@@ -191,19 +189,6 @@ export default class GameObject {
     }
     return Array.isArray(comp) ? comp[0] : comp;
   }
-
-  // /**
-  //  * @param type {Function}
-  //  * @return {Array<Component>}
-  //  */
-  // getComponents(type) {
-  //   let component = this.components_[type.name];
-  //   if (component) {
-  //     return Array.isArray(component) ? component : [component];
-  //   } else {
-  //     return [];
-  //   }
-  // }
 
   /** @param active{boolean} */
   setActive(active) {

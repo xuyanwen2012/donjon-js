@@ -13,7 +13,7 @@ export default class Transform extends Component {
    * @param scale {Victor=} The scale of the transform.
    */
   constructor(owner, pos = new Victor(0, 0),
-              height = 0, scale = new Victor(0, 0)) {
+              height = 0, scale = new Victor(1, 1)) {
     super(owner);
     /** @private @type {Victor} */
     this.position_ = pos;
@@ -54,18 +54,6 @@ export default class Transform extends Component {
   /** @return {Victor} */
   get scale() {
     return this.scale_;
-  }
-
-  /**
-   * @param owner
-   */
-  clone(owner) {
-    let cloned = new Transform(owner);
-    cloned.position_ = this.position_.clone();
-    cloned.scale_ = this.scale_.clone();
-    cloned.height_ = this.height_;
-    cloned.rotation_ = this.rotation_;
-    return cloned;
   }
 
   /** @param value {Transform}*/
