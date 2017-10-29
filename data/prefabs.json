@@ -1,0 +1,68 @@
+{
+  "transform": {
+    "owner_": null,
+    "transform_": null,
+    "position_": {
+      "x": 666,
+      "y": 666
+    },
+    "height_": 5,
+    "rotation_": 0,
+    "scale_": {
+      "x": 1,
+      "y": 1
+    },
+    "parent_": null
+  },
+  "rigidbody": {
+    "owner_": null,
+    "transform_": null,
+    "bodyType_": 1,
+    "detectionMode_": 1,
+    "sleepMode_": 2,
+    "drag_": 0.5,
+    "mass_": 1,
+    "impactForces_": {
+      "x": 0,
+      "y": 0
+    },
+    "forces_": {
+      "x": 0,
+      "y": 0
+    },
+    "velocity_": {
+      "x": 0,
+      "y": 0
+    },
+    "speed_": 0,
+    "deltaPos_": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "boxCollider": {
+    "owner_": null,
+    "transform_": null,
+    "attachedRigidbody_": null,
+    "offset_": 0,
+    "rectangle_": {
+      "x": 1,
+      "y": 2,
+      "width": 3,
+      "height": 4,
+      "type": 1
+    }
+  },
+  "circleCollider": {
+    "owner_": null,
+    "transform_": null,
+    "attachedRigidbody_": null,
+    "offset_": 0,
+    "circle_": {
+      "x": 5,
+      "y": 6,
+      "radius": 7,
+      "type": 2
+    }
+  }
+}
