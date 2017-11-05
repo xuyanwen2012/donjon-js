@@ -37,6 +37,11 @@ export default class Component {
     return this.transform_
   }
 
+  /** @return {number} */
+  get type() {
+    return this.type_;
+  }
+
   /** @abstract */
   update() {
   }

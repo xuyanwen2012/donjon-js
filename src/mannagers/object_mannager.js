@@ -1,18 +1,23 @@
 import Victor from 'victor';
 import GameObject from '../donjon_objects/game_object';
-import {Components} from "../core/const";
+import {Components} from '../core/const';
 
-const fs = require("fs");
+//const fs = require("fs");
 
 export default class ObjectManager {
 
+  static runtimeID = 1;
 
   constructor() {
 
     ObjectManager.createTempPrefabs();
 
+
   }
 
+  static generateRuntimeId() {
+    return this.runtimeID++;
+  }
 
   static createTempPrefabs() {
     this.prefabs_ = new Map();
@@ -34,11 +39,6 @@ export default class ObjectManager {
     this.prefabs_.set(name1, obj1);
     this.prefabs_.set(name2, obj2);
     this.prefabs_.set(name3, obj3);
-    console.log("Down Creating Prefabs");
-  }
-
-  static createObjectPool() {
-
   }
 
   /**
@@ -46,15 +46,41 @@ export default class ObjectManager {
    *
    * @param objectName {string} name in prefabs.
    * @param position {Victor=} new position to deploy this object.
+   * @param parent {GameObject}
    * @return {GameObject} cloned object.
    */
-  static instantiate(objectName, position = null) {
+  static instantiate(objectName, position = null, parent = null) {
     let original = this.prefabs_.get(objectName);
     if (!objectName) {
       console.log("ERROR: no such object in prefab: " + objectName);
       return null;
     }
-    return GameObject.instantiate(original, position);
+    return GameObject.instantiate(original, position, parent);
+  }
+
+  /**
+   * @param tag {number}
+   * @return {Array.<GameObject>}
+   */
+  static findGameObjectsWithTag(tag) {
+
+  }
+
+  /**
+   *  Finds a GameObject by name and returns it.
+   * @param name {string}
+   * @return {GameObject}
+   */
+  static find(name) {
+
+  }
+
+  /**
+   * @param tag {number}
+   * @return {GameObject}
+   */
+  static findWithTag(tag) {
+
   }
 
 

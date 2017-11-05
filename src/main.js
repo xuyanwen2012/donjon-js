@@ -1,8 +1,7 @@
 import GameObject from './donjon_objects/game_object';
-// import Rigidbody from "./donjon_components/rigidbody";
-// import BoxCollider from "./donjon_components/box_collider";
 import {Components} from './core/const';
 import ObjectManager from './mannagers/object_mannager';
+import Victor from 'victor';
 
 let obj = new GameObject("Robot");
 obj.addComponent(Components.RIGIDBODY);
@@ -12,6 +11,11 @@ const mannager = new ObjectManager();
 
 let player = ObjectManager.instantiate("Player");
 
-console.log(player);
+let enemyBoss = ObjectManager.instantiate("Enemy", new Victor(6, 6));
+let enemyMinionA = ObjectManager.instantiate("Enemy", new Victor(6, 6), enemyBoss);
+let enemyMinionB = ObjectManager.instantiate("Enemy", new Victor(6, 6), enemyBoss);
+
+console.log(enemyBoss);
+
 
 //GameObject.instantiate(obj);

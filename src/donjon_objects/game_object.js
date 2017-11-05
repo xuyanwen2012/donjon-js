@@ -7,16 +7,18 @@ import CircleCollider from '../donjon_components/circle_collider';
 
 
 /**
- * Do not manually create object of Components, use addComponent() to do so.
+ * Do NOT manually create instance of GameObject. Use following instead:
+ *
+ *  ObjectManager.instantiate("name 1");
+ *  ObjectManager.instantiate("name 2", new Victor(2.0,5.0));
  *
  */
 export default class GameObject {
 
   /**
    * @param name {String=} The name that the GameObject is created with.
-   * @param other {GameObject=}
    */
-  constructor(name = 'unnamed', other = null) {
+  constructor(name = 'unnamed') {
     /** @private @type{number} */
     this.id_ = 0;//Utils.generateRuntimeId();
 
@@ -73,6 +75,7 @@ export default class GameObject {
    * @param object {GameObject}
    * @param componentType {number}
    * @param param
+   * @return {Component}
    */
   static createComponent(object, componentType, ...param) {
     switch (componentType) {
@@ -103,9 +106,11 @@ export default class GameObject {
       GameObject.instantiateComponent(cloned, comp, comp.type_)
     );
 
-    //assign new position
     if (position) {
       cloned.transform.setPositon(position);
+    }
+    if (parent) {
+      parent.addChild(cloned);
     }
     return cloned;
   }
@@ -119,41 +124,11 @@ export default class GameObject {
    * @param origin {Component}
    * @param type {number}
    */
-  private static instantiateComponent(targetObject, origin, type) {
+  static instantiateComponent(targetObject, origin, type) {
     //create empty component (no params passed)
     let cloned = this.createComponent(targetObject, type);
     Object.assign(cloned, origin);
     targetObject.addComponent(cloned);
-  }
-
-
-  /**
-   * @param tag {number}
-   * @return {Array.<GameObject>}
-   */
-  static findGameObjectsWithTag(tag) {
-
-  }
-
-  /**
-   *  Finds a GameObject by name and returns it.
-   * @param name {string}
-   * @return {GameObject}
-   */
-  static find(name) {
-
-  }
-
-  /** @param value {number} */
-  setTag(value) {
-    this.tag_ = value
-  }
-
-  /**
-   * @param tag {number}
-   * @return {GameObject}
-   */
-  static findWithTag(tag) {
   }
 
   /**
@@ -188,8 +163,7 @@ export default class GameObject {
       compObj = GameObject.createComponent(this, type, ...param);
     } else {
       compObj = type;
-      type = compObj.constructor.name;
-      console.log("compObj.constructor.name = " + type);
+      type = compObj.type;
     }
 
     if (typeof this.components_[type] === 'object') {
@@ -212,9 +186,13 @@ export default class GameObject {
     if (!comp) {
       console.error('Attempted to get a Component that does not exist.');
       return null;
-      //throw new Error();
     }
     return Array.isArray(comp) ? comp[0] : comp;
+  }
+
+  /** @param value {number} */
+  setTag(value) {
+    this.tag_ = value
   }
 
   /** @param active{boolean} */
@@ -238,9 +216,8 @@ export default class GameObject {
    */
   broadcastMessage(methodName, parameter = null) {
     this.sendMessage(methodName, parameter);
-    for (let behaviour of this.children_) {
-      behaviour[methodName](parameter);
-    }
+    this.children_.forEach(behaviour =>
+      behaviour[methodName](parameter));
   }
 
   /**
@@ -250,9 +227,8 @@ export default class GameObject {
    * @param value {object=} Optional parameter value for the method.
    */
   sendMessage(methodName, value) {
-    for (let behaviour of this.behaviours_) {
-      behaviour[methodName](value);
-    }
+    this.behaviours_.forEach(behaviour =>
+      behaviour[methodName](value));
   }
 
   /**
@@ -275,7 +251,6 @@ export default class GameObject {
   update() {
 
   }
-
 }
 
 /** @const @enum {number} */

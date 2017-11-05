@@ -18,6 +18,8 @@ export default class Transform extends Component {
     super(owner);
     /** @private @type {number} */
     this.type_ = Components.TRANSFORM;
+    /** @private @type {Transform} */
+    this.transform_ = this;
     /** @private @type {Victor} */
     this.position_ = pos;
     /** @private @type {number} */
