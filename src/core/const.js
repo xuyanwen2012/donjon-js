@@ -4,6 +4,7 @@
  * @name Components
  * @memberof Donjon
  * @type {object}
+ * @property {number} NULL
  * @property {number} TRANSFORM
  * @property {number} RIGIDBODY
  * @property {number} BOX_COLLIDER
@@ -11,6 +12,7 @@
  * @property {number} POLYGON_COLLIDER
  */
 export const Components = {
+  NULL: 0,
   TRANSFORM: 1,
   RIGIDBODY: 2,
   BOX_COLLIDER: 3,

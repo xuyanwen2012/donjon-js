@@ -10,5 +10,8 @@ obj.addComponent(Components.CIRCLE_COLLIDER, 1, 2, 3, 4);
 
 const mannager = new ObjectManager();
 
+let player = ObjectManager.instantiate("Player");
+
+console.log(player);
 
 //GameObject.instantiate(obj);

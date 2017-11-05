@@ -1,5 +1,6 @@
 import Component from './component';
 import Victor from 'victor'
+import {Components} from "../core/const";
 
 /**
  * @extends Component
@@ -15,18 +16,16 @@ export default class Transform extends Component {
   constructor(owner, pos = new Victor(0, 0),
               height = 0, scale = new Victor(1, 1)) {
     super(owner);
+    /** @private @type {number} */
+    this.type_ = Components.TRANSFORM;
     /** @private @type {Victor} */
     this.position_ = pos;
-
     /** @private @type {number} */
     this.height_ = height;
-
     /** @private @type {number} */
     this.rotation_ = 0;
-
     /** @private @type {Victor} */
     this.scale_ = scale;
-
     /** @private @type {Transform} */
     this.parent_ = null;
   }
@@ -61,6 +60,11 @@ export default class Transform extends Component {
     if (value instanceof Transform) {
       this.parent_ = value;
     }
+  }
+
+  /** @param pos {Victor}*/
+  setPositon(pos) {
+    this.position_ = pos;
   }
 
   /**

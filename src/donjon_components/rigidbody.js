@@ -2,6 +2,7 @@ import Component from './component';
 import Victor from 'victor';
 import {
   CollisionDetectionModes,
+  Components,
   RigidBodyTypes,
   SleepModes
 } from '../core/const';
@@ -12,10 +13,14 @@ import {
 export default class Rigidbody extends Component {
   /**
    * @param owner {GameObject}
-   * @param param
+   * @param param {[]}
    */
   constructor(owner, ...param) {
     super(owner);
+
+    /** @private @type {number} */
+    this.type_ = Components.RIGIDBODY;
+
     /** @private @type {number} */
     this.bodyType_ = RigidBodyTypes.DYNAMIC;
 

@@ -1,5 +1,6 @@
 import Transform from './transform'
 import GameObject from '../donjon_objects/game_object';
+import {Components} from '../core/const';
 
 /**
  *  Component Class
@@ -19,6 +20,8 @@ export default class Component {
     }
     /** @protected @type {GameObject} */
     this.owner_ = owner;
+    /** @protected @type {number} */
+    this.type_ = Components.NULL;
     /** @protected @type {Transform} */
     this.transform_ = owner ? owner.transform : null;
     this.setupListeners_();

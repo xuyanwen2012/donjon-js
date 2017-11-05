@@ -75,44 +75,64 @@ export default class GameObject {
    * @param param
    */
   static createComponent(object, componentType, ...param) {
-    let comp;
     switch (componentType) {
       case Components.RIGIDBODY:
-        comp = new Rigidbody(object, ...param);
-        break;
+        return new Rigidbody(object, ...param);
       case Components.BOX_COLLIDER:
-        comp = new BoxCollider(object, ...param);
-        break;
+        return new BoxCollider(object, ...param);
       case Components.CIRCLE_COLLIDER:
-        comp = new CircleCollider(object, ...param);
-        break;
+        return new CircleCollider(object, ...param);
       default:
         console.log("Cannot create Component: " + componentType);
     }
-    return comp;
   }
 
   /**
    * Clones the object original and returns the clone.
-   * @param original
-   * @param position
-   * @param parent
+   *
+   * @param original {GameObject}
+   * @param position {Victor=}
+   * @param parent {GameObject=}
    */
-  static instantiate(original, position = new Victor(0, 0), parent = null) {
-    //const cloned = new GameObject(original.name_);
+  static instantiate(original, position = null, parent = null) {
+    //create empty object
+    const cloned = new GameObject(original.name_);
 
-    //let cloned = JsonEx.makeDeepCopy(original)
+    //clone each component from prefab
+    original.components_.forEach(comp =>
+      GameObject.instantiateComponent(cloned, comp, comp.type_)
+    );
 
-    //console.log(cloned);
-    //
-
+    //assign new position
+    if (position) {
+      cloned.transform.setPositon(position);
+    }
+    return cloned;
   }
+
+  /**
+   * Clone and assign a component to the targetObject. This action will make
+   * a clone of the origin and alter the owner to new Object. Used for prefabs
+   * only. Do NOT use this on a existing game object.
+   *
+   * @param targetObject {GameObject}
+   * @param origin {Component}
+   * @param type {number}
+   */
+  private static instantiateComponent(targetObject, origin, type) {
+    //create empty component (no params passed)
+    let cloned = this.createComponent(targetObject, type);
+    Object.assign(cloned, origin);
+    targetObject.addComponent(cloned);
+  }
+
 
   /**
    * @param tag {number}
    * @return {Array.<GameObject>}
    */
   static findGameObjectsWithTag(tag) {
+
   }
 
   /**
@@ -121,6 +141,7 @@ export default class GameObject {
    * @return {GameObject}
    */
   static find(name) {
+
   }
 
   /** @param value {number} */
@@ -157,11 +178,19 @@ export default class GameObject {
 
   /**
    * Adds a component.js class of type type to the game object
-   * @param type {number} Enum to Game Components
+   * @param type {number || Component} Enum to Game Components, or you can
+   * simply pass an instance of Component.
    * @param param
    */
   addComponent(type, ...param) {
-    let compObj = GameObject.createComponent(this, type, ...param);
+    let compObj;
+    if (typeof type === 'number') {
+      compObj = GameObject.createComponent(this, type, ...param);
+    } else {
+      compObj = type;
+      type = compObj.constructor.name;
+      console.log("compObj.constructor.name = " + type);
+    }
 
     if (typeof this.components_[type] === 'object') {
       if (!Array.isArray(this.components_[type])) {
@@ -173,10 +202,6 @@ export default class GameObject {
     } else {
       this.components_[type] = compObj;
     }
-
-    this.components_.forEach(
-      comp => console.log(comp.constructor.name)
-    );
   }
 
   /**
@@ -185,7 +210,9 @@ export default class GameObject {
   getComponent(type) {
     let comp = this.components_[type];
     if (!comp) {
-      throw new Error('Attempted to get a Component that does not exist.');
+      console.error('Attempted to get a Component that does not exist.');
+      return null;
+      //throw new Error();
     }
     return Array.isArray(comp) ? comp[0] : comp;
   }
