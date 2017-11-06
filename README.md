@@ -1,5 +1,20 @@
-DonjonJS - A HTML5 Game Framework
-=============
+donjon.js ![alt text](https://travis-ci.org/RaiderSoap/donjon-js.svg?branch=master")
+
+=========
+```
+    ______            _               _____           _
+    |  _  \          (_)             /  ___|         | |
+    | | | |___  _ __  _  ___  _ __   \ `--. _   _ ___| |_ ___ _ __ ___
+    | | | / _ \| '_ \| |/ _ \| '_ \   `--. \ | | / __| __/ _ \ '_ ` _ \
+    | |/ / (_) | | | | | (_) | | | | /\__/ / |_| \__ \ ||  __/ | | | | |
+    |___/ \___/|_| |_| |\___/|_| |_| \____/ \__, |___/\__\___|_| |_| |_|
+                    _/ |                     __/ |
+                   |__/                     |___/
+```
+
+A Pixi.js based HTML5 Game Development Framework
+
+----
 
 ### Install
 
