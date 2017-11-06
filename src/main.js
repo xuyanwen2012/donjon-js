@@ -1,6 +1,6 @@
 import GameObject from './donjon_objects/game_object';
 import {Components} from './core/const';
-import ObjectManager from './mannagers/object_mannager';
+import ObjectManager from './managers/object_mannager';
 import Behaviour from "./donjon_components/behaviour";
 // let enemyBoss = ObjectManager.instantiate("Enemy", new Victor(6, 6));
 // let enemyMinionA = ObjectManager.instantiate("Enemy", new Victor(6, 6), enemyBoss);
