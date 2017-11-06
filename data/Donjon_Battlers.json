@@ -1,0 +1,43 @@
+[
+  null,
+  {
+    "id": 1,
+    "name": "刺夜渣渣",
+    "maxHp": 55,
+    "headAmr": [
+      3
+    ],
+    "bodyAmr": [
+      1
+    ],
+    "meleeWpn": [
+      2
+    ],
+    "rangedWpn": [
+      0
+    ],
+    "shield": [
+      0
+    ]
+  },
+  {
+    "id": 1,
+    "name": "落雪大佬",
+    "maxHp": 55,
+    "headAmr": [
+      3
+    ],
+    "bodyAmr": [
+      1
+    ],
+    "meleeWpn": [
+      2
+    ],
+    "rangedWpn": [
+      0
+    ],
+    "shield": [
+      0
+    ]
+  }
+]

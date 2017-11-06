@@ -1,0 +1,23 @@
+[
+  null,
+  {
+    "id": 1,
+    "name": "Short Sword",
+    "damage": 35,
+    "ignoreArmor": 20,
+    "vsArmor": 75,
+    "critical": 0,
+    "shieldDmg": 0,
+    "range": 1.5
+  },
+  {
+    "id": 2,
+    "name": "Noble Sword",
+    "damage": 47.5,
+    "ignoreArmor": 20,
+    "vsArmor": 85,
+    "critical": 0,
+    "shieldDmg": 0,
+    "range": 1.5
+  }
+]

@@ -1,0 +1,18 @@
+[
+  null,
+  {
+    "id": 1,
+    "name": "Basic Mail Shirt",
+    "durability": 115
+  },
+  {
+    "id": 2,
+    "name": "Padded Surcoat",
+    "durability": 50
+  },
+  {
+    "id": 3,
+    "name": "Mail Coif",
+    "durability": 80
+  }
+]

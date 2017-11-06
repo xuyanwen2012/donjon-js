@@ -1,0 +1,21 @@
+[
+  null,
+  {
+    "id": 1,
+    "expanded": false,
+    "name": "MAP001",
+    "order": 1,
+    "parentId": 0,
+    "scrollX": 1002.6666666666666,
+    "scrollY": 582.2222222222222
+  },
+  {
+    "id": 2,
+    "expanded": false,
+    "name": "MAP002",
+    "order": 2,
+    "parentId": 0,
+    "scrollX": 1009.7777777777778,
+    "scrollY": 582.2222222222222
+  }
+]
