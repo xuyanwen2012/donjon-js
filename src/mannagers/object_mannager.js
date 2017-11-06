@@ -2,21 +2,13 @@ import Victor from 'victor';
 import GameObject from '../donjon_objects/game_object';
 import {Components} from '../core/const';
 
-//const fs = require("fs");
-
 export default class ObjectManager {
-
-  static runtimeID = 1;
 
   constructor() {
 
     ObjectManager.createTempPrefabs();
 
 
-  }
-
-  static generateRuntimeId() {
-    return this.runtimeID++;
   }
 
   static createTempPrefabs() {

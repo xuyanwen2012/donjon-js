@@ -72,19 +72,33 @@ export default class GameObject {
 
   /**
    *
-   * @param object {GameObject}
+   * @param targetObject {GameObject}
+   * @param script {Object}
+   */
+  static createBehaviour(targetObject, script) {
+    const behaviour = new Behaviour(targetObject);
+    console.log("===========");
+    console.log(script);
+    console.log("===========");
+    Object.assign(behaviour, script);
+    return behaviour;
+  };
+
+  /**
+   *
+   * @param targetObject {GameObject}
    * @param componentType {number}
    * @param param
    * @return {Component}
    */
-  static createComponent(object, componentType, ...param) {
+  static createComponent(targetObject, componentType, ...param) {
     switch (componentType) {
       case Components.RIGIDBODY:
-        return new Rigidbody(object, ...param);
+        return new Rigidbody(targetObject, ...param);
       case Components.BOX_COLLIDER:
-        return new BoxCollider(object, ...param);
+        return new BoxCollider(targetObject, ...param);
       case Components.CIRCLE_COLLIDER:
-        return new CircleCollider(object, ...param);
+        return new CircleCollider(targetObject, ...param);
       default:
         console.log("Cannot create Component: " + componentType);
     }
@@ -249,7 +263,6 @@ export default class GameObject {
    * To reduce performance cost, do not update all components.
    */
   update() {
-
   }
 }
 
