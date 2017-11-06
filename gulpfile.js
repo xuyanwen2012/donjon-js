@@ -102,16 +102,11 @@ gulp.task('build:client', function () {
 
   var folders = getFolders(Directories.DESTCLIENT);
 
-  var tasks = folders.map(function (folder) {
+  return folders.map(function (folder) {
     return gulp.src(path.join(Directories.DESTCLIENT, folder, '/**/*.js'))
       .pipe(gulpConcat(folder + '.js'))
       .pipe(gulp.dest('build/js'));
   });
-
-  var root = gulp.src(path.join(Directories.DESTCLIENT, '/main.js'))
-    .pipe(gulp.dest("build"));
-
-  return merge(tasks, root);
 
 });
 

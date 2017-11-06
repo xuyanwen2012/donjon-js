@@ -1,15 +1,20 @@
-//-----------------------------------------------------------------------------
-// Scene_Boot
-//
-// The scene class for initializing the entire game.
+/**
+ * The scene class for initializing the entire game.
+ * @extends {SceneBase}
+ */
+class Scene_Boot extends SceneBase {
 
-class Scene_Boot extends Scene_Base {
-
+  /**
+   * @override
+   */
   constructor() {
     super();
     this._startDate = Date.now();
   }
 
+  /**
+   * @static
+   */
   static loadSystemImages() {
     ImageManager.reserveSystem('IconSet');
     ImageManager.reserveSystem('Balloon');
@@ -23,9 +28,13 @@ class Scene_Boot extends Scene_Base {
     ImageManager.reserveSystem('ButtonSet');
   }
 
+  /**
+   * @override
+   */
   create() {
+    super.create();
     DataManager.loadDatabase();
-    //ConfigManager.load();
+    ConfigManager.load();
     this.loadSystemWindowImage();
   }
 
@@ -33,6 +42,9 @@ class Scene_Boot extends Scene_Base {
     ImageManager.reserveSystem('Window');
   }
 
+  /**
+   * @override
+   */
   isReady() {
     if (super.isReady()) {
       return DataManager.isDatabaseLoaded() && this.isGameFontLoaded();
@@ -45,28 +57,28 @@ class Scene_Boot extends Scene_Base {
     if (Graphics.isFontLoaded('GameFont')) {
       return true;
     } else if (!Graphics.canUseCssFontLoading()) {
-      const elapsed = Date.now() - this._startDate;
+      let elapsed = Date.now() - this._startDate;
       if (elapsed >= 60000) {
         throw new Error('Failed to load GameFont');
       }
     }
   }
 
+  /**
+   * will trigger when all data in database is loaded.
+   * @override
+   */
   start() {
     super.start();
     SoundManager.preloadImportantSounds();
-
     this.checkPlayerLocation();
     DataManager.setupNewGame();
-
-    SceneManager.goto(Scene_Map);
-    console.log("Success");
-    //debugger;
+    SceneManager.goto(SceneMap);
     this.updateDocumentTitle();
   }
 
   updateDocumentTitle() {
-    document.title = $dataSystem.gameTitle + "Success";
+    document.title = $dataSystem.gameTitle;
   }
 
   checkPlayerLocation() {
