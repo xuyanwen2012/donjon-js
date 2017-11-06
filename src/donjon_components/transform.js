@@ -17,56 +17,44 @@ export default class Transform extends Component {
               height = 0, scale = new Victor(1, 1)) {
     super(owner);
     /** @private @type {number} */
-    this.type_ = Components.TRANSFORM;
+    this._type = Components.TRANSFORM;
     /** @private @type {Transform} */
-    this.transform_ = this;
+    this._transform = this;
     /** @private @type {Victor} */
-    this.position_ = pos;
+    this._position = pos;
     /** @private @type {number} */
-    this.height_ = height;
+    this._height = height;
     /** @private @type {number} */
-    this.rotation_ = 0;
+    this._rotation = 0;
     /** @private @type {Victor} */
-    this.scale_ = scale;
+    this._scale = scale;
     /** @private @type {Transform} */
-    this.parent_ = null;
+    this._parent = null;
   }
 
   /** @return {Transform} */
   get parent() {
-    return this.parent_;
+    return this._parent;
   }
 
   /** @return {Victor} */
   get position() {
-    return this.position_;
+    return this._position;
   }
 
   /** @return {number} */
   get height() {
-    return this.height_;
+    return this._height;
   }
 
   /** @return {number} */
   get rotation() {
-    return this.rotation_;
+    return this._rotation;
   }
 
   /** @return {Victor} */
   get scale() {
-    return this.scale_;
-  }
-
-  /** @param value {Transform}*/
-  setParent(value) {
-    if (value instanceof Transform) {
-      this.parent_ = value;
-    }
-  }
-
-  /** @param pos {Victor}*/
-  setPositon(pos) {
-    this.position_ = pos;
+    return this._scale;
   }
 
   /**
@@ -76,7 +64,19 @@ export default class Transform extends Component {
    * @return {number}
    */
   static squaredDistanceTo(first, second) {
-    return first.position_.distanceSq(second.position_);
+    return first._position.distanceSq(second._position);
+  }
+
+  /** @param value {Transform}*/
+  setParent(value) {
+    if (value instanceof Transform) {
+      this._parent = value;
+    }
+  }
+
+  /** @param pos {Victor}*/
+  setPosition(pos) {
+    this._position = pos;
   }
 
   /**
@@ -90,7 +90,7 @@ export default class Transform extends Component {
    * @param translation {Victor} Victor with direction and distance.
    */
   translate(translation) {
-    this.position_.add(translation);
+    this._position.add(translation);
   }
 
   /**
@@ -106,7 +106,7 @@ export default class Transform extends Component {
    * @param eulerAngles{number} angle degrees .
    */
   rotate(eulerAngles) {
-    this.rotation_ += eulerAngles;
+    this._rotation += eulerAngles;
   }
 
   /**

@@ -11,8 +11,8 @@ export default class BoxCollider extends Collider {
   constructor(owner, ...param) {
     super(owner);
     /** @private @type {number} */
-    this.type_ = Components.BOX_COLLIDER;
-    this.rectangle_ = new Rectangle(...param);
+    this._type = Components.BOX_COLLIDER;
+    this._rectangleArea = new Rectangle(...param);
   }
 
 }

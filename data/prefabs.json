@@ -1,51 +1,51 @@
 {
   "transform": {
-    "owner_": null,
-    "transform_": null,
-    "position_": {
+    "_owner": null,
+    "_transform": null,
+    "_position": {
       "x": 666,
       "y": 666
     },
-    "height_": 5,
-    "rotation_": 0,
-    "scale_": {
+    "_height": 5,
+    "_rotation": 0,
+    "_scale": {
       "x": 1,
       "y": 1
     },
-    "parent_": null
+    "_parent": null
   },
   "rigidbody": {
-    "owner_": null,
-    "transform_": null,
-    "bodyType_": 1,
-    "detectionMode_": 1,
-    "sleepMode_": 2,
-    "drag_": 0.5,
-    "mass_": 1,
-    "impactForces_": {
+    "_owner": null,
+    "_transform": null,
+    "_bodyType": 1,
+    "_detectionMode": 1,
+    "_sleepMode": 2,
+    "_drag": 0.5,
+    "_mass": 1,
+    "_impactForces": {
       "x": 0,
       "y": 0
     },
-    "forces_": {
+    "_forces": {
       "x": 0,
       "y": 0
     },
-    "velocity_": {
+    "_velocity": {
       "x": 0,
       "y": 0
     },
-    "speed_": 0,
-    "deltaPos_": {
+    "_speed": 0,
+    "_deltaPos": {
       "x": 0,
       "y": 0
     }
   },
   "boxCollider": {
-    "owner_": null,
-    "transform_": null,
-    "attachedRigidbody_": null,
-    "offset_": 0,
-    "rectangle_": {
+    "_owner": null,
+    "_transform": null,
+    "_attachedRigidbody": null,
+    "_offset": 0,
+    "_rectangleArea": {
       "x": 1,
       "y": 2,
       "width": 3,
@@ -54,11 +54,11 @@
     }
   },
   "circleCollider": {
-    "owner_": null,
-    "transform_": null,
-    "attachedRigidbody_": null,
-    "offset_": 0,
-    "circle_": {
+    "_owner": null,
+    "_transform": null,
+    "_attachedRigidbody": null,
+    "_offset": 0,
+    "_circleArea": {
       "x": 5,
       "y": 6,
       "radius": 7,

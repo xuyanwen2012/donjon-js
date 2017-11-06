@@ -20,54 +20,54 @@ export default class GameObject {
    */
   constructor(name = 'unnamed') {
     /** @private @type{number} */
-    this.id_ = 0;//Utils.generateRuntimeId();
+    this._id = 0;//Utils.generateRuntimeId();
 
     /** @private @type {GameObject} */
-    this.parent_ = null;
+    this._parent = null;
 
     /** @private @type {Array.<GameObject>} */
-    this.children_ = [];
+    this._children = [];
 
     /** @private @type {number} */
-    this.layer_ = GameObject.Layers.DEFAULT;
+    this._layer = GameObject.Layers.DEFAULT;
 
     /** @private @type {number} */
-    this.tag_ = GameObject.Tags.UNTAGGED;
+    this._tag = GameObject.Tags.UNTAGGED;
 
     /** @private @type {Transform} */
-    this.transform_ = new Transform(this);
+    this._transform = new Transform(this);
 
     /** @private @type {String} */
-    this.name_ = name === 'unnamed' ? 'unnamed' + this.id : name;
+    this._name = name === 'unnamed' ? 'unnamed' + this.id : name;
 
     /** @private @const @type {Array.<Components>} */
-    this.components_ = [];
+    this._components = [];
 
     /** @private @type {Array.<Behaviour>} */
-    this.behaviours_ = [];
+    this._behaviours = [];
 
     /** @private @type {boolean} */
-    this.active_ = true;
+    this._active = true;
   }
 
   /** @return {number} */
   get id() {
-    return this.id_
+    return this._id
   }
 
   /** @return {Transform} */
   get transform() {
-    return this.transform_
+    return this._transform
   }
 
   /** @return {number} */
   get layer() {
-    return this.layer_
+    return this._layer
   }
 
   /** @return {number} */
   get tag() {
-    return this.tag_
+    return this._tag
   }
 
   /**
@@ -113,15 +113,15 @@ export default class GameObject {
    */
   static instantiate(original, position = null, parent = null) {
     //create empty object
-    const cloned = new GameObject(original.name_);
+    const cloned = new GameObject(original._name);
 
     //clone each component from prefab
-    original.components_.forEach(comp =>
-      GameObject.instantiateComponent(cloned, comp, comp.type_)
+    original._components.forEach(comp =>
+      GameObject.instantiateComponent(cloned, comp, comp._type)
     );
 
     if (position) {
-      cloned.transform.setPositon(position);
+      cloned.transform.setPosition(position);
     }
     if (parent) {
       parent.addChild(cloned);
@@ -150,7 +150,7 @@ export default class GameObject {
    */
   setParent(parent) {
     if (parent instanceof GameObject) {
-      this.parent_ = parent;
+      this._parent = parent;
       this.transform.setParent(parent.transform);
     }
   }
@@ -161,7 +161,7 @@ export default class GameObject {
   addChild(child) {
     if (child instanceof GameObject) {
       child.setParent(this);
-      this.children_.push(child);
+      this._children.push(child);
     }
   }
 
@@ -180,15 +180,15 @@ export default class GameObject {
       type = compObj.type;
     }
 
-    if (typeof this.components_[type] === 'object') {
-      if (!Array.isArray(this.components_[type])) {
-        let temp = this.components_[type];
-        this.components_[type] = [];
-        this.components_[type].push(temp);
+    if (typeof this._components[type] === 'object') {
+      if (!Array.isArray(this._components[type])) {
+        let temp = this._components[type];
+        this._components[type] = [];
+        this._components[type].push(temp);
       }
-      this.components_[type].push(compObj);
+      this._components[type].push(compObj);
     } else {
-      this.components_[type] = compObj;
+      this._components[type] = compObj;
     }
   }
 
@@ -196,7 +196,7 @@ export default class GameObject {
    * @param type {number} Enum to Game Components
    */
   getComponent(type) {
-    let comp = this.components_[type];
+    let comp = this._components[type];
     if (!comp) {
       console.error('Attempted to get a Component that does not exist.');
       return null;
@@ -206,12 +206,12 @@ export default class GameObject {
 
   /** @param value {number} */
   setTag(value) {
-    this.tag_ = value
+    this._tag = value
   }
 
   /** @param active{boolean} */
   setActive(active) {
-    this.active_ = active;
+    this._active = active;
   }
 
   /**
@@ -219,7 +219,7 @@ export default class GameObject {
    * @return {boolean} Is this game object tagged with tag ?
    */
   compareTag(tag) {
-    return this.tag_ === tag;
+    return this._tag === tag;
   }
 
   /**
@@ -230,7 +230,7 @@ export default class GameObject {
    */
   broadcastMessage(methodName, parameter = null) {
     this.sendMessage(methodName, parameter);
-    this.children_.forEach(behaviour =>
+    this._children.forEach(behaviour =>
       behaviour[methodName](parameter));
   }
 
@@ -241,7 +241,7 @@ export default class GameObject {
    * @param value {object=} Optional parameter value for the method.
    */
   sendMessage(methodName, value) {
-    this.behaviours_.forEach(behaviour =>
+    this._behaviours.forEach(behaviour =>
       behaviour[methodName](value));
   }
 
@@ -253,8 +253,8 @@ export default class GameObject {
    */
   sendMessageUpwards(methodName, value = null) {
     this.sendMessage(methodName, value);
-    if (this.parent_ !== null) {
-      this.parent_.sendMessageUpwards(methodName, value);
+    if (this._parent !== null) {
+      this._parent.sendMessageUpwards(methodName, value);
     }
   }
 

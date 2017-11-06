@@ -19,50 +19,50 @@ export default class Rigidbody extends Component {
     super(owner);
 
     /** @private @type {number} */
-    this.type_ = Components.RIGIDBODY;
+    this._type = Components.RIGIDBODY;
 
     /** @private @type {number} */
-    this.bodyType_ = RigidBodyTypes.DYNAMIC;
+    this._bodyType = RigidBodyTypes.DYNAMIC;
 
     /** @private @type {number} */
-    this.detectionMode_ = CollisionDetectionModes.DISCRETE;
+    this._detectionMode = CollisionDetectionModes.DISCRETE;
 
     /** @private @type {number} */
-    this.sleepMode_ = SleepModes.START_AWAKE;
+    this._sleepMode = SleepModes.START_AWAKE;
 
     /** @private @type {number} */
-    this.drag_ = 0.5;
+    this._drag = 0.5;
     //this._angularDrag = 0;
     /** @private @type {number} */
-    this.mass_ = 1.0;
+    this._mass = 1.0;
 
     /** @private @type {Victor} */
-    this.impactForces_ = new Victor();
+    this._impactForces = new Victor();
 
     /** @private @type {Victor} */
-    this.forces_ = new Victor();
+    this._forces = new Victor();
 
     /** @private @type {Victor} */
-    this.velocity_ = new Victor();
+    this._velocity = new Victor();
 
     /** @private @type {number} */
-    this.speed_ = 0.0;
+    this._speed = 0.0;
 
     //this._angularVelocity = 0;
 
     //Ivan: should I add interpolation?
     /** @private @type {Victor} */
-    this.deltaPos_ = new Victor();
+    this._deltaPos = new Victor();
   }
 
   /** @return {Victor} */
   get velocity() {
-    return this.velocity_;
+    return this._velocity;
   }
 
   /** @param value {Victor} */
   set velocity(value) {
-    this.velocity_ = value;
+    this._velocity = value;
   }
 
   /**
@@ -74,7 +74,7 @@ export default class Rigidbody extends Component {
    * @param force {Victor} Components of the force in the X and Y axes.
    */
   addForce(force) {
-    this.impactForces_.add(force);
+    this._impactForces.add(force);
   }
 
   /**
@@ -91,7 +91,7 @@ export default class Rigidbody extends Component {
   }
 
   isKinematic() {
-    return this.bodyType_ === RigidBodyTypes.KINEMATIC;
+    return this._bodyType === RigidBodyTypes.KINEMATIC;
   }
 
   isAwake() {
@@ -120,7 +120,7 @@ export default class Rigidbody extends Component {
    * @param position{Victor} The new position for the Rigidbody object.
    */
   movePosition(position) {
-    this.deltaPos_ = position.clone().subtract(this.owner.transform.position);
+    this._deltaPos = position.clone().subtract(this.owner.transform.position);
   }
 
   /*
@@ -141,7 +141,7 @@ export default class Rigidbody extends Component {
    *
    */
   resetForces() {
-    this.forces_.zero();
+    this._forces.zero();
   }
 
   update(d_t) {
@@ -157,29 +157,29 @@ export default class Rigidbody extends Component {
     this.resetForces();
 
     //test force
-    this.forces_.add(this.impactForces_);
+    this._forces.add(this._impactForces);
 
-    this.impactForces_.zero();
+    this._impactForces.zero();
   }
 
   /**
    * @param d_t {number}
    */
   updateBodyEuler(d_t) {
-    let a = this.forces_.clone().divideScalar(this.mass_);
+    let a = this._forces.clone().divideScalar(this._mass);
 
     let dv = a.multiplyScalar(d_t);
-    this.velocity_.add(dv);
+    this._velocity.add(dv);
 
-    let ds = this.velocity_.clone().multiplyScalar(d_t);
+    let ds = this._velocity.clone().multiplyScalar(d_t);
     this.owner.transform.translate(ds);
 
     //Misc. calculation
-    //this.speed_ = this.velocity_.magnitude();
-    //console.log(this.speed_);
+    //this._speed = this._velocity.magnitude();
+    //console.log(this._speed);
 
     //maybe
-    this.owner.transform.translate(this.deltaPos_);
-    this.deltaPos_.zero();
+    this.owner.transform.translate(this._deltaPos);
+    this._deltaPos.zero();
   }
 }

@@ -11,9 +11,9 @@ export default class CircleCollider extends Collider {
   constructor(owner, ...param) {
     super(owner);
     /** @private @type {number} */
-    this.type_ = Components.CIRCLE_COLLIDER;
+    this._type = Components.CIRCLE_COLLIDER;
 
-    this.circle_ = new Circle(...param);
+    this._circleArea = new Circle(...param);
   }
 
 }

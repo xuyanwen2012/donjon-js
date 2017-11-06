@@ -19,42 +19,31 @@ export default class Component {
       console.error('Creating component without owner.');
     }
     /** @protected @type {GameObject} */
-    this.owner_ = owner;
+    this._owner = owner;
     /** @protected @type {number} */
-    this.type_ = Components.NULL;
+    this._type = Components.NULL;
     /** @protected @type {Transform} */
-    this.transform_ = owner ? owner.transform : null;
-    this.setupListeners_();
+    this._transform = owner ? owner.transform : null;
   }
 
   /** @return {GameObject} */
   get owner() {
-    return this.owner_;
+    return this._owner;
   }
 
   /** @return {Transform} */
   get transform() {
-    return this.transform_
+    return this._transform
   }
 
   /** @return {number} */
   get type() {
-    return this.type_;
+    return this._type;
   }
 
   /** @abstract */
   update() {
   }
 
-  /**
-   * @param origin {Object}
-   */
-  copy(origin) {
-    Object.assign(this, origin);
-  }
-
-  /** @protected @abstract */
-  setupListeners_() {
-  }
 }
 

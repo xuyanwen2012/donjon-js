@@ -15,16 +15,16 @@ export default class Collider extends Component {
     super(owner);
 
     /** @private @type{Rigidbody} */
-    this.attachedRigidbody_ = owner ?
+    this._attachedRigidbody = owner ?
       owner.getComponent(Components.RIGIDBODY) : null;
 
     /** @private @type{number} */
-    this.offset_ = 0;
+    this._offset = 0;
   }
 
   /** @return {Rigidbody} */
   get attachedRigidbody() {
-    return this.attachedRigidbody_;
+    return this._attachedRigidbody;
   }
 
   /**
@@ -36,7 +36,7 @@ export default class Collider extends Component {
 
   /** @param value{Rigidbody} */
   attachToRigidbody(value) {
-    this.attachedRigidbody_ = value;
+    this._attachedRigidbody = value;
   }
 
   /**

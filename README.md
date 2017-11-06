@@ -1,6 +1,4 @@
 # donjon.js ![alt text](https://travis-ci.org/RaiderSoap/donjon-js.svg?branch=master")
-
-=========
 ```
     ______            _               _____           _
     |  _  \          (_)             /  ___|         | |
