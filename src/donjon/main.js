@@ -8,7 +8,7 @@ import Behaviour from "./donjon_components/behaviour";
 //
 // console.log(enemyBoss);
 //const behaviour = require('../data/scripts/testBehaviour');
-import behaviour from '../data/scripts/testBehaviour';
+import behaviour from '../../data/scripts/testBehaviour';
 
 let obj = new GameObject("Robot");
 obj.addComponent(Components.RIGIDBODY);

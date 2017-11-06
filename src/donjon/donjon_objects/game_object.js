@@ -4,6 +4,7 @@ import Transform from '../donjon_components/transform';
 import Rigidbody from '../donjon_components/rigidbody';
 import BoxCollider from '../donjon_components/box_collider';
 import CircleCollider from '../donjon_components/circle_collider';
+import Behaviour from '../donjon_components/behaviour';
 
 
 /**

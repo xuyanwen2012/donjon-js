@@ -26,7 +26,8 @@ gulp.task('default', ['build']);
 var Directories = {
   SOURCE: "src",
   BUILD: "build",
-  DESTINATION: "dist",
+  DESTINATION: "dist/donjon",
+  DESTCLIENT: "dist/client",
   TEMPLATES: "template",
   DOCUMENT: "docs",
   TEMP: "temp"
@@ -47,7 +48,7 @@ gulp.task('package', function () {
 });
 
 gulp.task('build', function () {
-  runSequence('compile', 'build:donjon', 'test', function () {
+  runSequence('compile', 'compile:client', 'build:donjon', 'build:client', 'test', function () {
   });
 });
 
@@ -63,10 +64,20 @@ gulp.task('copy-template', function () {
  * combine all files into one js file and then compile es6 into es5
  */
 gulp.task('compile', function () {
-  return gulp.src([Directories.SOURCE + '/**/**.js'])
+  return gulp.src([Directories.SOURCE + '/donjon/**/**.js'])
     .pipe(gulpBabel())
     .pipe(gulpHeader(fileTitle))
     .pipe(gulp.dest(Directories.DESTINATION));
+});
+
+/**
+ * combine all files into one js file and then compile es6 into es5
+ */
+gulp.task('compile:client', function () {
+  return gulp.src([Directories.SOURCE + '/client/**/**.js'])
+    .pipe(gulpBabel())
+    .pipe(gulpHeader(fileTitle))
+    .pipe(gulp.dest(Directories.DESTCLIENT));
 });
 
 /**
@@ -81,14 +92,37 @@ gulp.task('build:donjon', function () {
     .pipe(gulp.dest(Directories.BUILD + '/js'));
 });
 
-/**
- * generate jsdoc
- */
-gulp.task('doc', function (cb) {
-  gulp.src([Directories.DESTINATION + '/**/*.js'], {read: false})
-    .pipe(gulpJsdoc(cb))
-    .pipe(gulp.dest(Directories.DOCUMENT));
+gulp.task('build:client', function () {
+  function getFolders(dir) {
+    return fs.readdirSync(dir)
+      .filter(function (file) {
+        return fs.statSync(path.join(dir, file)).isDirectory();
+      });
+  }
+
+  var folders = getFolders(Directories.DESTCLIENT);
+
+  var tasks = folders.map(function (folder) {
+    return gulp.src(path.join(Directories.DESTCLIENT, folder, '/**/*.js'))
+      .pipe(gulpConcat(folder + '.js'))
+      .pipe(gulp.dest('build/js'));
+  });
+
+  var root = gulp.src(path.join(Directories.DESTCLIENT, '/main.js'))
+    .pipe(gulp.dest("build"));
+
+  return merge(tasks, root);
+
 });
+
+// /**
+//  * generate jsdoc
+//  */
+// gulp.task('doc', function (cb) {
+//   gulp.src([Directories.DESTINATION + '/**/*.js'], {read: false})
+//     .pipe(gulpJsdoc(cb))
+//     .pipe(gulp.dest(Directories.DOCUMENT));
+// });
 
 /**
  * auto test
