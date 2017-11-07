@@ -26,6 +26,7 @@ gulp.task('default', ['build']);
 var Directories = {
   SOURCE: "src",
   BUILD: "build",
+  DIST: "dist",
   DESTINATION: "dist/donjon",
   DESTCLIENT: "dist/client",
   TEMPLATES: "template",
@@ -37,7 +38,7 @@ var Directories = {
  * clean build and compiled js
  */
 gulp.task('clean', function () {
-  return gulp.src([Directories.BUILD, Directories.DESTINATION])
+  return gulp.src([Directories.BUILD, Directories.DIST])
     .pipe(gulpClean({force: true}))
     .pipe(gulp.dest(Directories.TEMP));
 });
