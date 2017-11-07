@@ -135,7 +135,7 @@ class DataManager {
     /**
      * @type {GameMap}
      */
-    $gameMap = new GameMap();
+    $gameMap = new GamePhysicsMap();
   }
 
 
