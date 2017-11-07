@@ -2,85 +2,118 @@
  * The game object class for a map. It contains scrolling and passage
  * determination functions.
  */
-class Game_Map {
+class GameMap {
 
   constructor() {
-    this.initialize(...arguments);
-  }
-
-  initialize() {
+    /** @private @type {number} */
     this._mapId = 0;
+
+    /** @private @type {number} */
     this._tilesetId = 0;
 
+    /** @private @type {number} */
     this._displayX = 0;
+
+    /** @private @type {number} */
     this._displayY = 0;
 
+    /** @private @type {number} */
     this._scrollDirection = 2;
+
+    /** @private @type {number} */
     this._scrollRest = 0;
+
+    /** @private @type {number} */
     this._scrollSpeed = 4;
 
+    /** @private @type {String} */
     this._parallaxName = '';
+
+    /** @private @type {boolean} */
     this._parallaxZero = false;
+
+    /** @private @type {boolean} */
     this._parallaxLoopX = false;
+
+    /** @private @type {boolean} */
     this._parallaxLoopY = false;
+
+    /** @private @type {number} */
     this._parallaxSx = 0;
+
+    /** @private @type {number} */
     this._parallaxSy = 0;
+
+    /** @private @type {number} */
     this._parallaxX = 0;
+
+    /** @private @type {number} */
     this._parallaxY = 0;
   }
 
+  /**
+   * @param mapId {number}
+   */
   setup(mapId) {
     if (!$dataMap) {
       throw new Error('The map data is not available');
     }
     this._mapId = mapId;
     this._tilesetId = $dataMap.tilesetId;
+
     this._displayX = 0;
     this._displayY = 0;
+    //this._setupEvents();
     this.setupScroll();
     this.setupParallax();
+    this._needsRefresh = false;
   }
 
+  /** @return {number} */
   tileWidth() {
-    return 48;
+    return 48
   }
 
+  /** @return {number} */
   tileHeight() {
-    return 48;
+    return 48
   }
 
+  /** @return {number} */
   mapId() {
-    return this._mapId;
+    return this._mapId
   }
 
-  tilesetId() {
-    return this._tilesetId;
-  }
-
+  /** @return {number} */
   displayX() {
-    return this._displayX;
+    return this._displayX
   }
 
+  /** @return {number} */
   displayY() {
-    return this._displayY;
+    return this._displayY
   }
 
+  /** @return {String} */
   parallaxName() {
-    return this._parallaxName;
+    return this._parallaxName
   }
 
+  /** @param mapId {number} */
   requestRefresh(mapId) {
-    this._needsRefresh = true;
+    this._needsRefresh = true
   }
 
+  /** @private */
   setupScroll() {
     this._scrollDirection = 2;
     this._scrollRest = 0;
     this._scrollSpeed = 4;
   }
 
+  /** @private */
   setupParallax() {
-    this._parallaxName = $dataMap.parallaxName || '';
+    this._parallaxName = $dataMap._parallaxName || '';
     this._parallaxZero = ImageManager.isZeroParallax(this._parallaxName);
     this._parallaxLoopX = $dataMap.parallaxLoopX;
     this._parallaxLoopY = $dataMap.parallaxLoopY;
@@ -90,25 +123,21 @@ class Game_Map {
     this._parallaxY = 0;
   }
 
+  /**
+   * @param x {number}
+   * @param y {number}
+   */
   setDisplayPos(x, y) {
-    if (this.isLoopHorizontal()) {
-      this._displayX = x.mod(this.width());
-      this._parallaxX = x;
-    } else {
-      const endX = this.width() - this.screenTileX();
-      this._displayX = endX < 0 ? endX / 2 : x.clamp(0, endX);
-      this._parallaxX = this._displayX;
-    }
-    if (this.isLoopVertical()) {
-      this._displayY = y.mod(this.height());
-      this._parallaxY = y;
-    } else {
-      const endY = this.height() - this.screenTileY();
-      this._displayY = endY < 0 ? endY / 2 : y.clamp(0, endY);
-      this._parallaxY = this._displayY;
-    }
+    let endX = this.width() - this.screenTileX();
+    this._displayX = endX < 0 ? endX / 2 : x.clamp(0, endX);
+    this._parallaxX = this._displayX;
+
+    let endY = this.height() - this.screenTileY();
+    this._displayY = endY < 0 ? endY / 2 : y.clamp(0, endY);
+    this._parallaxY = this._displayY;
   }
 
+  /** @return {number} */
   parallaxOx() {
     if (this._parallaxZero) {
       return this._parallaxX * this.tileWidth();
@@ -119,6 +148,7 @@ class Game_Map {
     }
   }
 
+  /** @return {number} */
   parallaxOy() {
     if (this._parallaxZero) {
       return this._parallaxY * this.tileHeight();
@@ -133,8 +163,9 @@ class Game_Map {
     return $dataTilesets[this._tilesetId];
   }
 
+  /** @return {Array} */
   tilesetFlags() {
-    const tileset = this.tileset();
+    let tileset = this.tileset();
     if (tileset) {
       return tileset.flags;
     } else {
@@ -142,132 +173,83 @@ class Game_Map {
     }
   }
 
+  /** @return {String} */
+  displayName() {
+    return $dataMap.displayName_;
+  }
+
+  /** @return {number} */
   width() {
     return $dataMap.width;
   }
 
+  /** @return {number} */
   height() {
     return $dataMap.height;
   }
 
+  /** @return {number} */
   data() {
     return $dataMap.data;
   }
 
-  isLoopHorizontal() {
-    return $dataMap.scrollType === 2 || $dataMap.scrollType === 3;
-  }
-
-  isLoopVertical() {
-    return $dataMap.scrollType === 1 || $dataMap.scrollType === 3;
-  }
-
-  isDashDisabled() {
-    return $dataMap.disableDashing;
-  }
-
-  encounterList() {
-    return $dataMap.encounterList;
-  }
-
-  encounterStep() {
-    return $dataMap.encounterStep;
-  }
-
-  isOverworld() {
-    return this.tileset() && this.tileset().mode === 0;
-  }
-
+  /** @return {number} */
   screenTileX() {
     return Graphics.width / this.tileWidth();
   }
 
+  /** @return {number} */
   screenTileY() {
     return Graphics.height / this.tileHeight();
   }
 
+  /** @return {number} */
   adjustX(x) {
-    if (this.isLoopHorizontal() && x < this._displayX -
-      (this.width() - this.screenTileX()) / 2) {
-      return x - this._displayX + $dataMap.width;
-    } else {
-      return x - this._displayX;
-    }
+    return x - this._displayX
   }
 
+  /** @return {number} */
   adjustY(y) {
-    if (this.isLoopVertical() && y < this._displayY -
-      (this.height() - this.screenTileY()) / 2) {
-      return y - this._displayY + $dataMap.height;
-    } else {
-      return y - this._displayY;
-    }
+    return y - this._displayY
   }
 
-  roundX(x) {
-    return this.isLoopHorizontal() ? x.mod(this.width()) : x;
-  }
-
-  roundY(y) {
-    return this.isLoopVertical() ? y.mod(this.height()) : y;
-  }
-
+  /** @return {number} */
   xWithDirection(x, d) {
-    return x + (d === 6 ? 1 : d === 4 ? -1 : 0);
+    return x + (d === 6 ? 1 : d === 4 ? -1 : 0)
   }
 
+  /** @return {number} */
   yWithDirection(y, d) {
-    return y + (d === 2 ? 1 : d === 8 ? -1 : 0);
+    return y + (d === 2 ? 1 : d === 8 ? -1 : 0)
   }
 
-  roundXWithDirection(x, d) {
-    return this.roundX(x + (d === 6 ? 1 : d === 4 ? -1 : 0));
-  }
-
-  roundYWithDirection(y, d) {
-    return this.roundY(y + (d === 2 ? 1 : d === 8 ? -1 : 0));
-  }
-
+  /** @return {number} */
   deltaX(x1, x2) {
-    let result = x1 - x2;
-    if (this.isLoopHorizontal() && Math.abs(result) > this.width() / 2) {
-      if (result < 0) {
-        result += this.width();
-      } else {
-        result -= this.width();
-      }
-    }
-    return result;
+    return x1 - x2
   }
 
+  /** @return {number} */
   deltaY(y1, y2) {
-    let result = y1 - y2;
-    if (this.isLoopVertical() && Math.abs(result) > this.height() / 2) {
-      if (result < 0) {
-        result += this.height();
-      } else {
-        result -= this.height();
-      }
-    }
-    return result;
+    return y1 - y2
   }
 
+  /** @return {number} */
   distance(x1, y1, x2, y2) {
     return Math.abs(this.deltaX(x1, x2)) + Math.abs(this.deltaY(y1, y2));
   }
 
+  /** @return {number} */
   canvasToMapX(x) {
-    const tileWidth = this.tileWidth();
-    const originX = this._displayX * tileWidth;
-    const mapX = Math.floor((originX + x) / tileWidth);
-    return this.roundX(mapX);
+    let tileWidth = this.tileWidth();
+    let originX = this._displayX * tileWidth;
+    return Math.floor((originX + x) / tileWidth);
   }
 
+  /** @return {number} */
   canvasToMapY(y) {
-    const tileHeight = this.tileHeight();
-    const originY = this._displayY * tileHeight;
-    const mapY = Math.floor((originY + y) / tileHeight);
-    return this.roundY(mapY);
+    let tileHeight = this.tileHeight();
+    let originY = this._displayY * tileHeight;
+    return Math.floor((originY + y) / tileHeight);
   }
 
   autoplay() {
@@ -280,14 +262,8 @@ class Game_Map {
   }
 
   scrollDown(distance) {
-    if (this.isLoopVertical()) {
-      this._displayY += distance;
-      this._displayY %= $dataMap.height;
-      if (this._parallaxLoopY) {
-        this._parallaxY += distance;
-      }
-    } else if (this.height() >= this.screenTileY()) {
-      const lastY = this._displayY;
+    if (this.height() >= this.screenTileY()) {
+      let lastY = this._displayY;
       this._displayY = Math.min(this._displayY + distance,
         this.height() - this.screenTileY());
       this._parallaxY += this._displayY - lastY;
@@ -295,28 +271,16 @@ class Game_Map {
   }
 
   scrollLeft(distance) {
-    if (this.isLoopHorizontal()) {
-      this._displayX += $dataMap.width - distance;
-      this._displayX %= $dataMap.width;
-      if (this._parallaxLoopX) {
-        this._parallaxX -= distance;
-      }
-    } else if (this.width() >= this.screenTileX()) {
-      const lastX = this._displayX;
+    if (this.width() >= this.screenTileX()) {
+      let lastX = this._displayX;
       this._displayX = Math.max(this._displayX - distance, 0);
       this._parallaxX += this._displayX - lastX;
     }
   }
 
   scrollRight(distance) {
-    if (this.isLoopHorizontal()) {
-      this._displayX += distance;
-      this._displayX %= $dataMap.width;
-      if (this._parallaxLoopX) {
-        this._parallaxX += distance;
-      }
-    } else if (this.width() >= this.screenTileX()) {
-      const lastX = this._displayX;
+    if (this.width() >= this.screenTileX()) {
+      let lastX = this._displayX;
       this._displayX = Math.min(this._displayX + distance,
         this.width() - this.screenTileX());
       this._parallaxX += this._displayX - lastX;
@@ -324,14 +288,8 @@ class Game_Map {
   }
 
   scrollUp(distance) {
-    if (this.isLoopVertical()) {
-      this._displayY += $dataMap.height - distance;
-      this._displayY %= $dataMap.height;
-      if (this._parallaxLoopY) {
-        this._parallaxY -= distance;
-      }
-    } else if (this.height() >= this.screenTileY()) {
-      const lastY = this._displayY;
+    if (this.height() >= this.screenTileY()) {
+      let lastY = this._displayY;
       this._displayY = Math.max(this._displayY - distance, 0);
       this._parallaxY += this._displayY - lastY;
     }
@@ -342,10 +300,10 @@ class Game_Map {
   }
 
   checkPassage(x, y, bit) {
-    const flags = this.tilesetFlags();
-    const tiles = this.allTiles(x, y);
+    let flags = this.tilesetFlags();
+    let tiles = this.allTiles(x, y);
     for (let i = 0; i < tiles.length; i++) {
-      const flag = flags[tiles[i]];
+      let flag = flags[tiles[i]];
       if ((flag & 0x10) !== 0)  // [*] No effect on passage
         continue;
       if ((flag & bit) === 0)   // [o] Passable
@@ -357,13 +315,13 @@ class Game_Map {
   }
 
   tileId(x, y, z) {
-    const width = $dataMap.width;
-    const height = $dataMap.height;
+    let width = $dataMap.width;
+    let height = $dataMap.height;
     return $dataMap.data[(z * height + y) * width + x] || 0;
   }
 
   layeredTiles(x, y) {
-    const tiles = [];
+    let tiles = [];
     for (let i = 0; i < 4; i++) {
       tiles.push(this.tileId(x, y, 3 - i));
     }
@@ -371,58 +329,71 @@ class Game_Map {
   }
 
   allTiles(x, y) {
-    const tiles = this.tileEventsXy(x, y).map(event => event.tileId());
-    return tiles.concat(this.layeredTiles(x, y));
+    return this.layeredTiles(x, y);
   }
 
+  /**
+   * @param x {number}
+   * @param y {number}
+   * @param z {number}
+   * @return {number}
+   */
   autotileType(x, y, z) {
-    const tileId = this.tileId(x, y, z);
+    let tileId = this.tileId(x, y, z);
     return tileId >= 2048 ? Math.floor((tileId - 2048) / 48) : -1;
   }
 
+  /**
+   * @param x {number}
+   * @param y {number}
+   * @param d {number}
+   * @return {Boolean}
+   */
   isPassable(x, y, d) {
     return this.checkPassage(x, y, (1 << (d / 2 - 1)) & 0x0f);
   }
 
-  isBoatPassable(x, y) {
-    return this.checkPassage(x, y, 0x0200);
-  }
-
-  isShipPassable(x, y) {
-    return this.checkPassage(x, y, 0x0400);
-  }
-
-  isAirshipLandOk(x, y) {
-    return this.checkPassage(x, y, 0x0800) && this.checkPassage(x, y, 0x0f);
-  }
-
-  checkLayeredTilesFlags(x, y, bit) {
-    const flags = this.tilesetFlags();
-    return this.layeredTiles(x, y).some(tileId => (flags[tileId] & bit) !== 0);
+  /**
+   * @private
+   * @param x {number}
+   * @param y {number}
+   * @param bit {number}
+   * @return {boolean|*}
+   */
+  checkLayeredTilesFlags_(x, y, bit) {
+    let flags = this.tilesetFlags();
+    return this.layeredTiles(x, y).some(function (tileId) {
+      return (flags[tileId] & bit) !== 0;
+    });
   }
 
   isLadder(x, y) {
-    return this.isValid(x, y) && this.checkLayeredTilesFlags(x, y, 0x20);
+    return this.isValid(x, y) && this.checkLayeredTilesFlags_(x, y, 0x20);
   }
 
   isBush(x, y) {
-    return this.isValid(x, y) && this.checkLayeredTilesFlags(x, y, 0x40);
+    return this.isValid(x, y) && this.checkLayeredTilesFlags_(x, y, 0x40);
   }
 
   isCounter(x, y) {
-    return this.isValid(x, y) && this.checkLayeredTilesFlags(x, y, 0x80);
+    return this.isValid(x, y) && this.checkLayeredTilesFlags_(x, y, 0x80);
   }
 
   isDamageFloor(x, y) {
-    return this.isValid(x, y) && this.checkLayeredTilesFlags(x, y, 0x100);
+    return this.isValid(x, y) && this.checkLayeredTilesFlags_(x, y, 0x100);
   }
 
+  /**
+   * @param x {number}
+   * @param y {number}
+   * @return {*}
+   */
   terrainTag(x, y) {
     if (this.isValid(x, y)) {
-      const flags = this.tilesetFlags();
-      const tiles = this.layeredTiles(x, y);
+      let flags = this.tilesetFlags();
+      let tiles = this.layeredTiles(x, y);
       for (let i = 0; i < tiles.length; i++) {
-        const tag = flags[tiles[i]] >> 12;
+        let tag = flags[tiles[i]] >> 12;
         if (tag > 0) {
           return tag;
         }
@@ -435,27 +406,42 @@ class Game_Map {
     return this.isValid(x, y) ? this.tileId(x, y, 5) : 0;
   }
 
+  /**
+   * @param direction {number}
+   * @param distance {number}
+   * @param speed {number}
+   */
   startScroll(direction, distance, speed) {
     this._scrollDirection = direction;
     this._scrollRest = distance;
     this._scrollSpeed = speed;
   }
 
+  /**
+   * @return {boolean}
+   */
   isScrolling() {
     return this._scrollRest > 0;
   }
 
+  /**
+   * @param sceneActive {boolean}
+   */
   update(sceneActive) {
+    //this.refreshIfNeeded();
     if (sceneActive) {
+      //this.updateInterpreter();
     }
     this.updateScroll();
     this.updateParallax();
+    //this.updateEvents();
   }
 
+  /** @private */
   updateScroll() {
     if (this.isScrolling()) {
-      const lastX = this._displayX;
-      const lastY = this._displayY;
+      let lastX = this._displayX;
+      let lastY = this._displayY;
       this.doScroll(this._scrollDirection, this.scrollDistance());
       if (this._displayX === lastX && this._displayY === lastY) {
         this._scrollRest = 0;
@@ -466,7 +452,7 @@ class Game_Map {
   }
 
   scrollDistance() {
-    return 2 ** this._scrollSpeed / 256;
+    return Math.pow(2, this._scrollSpeed) / 256;
   }
 
   doScroll(direction, distance) {
@@ -486,6 +472,7 @@ class Game_Map {
     }
   }
 
+  /** @private */
   updateParallax() {
     if (this._parallaxLoopX) {
       this._parallaxX += this._parallaxSx / this.tileWidth() / 2;
@@ -495,11 +482,21 @@ class Game_Map {
     }
   }
 
+  /**
+   * @param tilesetId {number}
+   */
   changeTileset(tilesetId) {
     this._tilesetId = tilesetId;
     this.refresh();
   }
 
+  /**
+   * @param name {string}
+   * @param loopX {number}
+   * @param loopY {number}
+   * @param sx {number}
+   * @param sy {number}
+   */
   changeParallax(name, loopX, loopY, sx, sy) {
     this._parallaxName = name;
     this._parallaxZero = ImageManager.isZeroParallax(this._parallaxName);
@@ -514,4 +511,5 @@ class Game_Map {
     this._parallaxSx = sx;
     this._parallaxSy = sy;
   }
+
 }

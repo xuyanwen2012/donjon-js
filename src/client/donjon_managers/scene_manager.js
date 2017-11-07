@@ -1,22 +1,28 @@
-//-----------------------------------------------------------------------------
-// SceneManager
-//
-// The static class that manages scene transitions.
-
+/**
+ * a static class replacing RMMV SceneManager
+ * @static {SceneManager}
+ */
 class SceneManager {
 
+  /**
+   * @constructor
+   */
   constructor() {
     throw new Error('This is a static class');
   }
 
   /**
-   * Gets the current time in ms without on iOS Safari.
-   * @private
+   * Gets the current time in ms.
+   * @return {number|*}
    */
-  static _getTimeInMsWithoutMobileSafari() {
+  static getTimeInMs() {
     return performance.now();
   }
 
+  /**
+   *
+   * @param sceneClass {SceneBase}
+   */
   static run(sceneClass) {
     try {
       this.initialize();
@@ -25,7 +31,34 @@ class SceneManager {
     } catch (e) {
       this.catchException(e);
     }
+
+    //Yep Core
+    if (Utils.isMobileDevice() ||
+      Utils.isMobileSafari() ||
+      Utils.isAndroidChrome())
+      return;
+    let resizeWidth = Graphics.boxWidth - window.innerWidth;
+    let resizeHeight = Graphics.boxHeight - window.innerHeight;
+    // debug console
+    this._openConsole();
+    //resize
+    window.moveBy(-1 * resizeWidth / 2, -1 * resizeHeight / 2);
+    window.resizeBy(resizeWidth, resizeHeight);
   }
+
+  static _openConsole() {
+    if (Utils.isNwjs() && Utils.isOptionValid('test')) {
+      let _debugWindow = require('nw.gui').Window.get().showDevTools();
+      _debugWindow.moveTo(0, 0);
+      window.focus();
+    }
+  };
+
+  static debug() {
+    console.log(SceneManager._currentTime);
+    console.log(this._currentTime);
+  }
+
 
   static initialize() {
     this.initGraphics();
@@ -33,11 +66,12 @@ class SceneManager {
     this.initAudio();
     this.initInput();
     this.initNwjs();
+    this.checkPluginErrors();
     this.setupErrorHandlers();
   }
 
   static initGraphics() {
-    const type = this.preferableRendererType();
+    let type = this.preferableRendererType();
     Graphics.initialize(this._screenWidth, this._screenHeight, type);
     Graphics.boxWidth = this._boxWidth;
     Graphics.boxHeight = this._boxHeight;
@@ -77,7 +111,7 @@ class SceneManager {
   }
 
   static initAudio() {
-    const noAudio = Utils.isOptionValid('noaudio');
+    let noAudio = Utils.isOptionValid('noaudio');
     if (!WebAudio.initialize(noAudio) && !noAudio) {
       throw new Error('Your browser does not support Web Audio API.');
     }
@@ -90,15 +124,19 @@ class SceneManager {
 
   static initNwjs() {
     if (Utils.isNwjs()) {
-      const gui = require('nw.gui');
-      const win = gui.Window.get();
+      let gui = require('nw.gui');
+      let win = gui.Window.get();
       if (process.platform === 'darwin' && !win.menu) {
-        const menubar = new gui.Menu({type: 'menubar'});
-        const option = {hideEdit: true, hideWindow: true};
+        let menubar = new gui.Menu({type: 'menubar'});
+        let option = {hideEdit: true, hideWindow: true};
         menubar.createMacBuiltin('Game', option);
         win.menu = menubar;
       }
     }
+  }
+
+  static checkPluginErrors() {
+    PluginManager.checkErrors();
   }
 
   static setupErrorHandlers() {
@@ -112,6 +150,9 @@ class SceneManager {
     }
   }
 
+  /**
+   *  CHANGED The frame update
+   */
   static update() {
     try {
       this.tickStart();
@@ -120,16 +161,22 @@ class SceneManager {
       }
       this.updateManagers();
       this.updateMain();
+
       this.tickEnd();
     } catch (e) {
       this.catchException(e);
     }
+
+
   }
 
   static terminate() {
     window.close();
   }
 
+  /**
+   * @param e {Error}
+   */
   static onError(e) {
     console.error(e.message);
     console.error(e.filename, e.lineno);
@@ -141,6 +188,9 @@ class SceneManager {
     }
   }
 
+  /**
+   * @param event
+   */
   static onKeyDown(event) {
     if (!event.ctrlKey && !event.altKey) {
       switch (event.keyCode) {
@@ -158,6 +208,10 @@ class SceneManager {
     }
   }
 
+  /**
+   *
+   * @param e{Error}
+   */
   static catchException(e) {
     if (e instanceof Error) {
       Graphics.printError(e.name, e.message);
@@ -182,31 +236,42 @@ class SceneManager {
     TouchInput.update();
   }
 
+  /**
+   * TODO: Make unity still update
+   */
   static updateMain() {
     if (Utils.isMobileSafari()) {
       this.changeScene();
       this.updateScene();
     } else {
-      const newTime = this._getTimeInMsWithoutMobileSafari();
+      let newTime = this.getTimeInMs();
       let fTime = (newTime - this._currentTime) / 1000;
       if (fTime > 0.25) fTime = 0.25;
       this._currentTime = newTime;
       this._accumulator += fTime;
+
       while (this._accumulator >= this._deltaTime) {
         this.updateInputData();
         this.changeScene();
         this.updateScene();
         this._accumulator -= this._deltaTime;
       }
+
+      this.renderScene();
+      //this.renderGizmo;
+      //this.renderGUI();
+      this.requestUpdate();
     }
-    this.renderScene();
-    this.requestUpdate();
   }
 
   static updateManagers() {
     ImageManager.update();
   }
 
+  /**
+   * @static
+   * check if can change scene, create the new scene
+   */
   static changeScene() {
     if (this.isSceneChanging() && !this.isCurrentSceneBusy()) {
       if (this._scene) {
@@ -228,6 +293,10 @@ class SceneManager {
     }
   }
 
+  /**
+   * start the scene if not, else update it.
+   * @static
+   */
   static updateScene() {
     if (this._scene) {
       if (!this._sceneStarted && this._scene.isReady()) {
@@ -273,14 +342,27 @@ class SceneManager {
     return this._scene && this._sceneStarted;
   }
 
+  /**
+   *
+   * @param sceneClass {SceneBase}
+   * @return {SceneBase|boolean}
+   */
   static isNextScene(sceneClass) {
     return this._nextScene && this._nextScene.constructor === sceneClass;
   }
 
+  /**
+   *
+   * @param sceneClass
+   * @return {boolean}
+   */
   static isPreviousScene(sceneClass) {
     return this._previousClass === sceneClass;
   }
 
+  /**
+   * @param sceneClass {SceneBase}
+   */
   static goto(sceneClass) {
     if (sceneClass) {
       this._nextScene = new sceneClass();
@@ -290,6 +372,10 @@ class SceneManager {
     }
   }
 
+  /**
+   *
+   * @param sceneClass {SceneBase}
+   */
   static push(sceneClass) {
     this._stack.push(this._scene.constructor);
     this.goto(sceneClass);
@@ -317,9 +403,13 @@ class SceneManager {
   }
 
   static prepareNextScene() {
-    this._nextScene.prepare(...arguments);
+    this._nextScene.prepare.apply(this._nextScene, arguments);
   }
 
+  /**
+   *
+   * @return {Bitmap}
+   */
   static snap() {
     return Bitmap.snap(this._scene);
   }
@@ -337,24 +427,42 @@ class SceneManager {
     this._stopped = false;
     this.requestUpdate();
     if (!Utils.isMobileSafari()) {
-      this._currentTime = this._getTimeInMsWithoutMobileSafari();
+      this._currentTime = this.getTimeInMs();
       this._accumulator = 0;
     }
   }
+
 }
 
+
+/**
+ * @type {SceneBase}
+ * @private
+ */
 SceneManager._scene = null;
+/**
+ * @type {SceneBase}
+ * @private
+ */
 SceneManager._nextScene = null;
+/**
+ * @type {Array<SceneBase>}
+ * @private
+ */
 SceneManager._stack = [];
 SceneManager._stopped = false;
 SceneManager._sceneStarted = false;
 SceneManager._exiting = false;
 SceneManager._previousClass = null;
+/**
+ * @type {Bitmap}
+ * @private
+ */
 SceneManager._backgroundBitmap = null;
-SceneManager._screenWidth = 816;
-SceneManager._screenHeight = 624;
-SceneManager._boxWidth = 816;
-SceneManager._boxHeight = 624;
+SceneManager._screenWidth = 1280;
+SceneManager._screenHeight = 720;
+SceneManager._boxWidth = 1280;
+SceneManager._boxHeight = 720;
 SceneManager._deltaTime = 1.0 / 60.0;
-if (!Utils.isMobileSafari()) SceneManager._currentTime = SceneManager._getTimeInMsWithoutMobileSafari();
+SceneManager._currentTime = SceneManager.getTimeInMs();
 SceneManager._accumulator = 0.0;

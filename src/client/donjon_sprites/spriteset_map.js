@@ -1,21 +1,23 @@
-//-----------------------------------------------------------------------------
-// Spriteset_Map
-//
-// The set of sprites on the map screen.
-
-class Spriteset_Map extends Spriteset_Base {
-
-  constructor() {
-    super();
-  }
-
+/**
+ * @extends SpritesetBase
+ */
+class SpritesetMap extends SpritesetBase {
+  /**
+   * @override
+   * @protected
+   */
   createLowerLayer() {
     super.createLowerLayer();
     this.createParallax();
     this.createTilemap();
+    //this.createCharacters();
     this.createWeather();
   }
 
+  /**
+   * @override
+   * @protected
+   */
   update() {
     super.update();
     this.updateTileset();
@@ -24,13 +26,17 @@ class Spriteset_Map extends Spriteset_Base {
     this.updateWeather();
   }
 
+  /** @private */
   createParallax() {
-    this._parallax = new TilingSprite();
-    this._parallax.move(0, 0, Graphics.width, Graphics.height);
-    this._baseSprite.addChild(this._parallax);
+    this.parallax = new TilingSprite();
+    this.parallax.move(0, 0, Graphics.width, Graphics.height);
+    this._baseSprite.addChild(this.parallax);
   }
 
+  /** @private */
   createTilemap() {
+    /** @protected @type {ShaderTilemap|Tilemap} */
+    this._tilemap = null;
     if (Graphics.isWebGL()) {
       this._tilemap = new ShaderTilemap();
     } else {
@@ -38,21 +44,26 @@ class Spriteset_Map extends Spriteset_Base {
     }
     this._tilemap.tileWidth = $gameMap.tileWidth();
     this._tilemap.tileHeight = $gameMap.tileHeight();
+    //ignore the warning
     this._tilemap.setData($gameMap.width(), $gameMap.height(), $gameMap.data());
-    this._tilemap.horizontalWrap = $gameMap.isLoopHorizontal();
-    this._tilemap.verticalWrap = $gameMap.isLoopVertical();
+    this._tilemap.horizontalWrap = false;
+    this._tilemap.verticalWrap = false;
     this.loadTileset();
     this._baseSprite.addChild(this._tilemap);
   }
 
+  /**
+   *
+   */
   loadTileset() {
-    this._tileset = $gameMap.tileset();
-    if (this._tileset) {
-      const tilesetNames = this._tileset.tilesetNames;
+    /** @protected @type {{tilesetNames}} */
+    this.tileset = $gameMap.tileset();
+    if (this.tileset) {
+      let tilesetNames = this.tileset.tilesetNames;
       for (let i = 0; i < tilesetNames.length; i++) {
         this._tilemap.bitmaps[i] = ImageManager.loadTileset(tilesetNames[i]);
       }
-      const newTilesetFlags = $gameMap.tilesetFlags();
+      let newTilesetFlags = $gameMap.tilesetFlags();
       this._tilemap.refreshTileset();
       if (!this._tilemap.flags.equals(newTilesetFlags)) {
         this._tilemap.refresh();
@@ -61,13 +72,16 @@ class Spriteset_Map extends Spriteset_Base {
     }
   }
 
+
+  /** @private */
   createWeather() {
     this._weather = new Weather();
     this.addChild(this._weather);
   }
 
+  /** @private */
   updateTileset() {
-    if (this._tileset !== $gameMap.tileset()) {
+    if (this.tileset !== $gameMap.tileset()) {
       this.loadTileset();
     }
   }
@@ -75,36 +89,40 @@ class Spriteset_Map extends Spriteset_Base {
   /*
    * Simple fix for canvas parallax issue, destroy old parallax and readd to  the tree.
    */
-  _canvasReAddParallax() {
-    const index = this._baseSprite.children.indexOf(this._parallax);
-    this._baseSprite.removeChild(this._parallax);
-    this._parallax = new TilingSprite();
-    this._parallax.move(0, 0, Graphics.width, Graphics.height);
-    this._parallax.bitmap = ImageManager.loadParallax(this._parallaxName);
-    this._baseSprite.addChildAt(this._parallax, index);
+  /** @private */
+  canvasReAddParallax() {
+    let index = this._baseSprite.children.indexOf(this.parallax);
+    this._baseSprite.removeChild(this.parallax);
+    this.parallax = new TilingSprite();
+    this.parallax.move(0, 0, Graphics.width, Graphics.height);
+    this.parallax.bitmap = ImageManager.loadParallax(this.parallaxName);
+    this._baseSprite.addChildAt(this.parallax, index);
   }
 
+  /** @private */
   updateParallax() {
-    if (this._parallaxName !== $gameMap.parallaxName()) {
-      this._parallaxName = $gameMap.parallaxName();
+    if (this.parallaxName !== $gameMap.parallaxName()) {
+      this.parallaxName = $gameMap.parallaxName();
 
-      if (this._parallax.bitmap && Graphics.isWebGL() !== true) {
-        this._canvasReAddParallax();
+      if (this.parallax.bitmap && Graphics.isWebGL() !== true) {
+        this.canvasReAddParallax();
       } else {
-        this._parallax.bitmap = ImageManager.loadParallax(this._parallaxName);
+        this.parallax.bitmap = ImageManager.loadParallax(this.parallaxName);
       }
     }
-    if (this._parallax.bitmap) {
-      this._parallax.origin.x = $gameMap.parallaxOx();
-      this._parallax.origin.y = $gameMap.parallaxOy();
+    if (this.parallax.bitmap) {
+      this.parallax.origin.x = $gameMap.parallaxOx();
+      this.parallax.origin.y = $gameMap.parallaxOy();
     }
   }
 
+  /** @private */
   updateTilemap() {
     this._tilemap.origin.x = $gameMap.displayX() * $gameMap.tileWidth();
     this._tilemap.origin.y = $gameMap.displayY() * $gameMap.tileHeight();
   }
 
+  /** @private */
   updateWeather() {
     this._weather.type = $gameScreen.weatherType();
     this._weather.power = $gameScreen.weatherPower();

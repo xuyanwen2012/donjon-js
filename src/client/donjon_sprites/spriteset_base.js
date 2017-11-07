@@ -1,18 +1,42 @@
-//-----------------------------------------------------------------------------
-// Spriteset_Base
-//
-// The superclass of Spriteset_Map.
+/**
+ * @extends Sprite
+ */
+class SpritesetBase extends Sprite {
 
-class Spriteset_Base extends Sprite {
-
+  /**
+   * @constructor
+   */
   constructor() {
     super();
     this.setFrame(0, 0, Graphics.width, Graphics.height);
+
+    /** @protected @type {[number,number,number,number]} */
     this._tone = [0, 0, 0, 0];
+
+    /** @type {boolean} */
     this.opaque = true;
-    this.createLowerLayer();
+
+    /** @protected @type {Sprite} */
+    this._baseSprite = null;
+
+    /** @protected @type {ScreenSprite} */
+    this._blackScreen = null;
+
+    /** @protected @type {ScreenSprite} */
+    this._flashSprite = null;
+
+    /** @protected @type {ScreenSprite} */
+    this._fadeSprite = null;
+
+    /** @protected @type {ToneFilter} */
+    this._toneFilter = null;
+
+    /** @protected @type {ToneSprite} */
+    this._toneSprite = null;
+
+    this.createLowerLayer(); //Base screen, black screen;
     this.createToneChanger();
-    this.createUpperLayer();
+    this.createUpperLayer(); //Flash, fade, timer...
     this.update();
   }
 
@@ -31,6 +55,7 @@ class Spriteset_Base extends Sprite {
     this.updatePosition();
   }
 
+  /** @protected */
   createBaseSprite() {
     this._baseSprite = new Sprite();
     this._baseSprite.setFrame(0, 0, this.width, this.height);
@@ -40,6 +65,7 @@ class Spriteset_Base extends Sprite {
     this._baseSprite.addChild(this._blackScreen);
   }
 
+  /** @private */
   createToneChanger() {
     if (Graphics.isWebGL()) {
       this.createWebGLToneChanger();
@@ -48,6 +74,9 @@ class Spriteset_Base extends Sprite {
     }
   }
 
+  /**
+   * @private
+   */
   createWebGLToneChanger() {
     const margin = 48;
     const width = Graphics.width + margin * 2;
@@ -57,11 +86,17 @@ class Spriteset_Base extends Sprite {
     this._baseSprite.filterArea = new Rectangle(-margin, -margin, width, height);
   }
 
+  /**
+   * @private
+   */
   createCanvasToneChanger() {
     this._toneSprite = new ToneSprite();
     this.addChild(this._toneSprite);
   }
 
+  /**
+   * @private
+   */
   createScreenSprites() {
     this._flashSprite = new ScreenSprite();
     this._fadeSprite = new ScreenSprite();
@@ -69,6 +104,9 @@ class Spriteset_Base extends Sprite {
     this.addChild(this._fadeSprite);
   }
 
+  /**
+   * @private
+   */
   updateScreenSprites() {
     const color = $gameScreen.flashColor();
     this._flashSprite.setColor(color[0], color[1], color[2]);
@@ -76,6 +114,9 @@ class Spriteset_Base extends Sprite {
     this._fadeSprite.opacity = 255 - $gameScreen.brightness();
   }
 
+  /**
+   * @private
+   */
   updateToneChanger() {
     const tone = $gameScreen.tone();
     if (!this._tone.equals(tone)) {
@@ -88,6 +129,9 @@ class Spriteset_Base extends Sprite {
     }
   }
 
+  /**
+   * @private
+   */
   updateWebGLToneChanger() {
     const tone = this._tone;
     this._toneFilter.reset();
@@ -95,11 +139,17 @@ class Spriteset_Base extends Sprite {
     this._toneFilter.adjustSaturation(-tone[3]);
   }
 
+  /**
+   * @private
+   */
   updateCanvasToneChanger() {
     const tone = this._tone;
     this._toneSprite.setTone(tone[0], tone[1], tone[2], tone[3]);
   }
 
+  /**
+   * @private
+   */
   updatePosition() {
     const screen = $gameScreen;
     const scale = screen.zoomScale();
