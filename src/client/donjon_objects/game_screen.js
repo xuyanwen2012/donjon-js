@@ -29,7 +29,7 @@ class GameScreen {
   }
 
   tone() {
-    return this.tone_;
+    return this._tone;
   }
 
   flashColor() {
@@ -80,7 +80,7 @@ class GameScreen {
   };
 
   clearTone() {
-    this.tone_ = [0, 0, 0, 0];
+    this._tone = [0, 0, 0, 0];
     this._toneTarget = [0, 0, 0, 0];
     this._toneDuration = 0;
   };
@@ -139,7 +139,7 @@ class GameScreen {
     this._toneTarget = tone.clone();
     this._toneDuration = duration;
     if (this._toneDuration === 0) {
-      this.tone_ = this._toneTarget.clone();
+      this._tone = this._toneTarget.clone();
     }
   };
 
@@ -208,7 +208,7 @@ class GameScreen {
     if (this._toneDuration > 0) {
       let d = this._toneDuration;
       for (let i = 0; i < 4; i++) {
-        this.tone_[i] = (this.tone_[i] * (d - 1) + this._toneTarget[i]) / d;
+        this._tone[i] = (this._tone[i] * (d - 1) + this._toneTarget[i]) / d;
       }
       this._toneDuration--;
     }

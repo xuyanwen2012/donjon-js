@@ -9,11 +9,11 @@ class SceneMapBase extends SceneBase {
   constructor() {
     super();
     /** @private @type {SpritesetMap} */
-    this.spriteset_ = null;
+    this._spriteset = null;
     /** @private @type {boolean} */
-    this.mapLoaded_ = false;
+    this._mapLoaded = false;
     /** @private @type {number} */
-    this.waitCount_ = 0;
+    this._waitCount = 0;
 
   }
 
@@ -23,11 +23,11 @@ class SceneMapBase extends SceneBase {
    * @return {boolean}
    */
   isReady() {
-    if (!this.mapLoaded_ && DataManager.isMapLoaded()) {
-      this.onMapLoaded_();
-      this.mapLoaded_ = true;
+    if (!this._mapLoaded && DataManager.isMapLoaded()) {
+      this.onMapLoaded();
+      this._mapLoaded = true;
     }
-    return this.mapLoaded_ && super.isReady();
+    return this._mapLoaded && super.isReady();
   }
 
   /**
@@ -36,23 +36,23 @@ class SceneMapBase extends SceneBase {
    * already-created render components to create sprites.
    * @protected
    */
-  onMapLoaded_() {
-    this.createDisplayObjects_();
+  onMapLoaded() {
+    this.createDisplayObjects();
     //sent out loaded event
     // EventsManager.queueEvent(
-    //   new Evnt_SpritesetMapCreated(performance.now(), this.spriteset_));
+    //   new Evnt_SpritesetMapCreated(performance.now(), this._spriteset));
   }
 
   /** @private */
-  createDisplayObjects_() {
-    this.createSpriteset_();
+  createDisplayObjects() {
+    this.createSpriteset();
     //other display objects
   }
 
   /** @private */
-  createSpriteset_() {
-    this.spriteset_ = new SpritesetMap();
-    this.addChild(this.spriteset_);
+  createSpriteset() {
+    this._spriteset = new SpritesetMap();
+    this.addChild(this._spriteset);
   }
 
   /**
@@ -75,7 +75,7 @@ class SceneMapBase extends SceneBase {
    * @override
    */
   update() {
-    this.updateWaitCount_();
+    this.updateWaitCount();
     super.update();
   }
 
@@ -84,16 +84,16 @@ class SceneMapBase extends SceneBase {
    * @return {boolean}
    */
   isBusy() {
-    return this.waitCount_ > 0 || super.isBusy();
+    return this._waitCount > 0 || super.isBusy();
   }
 
   /**
    * @return {boolean}
    * @protected
    */
-  updateWaitCount_() {
-    if (this.waitCount_ > 0) {
-      this.waitCount_--;
+  updateWaitCount() {
+    if (this._waitCount > 0) {
+      this._waitCount--;
       return true;
     }
     return false;
@@ -104,11 +104,8 @@ class SceneMapBase extends SceneBase {
    */
   terminate() {
     super.terminate();
-    //if (SceneManager.isNextScene(Scene_Map)) {
     ImageManager.clearRequest();
-    //}
     $gameScreen.clearZoom();
-    //this.removeChild(this._mapNameWindow);
-    this.removeChild(this.spriteset_);
+    this.removeChild(this._spriteset);
   }
 }

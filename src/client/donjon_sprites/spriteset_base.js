@@ -10,46 +10,42 @@ class SpritesetBase extends Sprite {
     super();
     this.setFrame(0, 0, Graphics.width, Graphics.height);
 
-    /** @protected @type {Array<Sprite>} */
-    this.spriteToAddBuffer_ = [];
-
     /** @protected @type {[number,number,number,number]} */
-    this.tone_ = [0, 0, 0, 0];
+    this._tone = [0, 0, 0, 0];
 
     /** @type {boolean} */
     this.opaque = true;
 
     /** @protected @type {Sprite} */
-    this.baseSprite_ = null;
+    this._baseSprite = null;
 
     /** @protected @type {ScreenSprite} */
-    this.blackScreen_ = null;
+    this._blackScreen = null;
 
     /** @protected @type {ScreenSprite} */
-    this.flashSprite_ = null;
+    this._flashSprite = null;
 
     /** @protected @type {ScreenSprite} */
-    this.fadeSprite_ = null;
+    this._fadeSprite = null;
 
     /** @protected @type {ToneFilter} */
-    this.toneFilter_ = null;
+    this._toneFilter = null;
 
     /** @protected @type {ToneSprite} */
-    this.toneSprite_ = null;
+    this._toneSprite = null;
 
-    this.createLowerLayer_(); //Base screen, black screen;
-    this.createToneChanger_();
-    this.createUpperLayer_(); //Flash, fade, timer...
+    this.createLowerLayer(); //Base screen, black screen;
+    this.createToneChanger();
+    this.createUpperLayer(); //Flash, fade, timer...
     this.update();
   }
 
-  createLowerLayer_() {
-    this.createBaseSprite_();
+  createLowerLayer() {
+    this.createBaseSprite();
   }
 
-  createUpperLayer_() {
-    //this.createTimer();
-    this.createScreenSprites_();
+  createUpperLayer() {
+    this.createScreenSprites();
   }
 
   update() {
@@ -60,85 +56,100 @@ class SpritesetBase extends Sprite {
   }
 
   /** @protected */
-  createBaseSprite_() {
-    this.baseSprite_ = new Sprite();
-    this.baseSprite_.setFrame(0, 0, this.width, this.height);
-    this.blackScreen_ = new ScreenSprite();
-    this.blackScreen_.opacity = 255;
-    this.addChild(this.baseSprite_);
-    this.baseSprite_.addChild(this.blackScreen_);
+  createBaseSprite() {
+    this._baseSprite = new Sprite();
+    this._baseSprite.setFrame(0, 0, this.width, this.height);
+    this._blackScreen = new ScreenSprite();
+    this._blackScreen.opacity = 255;
+    this.addChild(this._baseSprite);
+    this._baseSprite.addChild(this._blackScreen);
   }
 
   /** @private */
-  createToneChanger_() {
+  createToneChanger() {
     if (Graphics.isWebGL()) {
-      this.createWebGLToneChanger_();
+      this.createWebGLToneChanger();
     } else {
-      this.createCanvasToneChanger_();
+      this.createCanvasToneChanger();
     }
   }
 
   /**
    * @private
    */
-  createWebGLToneChanger_() {
+  createWebGLToneChanger() {
     const margin = 48;
     const width = Graphics.width + margin * 2;
     const height = Graphics.height + margin * 2;
-    this.toneFilter_ = new ToneFilter();
-    this.baseSprite_.filters = [this.toneFilter_];
-    this.baseSprite_.filterArea = new Rectangle(-margin, -margin, width, height);
+    this._toneFilter = new ToneFilter();
+    this._baseSprite.filters = [this._toneFilter];
+    this._baseSprite.filterArea = new Rectangle(-margin, -margin, width, height);
   }
 
   /**
    * @private
    */
-  createCanvasToneChanger_() {
-    this.toneSprite_ = new ToneSprite();
-    this.addChild(this.toneSprite_);
+  createCanvasToneChanger() {
+    this._toneSprite = new ToneSprite();
+    this.addChild(this._toneSprite);
   }
 
   /**
    * @private
    */
-  createScreenSprites_() {
-    this.flashSprite_ = new ScreenSprite();
-    this.fadeSprite_ = new ScreenSprite();
-    this.addChild(this.flashSprite_);
-    this.addChild(this.fadeSprite_);
+  createScreenSprites() {
+    this._flashSprite = new ScreenSprite();
+    this._fadeSprite = new ScreenSprite();
+    this.addChild(this._flashSprite);
+    this.addChild(this._fadeSprite);
   }
 
+  /**
+   * @private
+   */
   updateScreenSprites() {
     const color = $gameScreen.flashColor();
-    this.flashSprite_.setColor(color[0], color[1], color[2]);
-    this.flashSprite_.opacity = color[3];
-    this.fadeSprite_.opacity = 255 - $gameScreen.brightness();
+    this._flashSprite.setColor(color[0], color[1], color[2]);
+    this._flashSprite.opacity = color[3];
+    this._fadeSprite.opacity = 255 - $gameScreen.brightness();
   }
 
+  /**
+   * @private
+   */
   updateToneChanger() {
     const tone = $gameScreen.tone();
-    if (!this.tone_.equals(tone)) {
-      this.tone_ = tone.clone();
+    if (!this._tone.equals(tone)) {
+      this._tone = tone.clone();
       if (Graphics.isWebGL()) {
-        this.updateWebGLToneChanger_();
+        this.updateWebGLToneChanger();
       } else {
-        this.updateCanvasToneChanger_();
+        this.updateCanvasToneChanger();
       }
     }
   }
 
-  updateWebGLToneChanger_() {
-    const tone = this.tone_;
-    this.toneFilter_.reset();
-    this.toneFilter_.adjustTone(tone[0], tone[1], tone[2]);
-    this.toneFilter_.adjustSaturation(-tone[3]);
+  /**
+   * @private
+   */
+  updateWebGLToneChanger() {
+    const tone = this._tone;
+    this._toneFilter.reset();
+    this._toneFilter.adjustTone(tone[0], tone[1], tone[2]);
+    this._toneFilter.adjustSaturation(-tone[3]);
   }
 
-  updateCanvasToneChanger_() {
-    const tone = this.tone_;
-    this.toneSprite_.setTone(tone[0], tone[1], tone[2], tone[3]);
+  /**
+   * @private
+   */
+  updateCanvasToneChanger() {
+    const tone = this._tone;
+    this._toneSprite.setTone(tone[0], tone[1], tone[2], tone[3]);
   }
 
+  /**
+   * @private
+   */
   updatePosition() {
     const screen = $gameScreen;
     const scale = screen.zoomScale();

@@ -28,10 +28,10 @@ class SceneMap extends SceneMapBase {
    * @protected
    * @override
    */
-  onMapLoaded_() {
+  onMapLoaded() {
     //$gamePlayer.performTransfer();
     $gameMap.setup(this._newMapId); //setup map data before construct objects
-    super.onMapLoaded_();
+    super.onMapLoaded();
   }
 
   // start() {
@@ -42,7 +42,7 @@ class SceneMap extends SceneMapBase {
    * called constantly
    */
   update() {
-    this.updateMain_();
+    this.updateMain();
     super.update();
   }
 
@@ -50,11 +50,11 @@ class SceneMap extends SceneMapBase {
    * @return {boolean}
    * @private
    */
-  isSceneChangeOk_() {
+  isSceneChangeOk() {
     return this.isActive();
   }
 
-  updateScene_() {
+  updateScene() {
     // this.checkGameover();
     // if (!SceneManager.isSceneChanging()) {
     //   this.updateTransferPlayer();
@@ -73,7 +73,7 @@ class SceneMap extends SceneMapBase {
   /**
    * @private
    */
-  updateMain_() {
+  updateMain() {
     const active = this.isActive();
     $gameMap.update(active);
     //$gamePlayer.update(active);

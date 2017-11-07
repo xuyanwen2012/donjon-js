@@ -6,52 +6,49 @@ class GameMap {
 
   constructor() {
     /** @private @type {number} */
-    this.mapId_ = 0;
+    this._mapId = 0;
 
     /** @private @type {number} */
-    this.tilesetId_ = 0;
+    this._tilesetId = 0;
 
     /** @private @type {number} */
-    this.displayX_ = 0;
+    this._displayX = 0;
 
     /** @private @type {number} */
-    this.displayY_ = 0;
-
-    /** @private @type {boolean} */
-    this.nameDisplay_ = true;
+    this._displayY = 0;
 
     /** @private @type {number} */
-    this.scrollDirection_ = 2;
+    this._scrollDirection = 2;
 
     /** @private @type {number} */
-    this.scrollRest_ = 0;
+    this._scrollRest = 0;
 
     /** @private @type {number} */
-    this.scrollSpeed_ = 4;
+    this._scrollSpeed = 4;
 
     /** @private @type {String} */
-    this.parallaxName_ = '';
+    this._parallaxName = '';
 
     /** @private @type {boolean} */
-    this.parallaxZero_ = false;
+    this._parallaxZero = false;
 
     /** @private @type {boolean} */
-    this.parallaxLoopX_ = false;
+    this._parallaxLoopX = false;
 
     /** @private @type {boolean} */
-    this.parallaxLoopY_ = false;
+    this._parallaxLoopY = false;
 
     /** @private @type {number} */
-    this.parallaxSx_ = 0;
+    this._parallaxSx = 0;
 
     /** @private @type {number} */
-    this.parallaxSy_ = 0;
+    this._parallaxSy = 0;
 
     /** @private @type {number} */
-    this.parallaxX_ = 0;
+    this._parallaxX = 0;
 
     /** @private @type {number} */
-    this.parallaxY_ = 0;
+    this._parallaxY = 0;
   }
 
   /**
@@ -61,14 +58,14 @@ class GameMap {
     if (!$dataMap) {
       throw new Error('The map data is not available');
     }
-    this.mapId_ = mapId;
-    this.tilesetId_ = $dataMap.tilesetId;
+    this._mapId = mapId;
+    this._tilesetId = $dataMap.tilesetId;
 
-    this.displayX_ = 0;
-    this.displayY_ = 0;
+    this._displayX = 0;
+    this._displayY = 0;
     //this._setupEvents();
-    this.setupScroll_();
-    this.setupParallax_();
+    this.setupScroll();
+    this.setupParallax();
     this._needsRefresh = false;
   }
 
@@ -84,22 +81,22 @@ class GameMap {
 
   /** @return {number} */
   mapId() {
-    return this.mapId_
+    return this._mapId
   }
 
   /** @return {number} */
   displayX() {
-    return this.displayX_
+    return this._displayX
   }
 
   /** @return {number} */
   displayY() {
-    return this.displayY_
+    return this._displayY
   }
 
   /** @return {String} */
   parallaxName() {
-    return this.parallaxName_
+    return this._parallaxName
   }
 
   /** @param mapId {number} */
@@ -107,36 +104,23 @@ class GameMap {
     this._needsRefresh = true
   }
 
-  /** @return {boolean} */
-  isNameDisplayEnabled() {
-    return this.nameDisplay_
-  }
-
-  disableNameDisplay() {
-    this.nameDisplay_ = false
-  }
-
-  enableNameDisplay() {
-    this.nameDisplay_ = true
+  /** @private */
+  setupScroll() {
+    this._scrollDirection = 2;
+    this._scrollRest = 0;
+    this._scrollSpeed = 4;
   }
 
   /** @private */
-  setupScroll_() {
-    this.scrollDirection_ = 2;
-    this.scrollRest_ = 0;
-    this.scrollSpeed_ = 4;
-  }
-
-  /** @private */
-  setupParallax_() {
-    this.parallaxName_ = $dataMap.parallaxName || '';
-    this.parallaxZero_ = ImageManager.isZeroParallax(this.parallaxName_);
-    this.parallaxLoopX_ = $dataMap.parallaxLoopX;
-    this.parallaxLoopY_ = $dataMap.parallaxLoopY;
-    this.parallaxSx_ = $dataMap.parallaxSx;
-    this.parallaxSy_ = $dataMap.parallaxSy;
-    this.parallaxX_ = 0;
-    this.parallaxY_ = 0;
+  setupParallax() {
+    this._parallaxName = $dataMap._parallaxName || '';
+    this._parallaxZero = ImageManager.isZeroParallax(this._parallaxName);
+    this._parallaxLoopX = $dataMap.parallaxLoopX;
+    this._parallaxLoopY = $dataMap.parallaxLoopY;
+    this._parallaxSx = $dataMap.parallaxSx;
+    this._parallaxSy = $dataMap.parallaxSy;
+    this._parallaxX = 0;
+    this._parallaxY = 0;
   }
 
   /**
@@ -145,20 +129,20 @@ class GameMap {
    */
   setDisplayPos(x, y) {
     let endX = this.width() - this.screenTileX();
-    this.displayX_ = endX < 0 ? endX / 2 : x.clamp(0, endX);
-    this.parallaxX_ = this.displayX_;
+    this._displayX = endX < 0 ? endX / 2 : x.clamp(0, endX);
+    this._parallaxX = this._displayX;
 
     let endY = this.height() - this.screenTileY();
-    this.displayY_ = endY < 0 ? endY / 2 : y.clamp(0, endY);
-    this.parallaxY_ = this.displayY_;
+    this._displayY = endY < 0 ? endY / 2 : y.clamp(0, endY);
+    this._parallaxY = this._displayY;
   }
 
   /** @return {number} */
   parallaxOx() {
-    if (this.parallaxZero_) {
-      return this.parallaxX_ * this.tileWidth();
-    } else if (this.parallaxLoopX_) {
-      return this.parallaxX_ * this.tileWidth() / 2;
+    if (this._parallaxZero) {
+      return this._parallaxX * this.tileWidth();
+    } else if (this._parallaxLoopX) {
+      return this._parallaxX * this.tileWidth() / 2;
     } else {
       return 0;
     }
@@ -166,17 +150,17 @@ class GameMap {
 
   /** @return {number} */
   parallaxOy() {
-    if (this.parallaxZero_) {
-      return this.parallaxY_ * this.tileHeight();
-    } else if (this.parallaxLoopY_) {
-      return this.parallaxY_ * this.tileHeight() / 2;
+    if (this._parallaxZero) {
+      return this._parallaxY * this.tileHeight();
+    } else if (this._parallaxLoopY) {
+      return this._parallaxY * this.tileHeight() / 2;
     } else {
       return 0;
     }
   }
 
   tileset() {
-    return $dataTilesets[this.tilesetId_];
+    return $dataTilesets[this._tilesetId];
   }
 
   /** @return {Array} */
@@ -221,12 +205,12 @@ class GameMap {
 
   /** @return {number} */
   adjustX(x) {
-    return x - this.displayX_
+    return x - this._displayX
   }
 
   /** @return {number} */
   adjustY(y) {
-    return y - this.displayY_
+    return y - this._displayY
   }
 
   /** @return {number} */
@@ -257,14 +241,14 @@ class GameMap {
   /** @return {number} */
   canvasToMapX(x) {
     let tileWidth = this.tileWidth();
-    let originX = this.displayX_ * tileWidth;
+    let originX = this._displayX * tileWidth;
     return Math.floor((originX + x) / tileWidth);
   }
 
   /** @return {number} */
   canvasToMapY(y) {
     let tileHeight = this.tileHeight();
-    let originY = this.displayY_ * tileHeight;
+    let originY = this._displayY * tileHeight;
     return Math.floor((originY + y) / tileHeight);
   }
 
@@ -277,50 +261,37 @@ class GameMap {
     }
   }
 
-  refreshIfNeeded() {
-    if (this._needsRefresh) {
-      this.refresh();
-    }
-  }
-
-  refresh() {
-    // this.events().forEach(function (event) {
-    //     event.refresh();
-    // });
-    this._needsRefresh = false;
-  }
-
   scrollDown(distance) {
     if (this.height() >= this.screenTileY()) {
-      let lastY = this.displayY_;
-      this.displayY_ = Math.min(this.displayY_ + distance,
+      let lastY = this._displayY;
+      this._displayY = Math.min(this._displayY + distance,
         this.height() - this.screenTileY());
-      this.parallaxY_ += this.displayY_ - lastY;
+      this._parallaxY += this._displayY - lastY;
     }
   }
 
   scrollLeft(distance) {
     if (this.width() >= this.screenTileX()) {
-      let lastX = this.displayX_;
-      this.displayX_ = Math.max(this.displayX_ - distance, 0);
-      this.parallaxX_ += this.displayX_ - lastX;
+      let lastX = this._displayX;
+      this._displayX = Math.max(this._displayX - distance, 0);
+      this._parallaxX += this._displayX - lastX;
     }
   }
 
   scrollRight(distance) {
     if (this.width() >= this.screenTileX()) {
-      let lastX = this.displayX_;
-      this.displayX_ = Math.min(this.displayX_ + distance,
+      let lastX = this._displayX;
+      this._displayX = Math.min(this._displayX + distance,
         this.width() - this.screenTileX());
-      this.parallaxX_ += this.displayX_ - lastX;
+      this._parallaxX += this._displayX - lastX;
     }
   }
 
   scrollUp(distance) {
     if (this.height() >= this.screenTileY()) {
-      let lastY = this.displayY_;
-      this.displayY_ = Math.max(this.displayY_ - distance, 0);
-      this.parallaxY_ += this.displayY_ - lastY;
+      let lastY = this._displayY;
+      this._displayY = Math.max(this._displayY - distance, 0);
+      this._parallaxY += this._displayY - lastY;
     }
   }
 
@@ -441,47 +412,47 @@ class GameMap {
    * @param speed {number}
    */
   startScroll(direction, distance, speed) {
-    this.scrollDirection_ = direction;
-    this.scrollRest_ = distance;
-    this.scrollSpeed_ = speed;
+    this._scrollDirection = direction;
+    this._scrollRest = distance;
+    this._scrollSpeed = speed;
   }
 
   /**
    * @return {boolean}
    */
   isScrolling() {
-    return this.scrollRest_ > 0;
+    return this._scrollRest > 0;
   }
 
   /**
    * @param sceneActive {boolean}
    */
   update(sceneActive) {
-    this.refreshIfNeeded();
+    //this.refreshIfNeeded();
     if (sceneActive) {
       //this.updateInterpreter();
     }
-    this.updateScroll_();
-    this.updateParallax_();
+    this.updateScroll();
+    this.updateParallax();
     //this.updateEvents();
   }
 
   /** @private */
-  updateScroll_() {
+  updateScroll() {
     if (this.isScrolling()) {
-      let lastX = this.displayX_;
-      let lastY = this.displayY_;
-      this.doScroll(this.scrollDirection_, this.scrollDistance());
-      if (this.displayX_ === lastX && this.displayY_ === lastY) {
-        this.scrollRest_ = 0;
+      let lastX = this._displayX;
+      let lastY = this._displayY;
+      this.doScroll(this._scrollDirection, this.scrollDistance());
+      if (this._displayX === lastX && this._displayY === lastY) {
+        this._scrollRest = 0;
       } else {
-        this.scrollRest_ -= this.scrollDistance();
+        this._scrollRest -= this.scrollDistance();
       }
     }
   }
 
   scrollDistance() {
-    return Math.pow(2, this.scrollSpeed_) / 256;
+    return Math.pow(2, this._scrollSpeed) / 256;
   }
 
   doScroll(direction, distance) {
@@ -502,12 +473,12 @@ class GameMap {
   }
 
   /** @private */
-  updateParallax_() {
-    if (this.parallaxLoopX_) {
-      this.parallaxX_ += this.parallaxSx_ / this.tileWidth() / 2;
+  updateParallax() {
+    if (this._parallaxLoopX) {
+      this._parallaxX += this._parallaxSx / this.tileWidth() / 2;
     }
-    if (this.parallaxLoopY_) {
-      this.parallaxY_ += this.parallaxSy_ / this.tileHeight() / 2;
+    if (this._parallaxLoopY) {
+      this._parallaxY += this._parallaxSy / this.tileHeight() / 2;
     }
   }
 
@@ -515,7 +486,7 @@ class GameMap {
    * @param tilesetId {number}
    */
   changeTileset(tilesetId) {
-    this.tilesetId_ = tilesetId;
+    this._tilesetId = tilesetId;
     this.refresh();
   }
 
@@ -527,18 +498,18 @@ class GameMap {
    * @param sy {number}
    */
   changeParallax(name, loopX, loopY, sx, sy) {
-    this.parallaxName_ = name;
-    this.parallaxZero_ = ImageManager.isZeroParallax(this.parallaxName_);
-    if (this.parallaxLoopX_ && !loopX) {
-      this.parallaxX_ = 0;
+    this._parallaxName = name;
+    this._parallaxZero = ImageManager.isZeroParallax(this._parallaxName);
+    if (this._parallaxLoopX && !loopX) {
+      this._parallaxX = 0;
     }
-    if (this.parallaxLoopY_ && !loopY) {
-      this.parallaxY_ = 0;
+    if (this._parallaxLoopY && !loopY) {
+      this._parallaxY = 0;
     }
-    this.parallaxLoopX_ = loopX;
-    this.parallaxLoopY_ = loopY;
-    this.parallaxSx_ = sx;
-    this.parallaxSy_ = sy;
+    this._parallaxLoopX = loopX;
+    this._parallaxLoopY = loopY;
+    this._parallaxSx = sx;
+    this._parallaxSy = sy;
   }
 
 }

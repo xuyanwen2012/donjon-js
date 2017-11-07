@@ -12,22 +12,19 @@ class SceneBase extends Stage {
   constructor() {
     super();
     /** @private @type {boolean} */
-    this.active_ = false;
+    this._active = false;
 
     /** @private @type {number} */
-    this.fadeSign_ = 0;
+    this._fadeSign = 0;
 
     /** @private @type {number} */
-    this.fadeDuration_ = 0;
+    this._fadeDuration = 0;
 
     /**
      * @type {ScreenSprite} a sprite that is covering all other sprite on screen
      * @private
      */
-    this.fadeSprite_ = null;
-
-    /** @private @type {WindowLayer} */
-    this.windowLayer_ = null;
+    this._fadeSprite = null;
 
     /** @private @type {number} */
     this.imageReservationId_ = Utils.generateRuntimeId();
@@ -52,15 +49,14 @@ class SceneBase extends Stage {
   }
 
   terminate() {
-    this.removeChild(this.fadeSprite_);
-    this.removeChild(this.windowLayer_);
+    this.removeChild(this._fadeSprite);
   }
 
   /**
    * @return {boolean}
    */
   isActive() {
-    return this.active_;
+    return this._active;
   }
 
   /**
@@ -74,7 +70,7 @@ class SceneBase extends Stage {
    *
    */
   start() {
-    this.active_ = true;
+    this._active = true;
   }
 
   /**
@@ -82,38 +78,20 @@ class SceneBase extends Stage {
    */
   update() {
     EventsManager.tick();
-    this.updateFade_();
-    this.updateChildren_();
+    this.updateFade();
+    this.updateChildren();
     AudioManager.checkErrors();
   }
 
   stop() {
-    this.active_ = false;
+    this._active = false;
   }
 
   /**
    * @return {boolean}
    */
   isBusy() {
-    return this.fadeDuration_ > 0;
-  }
-
-  createWindowLayer() {
-    let width = Graphics.boxWidth;
-    let height = Graphics.boxHeight;
-    let x = (Graphics.width - width) / 2;
-    let y = (Graphics.height - height) / 2;
-    this.windowLayer_ = new WindowLayer();
-    this.windowLayer_.move(x, y, width, height);
-    this.addChild(this.windowLayer_);
-  }
-
-  /**
-   *
-   * @param window{Window}
-   */
-  addWindow(window) {
-    this.windowLayer_.addChild(window);
+    return this._fadeDuration > 0;
   }
 
   /**
@@ -121,10 +99,10 @@ class SceneBase extends Stage {
    * @param white {Boolean}
    */
   startFadeIn(duration, white = false) {
-    this.createFadeSprite_(white);
-    this.fadeSign_ = 1;
-    this.fadeDuration_ = duration || 30;
-    this.fadeSprite_.opacity = 255;
+    this.createFadeSprite(white);
+    this._fadeSign = 1;
+    this._fadeDuration = duration || 30;
+    this._fadeSprite.opacity = 255;
   }
 
   /**
@@ -132,38 +110,38 @@ class SceneBase extends Stage {
    * @param white {Boolean}
    */
   startFadeOut(duration, white = false) {
-    this.createFadeSprite_(white);
-    this.fadeSign_ = -1;
-    this.fadeDuration_ = duration || 30;
-    this.fadeSprite_.opacity = 0;
+    this.createFadeSprite(white);
+    this._fadeSign = -1;
+    this._fadeDuration = duration || 30;
+    this._fadeSprite.opacity = 0;
   }
 
   /**
    * @private
    * @param white {Boolean}
    */
-  createFadeSprite_(white) {
-    if (!this.fadeSprite_) {
-      this.fadeSprite_ = new ScreenSprite();
-      this.addChild(this.fadeSprite_);
+  createFadeSprite(white) {
+    if (!this._fadeSprite) {
+      this._fadeSprite = new ScreenSprite();
+      this.addChild(this._fadeSprite);
     }
     if (white) {
-      this.fadeSprite_.setWhite();
+      this._fadeSprite.setWhite();
     } else {
-      this.fadeSprite_.setBlack();
+      this._fadeSprite.setBlack();
     }
   }
 
   /** @private */
-  updateFade_() {
-    if (this.fadeDuration_ > 0) {
-      let d = this.fadeDuration_;
-      if (this.fadeSign_ > 0) {
-        this.fadeSprite_.opacity -= this.fadeSprite_.opacity / d;
+  updateFade() {
+    if (this._fadeDuration > 0) {
+      let d = this._fadeDuration;
+      if (this._fadeSign > 0) {
+        this._fadeSprite.opacity -= this._fadeSprite.opacity / d;
       } else {
-        this.fadeSprite_.opacity += (255 - this.fadeSprite_.opacity) / d;
+        this._fadeSprite.opacity += (255 - this._fadeSprite.opacity) / d;
       }
-      this.fadeDuration_--;
+      this._fadeDuration--;
     }
   }
 
@@ -171,7 +149,7 @@ class SceneBase extends Stage {
    * the children includes {PIXI.DisplayObject}
    * @protected
    */
-  updateChildren_() {
+  updateChildren() {
     for (let i = 0; i < this.children.length; i++) {
       const child = this.children[i];
       if (child.update) {
@@ -182,12 +160,6 @@ class SceneBase extends Stage {
 
   popScene() {
     SceneManager.pop();
-  }
-
-  checkGameover() {
-    // if ($gameParty.isAllDead()) {
-    //     SceneManager.goto(Scene_Gameover);
-    // }
   }
 
   fadeOutAll() {

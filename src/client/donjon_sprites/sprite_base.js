@@ -22,7 +22,7 @@ class SpriteBase extends Sprite {
      * @type {boolean}
      * @private
      */
-    this.hiding_ = false;
+    this._hiding = false;
   }
 
   /**
@@ -30,25 +30,25 @@ class SpriteBase extends Sprite {
    */
   update() {
     super.update();
-    this.updateVisibility_();
+    this.updateVisibility();
     //this._updateAnimationSprites();
   }
 
   hide() {
-    this.hiding_ = true;
-    this.updateVisibility_();
+    this._hiding = true;
+    this.updateVisibility();
   }
 
   show() {
-    this.hiding_ = false;
-    this.updateVisibility_();
+    this._hiding = false;
+    this.updateVisibility();
   }
 
   /**
    * @protected
    */
-  updateVisibility_() {
-    this.visible = !this.hiding_;
+  updateVisibility() {
+    this.visible = !this._hiding;
   }
 
   // _updateAnimationSprites () {
