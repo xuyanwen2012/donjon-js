@@ -2,7 +2,7 @@
  * The scene class for initializing the entire game.
  * @extends {SceneBase}
  */
-class Scene_Boot extends SceneBase {
+class SceneBoot extends SceneBase {
 
   /**
    * @override
