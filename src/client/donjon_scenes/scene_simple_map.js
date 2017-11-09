@@ -30,7 +30,8 @@ class SceneMap extends SceneMapBase {
    */
   onMapLoaded() {
     //$gamePlayer.performTransfer();
-    $gameMap.setup(this._newMapId); //setup map data before construct objects
+    $gameMap.setup(this._newMapId, $dataMap); //setup map data before construct
+    // objects
     super.onMapLoaded();
   }
 

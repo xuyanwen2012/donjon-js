@@ -136,7 +136,7 @@ class DataManager {
     //$gameTemp = new Game_Temp();
     //$gameSystem = new GameSystem();
     $gameScreen = new Donjon.GameScreen();
-    $gameMap = new GameMap();
+    $gameMap = new Donjon.DonjonMap();
   }
 
   static setupNewGame() {
