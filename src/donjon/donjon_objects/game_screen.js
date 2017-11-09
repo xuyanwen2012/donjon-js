@@ -1,8 +1,7 @@
 /**
  * The game object class for screen effect data, such as changes in color tone
  */
-
-class GameScreen {
+export default class GameScreen {
 
   constructor() {
     this.clear();
@@ -17,13 +16,9 @@ class GameScreen {
     this.clearWeather();
   }
 
-  onBattleStart() {
-    this.clearFade();
-    this.clearFlash();
-    this.clearShake();
-    this.clearZoom();
-  }
-
+  /**
+   * @return {number}
+   */
   brightness() {
     return this._brightness;
   }
@@ -60,81 +55,98 @@ class GameScreen {
     return this._weatherPower;
   }
 
-  // picture(pictureId) {
-  //     let realPictureId = this.realPictureId(pictureId);
-  //     return this._pictures[realPictureId];
-  // }
-  //
-  // realPictureId(pictureId) {
-  //     if ($gameParty.inBattle()) {
-  //         return pictureId + this.maxPictures();
-  //     } else {
-  //         return pictureId;
-  //     }
-  // };
-
   clearFade() {
+    /** @private @type {number} */
     this._brightness = 255;
+    /** @private @type {number} */
     this._fadeOutDuration = 0;
+    /** @private @type {number} */
     this._fadeInDuration = 0;
   };
 
   clearTone() {
+    /**
+     * @type {[number,number,number,number]}
+     * @private
+     */
     this._tone = [0, 0, 0, 0];
+    /**
+     * @type {[number,number,number,number]}
+     * @private
+     */
     this._toneTarget = [0, 0, 0, 0];
+
+    /** @private @type {number} */
     this._toneDuration = 0;
   };
 
   clearFlash() {
+    /**
+     * @type {[number,number,number,number]}
+     * @private
+     */
     this._flashColor = [0, 0, 0, 0];
+    /** @private @type {number} */
     this._flashDuration = 0;
   };
 
   clearShake() {
+    /** @private @type {number} */
     this._shakePower = 0;
+    /** @private @type {number} */
     this._shakeSpeed = 0;
+    /** @private @type {number} */
     this._shakeDuration = 0;
+    /** @private @type {number} */
     this._shakeDirection = 1;
+    /** @private @type {number} */
     this._shake = 0;
   };
 
   clearZoom() {
+    /** @private @type {number} */
     this._zoomX = 0;
+    /** @private @type {number} */
     this._zoomY = 0;
+    /** @private @type {number} */
     this._zoomScale = 1;
+    /** @private @type {number} */
     this._zoomScaleTarget = 1;
+    /** @private @type {number} */
     this._zoomDuration = 0;
   };
 
   clearWeather() {
+    /** @private @type {string} */
     this._weatherType = 'none';
+    /** @private @type {number} */
     this._weatherPower = 0;
+    /** @private @type {number} */
     this._weatherPowerTarget = 0;
+    /** @private @type {number} */
     this._weatherDuration = 0;
   };
 
-  // clearPictures() {
-  //     this._pictures = [];
-  // };
-  //
-  // eraseBattlePictures() {
-  //     this._pictures = this._pictures.slice(0, this.maxPictures() + 1);
-  // };
-
-  maxPictures() {
-    return 100;
-  };
-
+  /**
+   * @param duration {number}
+   */
   startFadeOut(duration) {
     this._fadeOutDuration = duration;
     this._fadeInDuration = 0;
   };
 
+  /**
+   * @param duration {number}
+   */
   startFadeIn(duration) {
     this._fadeInDuration = duration;
     this._fadeOutDuration = 0;
   };
 
+  /**
+   * @param tone {[number,number,number,number]}
+   * @param duration {number}
+   */
   startTint(tone, duration) {
     this._toneTarget = tone.clone();
     this._toneDuration = duration;
@@ -143,17 +155,35 @@ class GameScreen {
     }
   };
 
+  /**
+   *
+   * @param color {[number,number,number,number]}
+   * @param duration {number}
+   */
   startFlash(color, duration) {
     this._flashColor = color.clone();
     this._flashDuration = duration;
   };
 
+  /**
+   *
+   * @param power {number}
+   * @param speed {number}
+   * @param duration {number}
+   */
   startShake(power, speed, duration) {
     this._shakePower = power;
     this._shakeSpeed = speed;
     this._shakeDuration = duration;
   };
 
+  /**
+   *
+   * @param x {number}
+   * @param y {number}
+   * @param scale {number}
+   * @param duration {number}
+   */
   startZoom(x, y, scale, duration) {
     this._zoomX = x;
     this._zoomY = y;
@@ -161,12 +191,24 @@ class GameScreen {
     this._zoomDuration = duration;
   };
 
+  /**
+   *
+   * @param x {number}
+   * @param y {number}
+   * @param scale {number}
+   */
   setZoom(x, y, scale) {
     this._zoomX = x;
     this._zoomY = y;
     this._zoomScale = scale;
   };
 
+  /**
+   *
+   * @param type {string}
+   * @param power {number}
+   * @param duration {number}
+   */
   changeWeather(type, power, duration) {
     if (type !== 'none' || duration === 0) {
       this._weatherType = type;
@@ -261,36 +303,8 @@ class GameScreen {
     }
   };
 
-  // updatePictures() {
-  //     this._pictures.forEach(function (picture) {
-  //         if (picture) {
-  //             picture.update();
-  //         }
-  //     });
-  // };
-
   startFlashForDamage() {
     this.startFlash([255, 0, 0, 128], 8);
   };
-
-  // showPicture(pictureId, name, origin, x, y,
-  //             scaleX, scaleY, opacity, blendMode) {
-  //     let realPictureId = this.realPictureId(pictureId);
-  //     let picture = new Game_Picture();
-  //     picture.show(name, origin, x, y, scaleX, scaleY, opacity, blendMode);
-  //     this._pictures[realPictureId] = picture;
-  // };
-  //
-  // movePicture(pictureId, origin, x, y, scaleX,
-  //             scaleY, opacity, blendMode, duration) {
-  //     let picture = this.picture(pictureId);
-  //     if (picture) {
-  //         picture.move(origin, x, y, scaleX, scaleY, opacity, blendMode,
-  // duration); } };  rotatePicture(pictureId, speed) { let picture =
-  // this.picture(pictureId); if (picture) { picture.rotate(speed); } };
-  // tintPicture(pictureId, tone, duration) { let picture =
-  // this.picture(pictureId); if (picture) { picture.tint(tone, duration); } };
-  //  erasePicture(pictureId) { let realPictureId =
-  // this.realPictureId(pictureId); this._pictures[realPictureId] = null; };
 
 }

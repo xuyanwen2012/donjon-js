@@ -30,6 +30,10 @@ class DataManager {
     }
   }
 
+  /**
+   * @param name {string}
+   * @param src {string}
+   */
   static loadDataFile(name, src) {
     let xhr = new XMLHttpRequest();
     let url = 'data/' + src;
@@ -130,14 +134,10 @@ class DataManager {
 
   static createGameObjects() {
     //$gameTemp = new Game_Temp();
-    $gameSystem = new GameSystem();
-    $gameScreen = new GameScreen();
-    /**
-     * @type {GameMap}
-     */
-    $gameMap = new GamePhysicsMap();
+    //$gameSystem = new GameSystem();
+    $gameScreen = new Donjon.GameScreen();
+    $gameMap = new GameMap();
   }
-
 
   static setupNewGame() {
     this.createGameObjects();
@@ -148,222 +148,8 @@ class DataManager {
     Graphics.frameCount = 0;
   }
 
-  //
-  // static loadGlobalInfo() {
-  //   let json;
-  //   try {
-  //     json = StorageManager.load(0);
-  //   } catch (e) {
-  //     console.error(e);
-  //     return [];
-  //   }
-  //   if (json) {
-  //     let globalInfo = JSON.parse(json);
-  //     for (let i = 1; i <= this.maxSavefiles(); i++) {
-  //       if (!StorageManager.exists(i)) {
-  //         delete globalInfo[i];
-  //       }
-  //     }
-  //     return globalInfo;
-  //   } else {
-  //     return [];
-  //   }
-  // }
-  //
-  // static saveGlobalInfo(info) {
-  //   StorageManager.save(0, JSON.stringify(info));
-  // }
-  //
-  // static isThisGameFile(savefileId) {
-  //   let globalInfo = this.loadGlobalInfo();
-  //   if (globalInfo && globalInfo[savefileId]) {
-  //     if (StorageManager.isLocalMode()) {
-  //       return true;
-  //     } else {
-  //       let savefile = globalInfo[savefileId];
-  //       return (savefile.globalId === this._globalId &&
-  //         savefile.title === $dataSystem.gameTitle);
-  //     }
-  //   } else {
-  //     return false;
-  //   }
-  // }
-  //
-  // static isAnySavefileExists() {
-  //   let globalInfo = this.loadGlobalInfo();
-  //   if (globalInfo) {
-  //     for (let i = 1; i < globalInfo.length; i++) {
-  //       if (this.isThisGameFile(i)) {
-  //         return true;
-  //       }
-  //     }
-  //   }
-  //   return false;
-  // }
-  //
-  // static latestSavefileId() {
-  //   let globalInfo = this.loadGlobalInfo();
-  //   let savefileId = 1;
-  //   let timestamp = 0;
-  //   if (globalInfo) {
-  //     for (let i = 1; i < globalInfo.length; i++) {
-  //       if (this.isThisGameFile(i) && globalInfo[i].timestamp > timestamp) {
-  //         timestamp = globalInfo[i].timestamp;
-  //         savefileId = i;
-  //       }
-  //     }
-  //   }
-  //   return savefileId;
-  // }
-  //
-  // static loadAllSavefileImages() {
-  //   let globalInfo = this.loadGlobalInfo();
-  //   if (globalInfo) {
-  //     for (let i = 1; i < globalInfo.length; i++) {
-  //       if (this.isThisGameFile(i)) {
-  //         let info = globalInfo[i];
-  //         this.loadSavefileImages(info);
-  //       }
-  //     }
-  //   }
-  // }
-  //
-  // static loadSavefileImages(info) {
-  //   if (info.characters) {
-  //     for (let i = 0; i < info.characters.length; i++) {
-  //       ImageManager.reserveCharacter(info.characters[i][0]);
-  //     }
-  //   }
-  //   if (info.faces) {
-  //     for (let j = 0; j < info.faces.length; j++) {
-  //       ImageManager.reserveFace(info.faces[j][0]);
-  //     }
-  //   }
-  // }
-  //
-  // static maxSavefiles() {
-  //   return 20;
-  // }
-  //
-  // static saveGame(savefileId) {
-  //   try {
-  //     StorageManager.backup(savefileId);
-  //     return this.saveGameWithoutRescue(savefileId);
-  //   } catch (e) {
-  //     console.error(e);
-  //     try {
-  //       StorageManager.remove(savefileId);
-  //       StorageManager.restoreBackup(savefileId);
-  //     } catch (e2) {
-  //     }
-  //     return false;
-  //   }
-  // }
-  //
-  // static loadGame(savefileId) {
-  //   try {
-  //     return this.loadGameWithoutRescue(savefileId);
-  //   } catch (e) {
-  //     console.error(e);
-  //     return false;
-  //   }
-  // }
-  //
-  // static loadSavefileInfo(savefileId) {
-  //   let globalInfo = this.loadGlobalInfo();
-  //   return (globalInfo && globalInfo[savefileId]) ? globalInfo[savefileId] : null;
-  // }
-  //
-  // static lastAccessedSavefileId() {
-  //   return this._lastAccessedId;
-  // }
-  //
-  // static saveGameWithoutRescue(savefileId) {
-  //   let json = JsonEx.stringify(this.makeSaveContents());
-  //   if (json.length >= 200000) {
-  //     console.warn('Save data too big!');
-  //   }
-  //   StorageManager.save(savefileId, json);
-  //   this._lastAccessedId = savefileId;
-  //   let globalInfo = this.loadGlobalInfo() || [];
-  //   globalInfo[savefileId] = this.makeSavefileInfo();
-  //   this.saveGlobalInfo(globalInfo);
-  //   return true;
-  // }
-  //
-  // static loadGameWithoutRescue(savefileId) {
-  //   let globalInfo = this.loadGlobalInfo();
-  //   if (this.isThisGameFile(savefileId)) {
-  //     let json = StorageManager.load(savefileId);
-  //     this.createGameObjects();
-  //     this.extractSaveContents(JsonEx.parse(json));
-  //     this._lastAccessedId = savefileId;
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-  //
-  // static selectSavefileForNewGame() {
-  //   let globalInfo = this.loadGlobalInfo();
-  //   this._lastAccessedId = 1;
-  //   if (globalInfo) {
-  //     let numSavefiles = Math.max(0, globalInfo.length - 1);
-  //     if (numSavefiles < this.maxSavefiles()) {
-  //       this._lastAccessedId = numSavefiles + 1;
-  //     } else {
-  //       let timestamp = Number.MAX_VALUE;
-  //       for (let i = 1; i < globalInfo.length; i++) {
-  //         if (!globalInfo[i]) {
-  //           this._lastAccessedId = i;
-  //           break;
-  //         }
-  //         if (globalInfo[i].timestamp < timestamp) {
-  //           timestamp = globalInfo[i].timestamp;
-  //           this._lastAccessedId = i;
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-  //
-  // /**
-  //  * @return {{}}
-  //  */
-  // static makeSavefileInfo() {
-  //   let info = {};
-  //   info.globalId = this._globalId;
-  //   info.title = $dataSystem.gameTitle;
-  //   //info.characters = $gameParty.charactersForSavefile();
-  //   //info.faces = $gameParty.facesForSavefile();
-  //   info.playtime = $gameSystem.playtimeText();
-  //   info.timestamp = Date.now();
-  //   return info;
-  // }
-  //
-  // /**
-  //  * @return {{}}
-  //  */
-  // static makeSaveContents() {
-  //   // A save data does not contain $gameTemp, $gameMessage, and $gameTroop.
-  //   const contents = {};
-  //   contents.system = $gameSystem;
-  //   contents.screen = $gameScreen;
-  //   contents.map = $gameMap;
-  //   return contents;
-  // }
-  //
-  // /**
-  //  * @param contents
-  //  */
-  // static extractSaveContents(contents) {
-  //   $gameSystem = contents.system;
-  //   $gameScreen = contents.screen;
-  //   $gameMap = contents.map;
-  // }
-
 }
 
-DataManager._lastAccessedId = 1;
+// DataManager._lastAccessedId = 1;
 DataManager._errorUrl = null;
-DataManager._globalId = 'RPGMV';
+// DataManager._globalId = 'RPGMV';

@@ -3,6 +3,7 @@
  * @extends Sprite
  */
 class SpriteBase extends Sprite {
+
   /**
    * @param {Bitmap=} bitmap The image for the sprite
    */

@@ -4,7 +4,7 @@ let $dataMapInfos = null;
 let $dataMap = null;
 
 // let $gameTemp = null;
-let $gameSystem = null;
+// let $gameSystem = null;
 let $gameScreen = null;
 let $gameMap = null;
 

@@ -10,6 +10,7 @@
  * @property {number} BOX_COLLIDER
  * @property {number} CIRCLE_COLLIDER
  * @property {number} POLYGON_COLLIDER
+ * @property {number} RENDER
  */
 export const Components = {
   NULL: 0,
@@ -18,6 +19,7 @@ export const Components = {
   BOX_COLLIDER: 3,
   CIRCLE_COLLIDER: 4,
   POLYGON_COLLIDER: 5,
+  RENDER: 6,
 };
 
 /**

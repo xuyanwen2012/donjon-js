@@ -7,6 +7,9 @@ import {
   SleepModes
 } from '../core/const';
 
+// import p2 from 'p2';
+
+
 /**
  * @extends Component
  */
