@@ -13,9 +13,6 @@ class SpriteRenderComponent extends SpriteBase {
     if (!renderComponent) {
       console.error("Creating SpriteRenderComponent without RenderComponent.");
     }
-
-    console.log(renderComponent);
-
     /**
      * @type {RenderComponent}
      * @private
@@ -40,6 +37,7 @@ class SpriteRenderComponent extends SpriteBase {
     this.updateBitmap();
     this.updateFrame();
     this.updatePosition();
+    this.updateScale();
     this.updateOther();
   }
 
@@ -85,6 +83,16 @@ class SpriteRenderComponent extends SpriteBase {
   }
 
   /**
+   * Update the scale base on the screen scale
+   *
+   * @private
+   */
+  updateScale() {
+    this.scale.x = this._renderComponent.screenScaleX();
+    this.scale.y = this._renderComponent.screenScaleY();
+  }
+
+  /**
    * Update opacity and blend mode
    *
    * @private
@@ -105,5 +113,4 @@ class SpriteRenderComponent extends SpriteBase {
   setBitmap() {
     this.bitmap = ImageManager.loadCharacter(this._assetName);
   }
-
 }

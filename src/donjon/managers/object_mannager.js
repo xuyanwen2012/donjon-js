@@ -38,6 +38,7 @@ export default class ObjectManager {
 
     let name4 = 'Test';
     let obj4 = new GameObject(name4);
+    obj4.transform.scale.x = 2.0;
     obj4.addComponent(Components.RIGIDBODY);
     obj4.addComponent(Components.CIRCLE_COLLIDER, -24, -24, 24);
     obj4.addComponent(Components.RENDER, 'hero');

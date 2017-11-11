@@ -75,6 +75,7 @@ export default class RenderComponent extends Component {
     return Math.round(sx * tw + tw / 2);
   }
 
+  /** @return {number} y position on canvas to render */
   screenY() {
     const sy = this.transform.position.y;// - $gameMap.displayY();
     const th = 48;//$gameMap.tileHeight();
@@ -85,4 +86,15 @@ export default class RenderComponent extends Component {
   screenZ() {
     return (this._priorityType << 1 ) + 1;
   }
+
+  /** @return {number} x scale on canvas to render */
+  screenScaleX() {
+    return this.transform.scale.x;
+  }
+
+  /** @return {number} y scale on canvas to render */
+  screenScaleY() {
+    return this.transform.scale.y;
+  }
+
 }

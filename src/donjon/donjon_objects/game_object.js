@@ -116,16 +116,19 @@ export default class GameObject {
    * @param parent {GameObject=}
    */
   static instantiate(original, position = null, parent = null) {
-    //create empty object
+    /* create empty object */
     const cloned = new GameObject(original._name);
 
-    //clone each component from prefab
+    /* clone transform from prefab */
+    cloned.transform.copy(original.transform);
+
+    /* clone each component from prefab */
     original._components.forEach(comp =>
       GameObject.instantiateComponent(cloned, comp, comp._type)
     );
 
-
     if (position) {
+      /* assign new position, if applies */
       cloned.transform.setPosition(position);
     }
     if (parent) {
@@ -139,6 +142,7 @@ export default class GameObject {
    * a clone of the origin and alter the owner to new Object. Used for prefabs
    * only. Do NOT use this on a existing game object.
    *
+   * @private
    * @param targetObject {GameObject}
    * @param origin {Component}
    * @param type {number}

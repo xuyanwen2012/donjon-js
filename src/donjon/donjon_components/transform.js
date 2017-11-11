@@ -32,6 +32,17 @@ export default class Transform extends Component {
     // this._parent = null;
   }
 
+  /**
+   *
+   * @param other {Transform}
+   */
+  copy(other) {
+    this._position.copy(other._position);
+    this._height = other._height;
+    this._rotation = other._rotation;
+    this._scale.copy(other._scale);
+  }
+
   // /** @return {Transform} */
   // get parent() {
   //   return this._parent;
