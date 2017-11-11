@@ -72,7 +72,6 @@ export default class DonjonMap {
     this._displayX = 0;
     this._displayY = 0;
 
-    //this._setupEvents();
     this.setupScroll();
     this.setupParallax();
   }
@@ -105,6 +104,11 @@ export default class DonjonMap {
   /** @return {String} */
   parallaxName() {
     return this._parallaxName
+  }
+
+  /** @private */
+  setupObjects() {
+
   }
 
   /** @private */

@@ -7,6 +7,6 @@ let $dataMap = null;
 // let $gameSystem = null;
 let $gameScreen = null;
 let $gameMap = null;
-
+let $gameObjects = null;
 
 

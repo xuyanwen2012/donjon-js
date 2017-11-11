@@ -4,15 +4,23 @@ import {Components} from '../core/const';
 
 export default class ObjectManager {
 
-  constructor() {
 
-    ObjectManager.createTempPrefabs();
-
-
+  static initializeObjectPool() {
+    /**
+     * @static
+     * @type {Array.<GameObject>}
+     * @private
+     */
+    this._objects = [];
   }
 
   static createTempPrefabs() {
-    this.prefabs_ = new Map();
+    /**
+     * @static
+     * @type {Map}
+     * @private
+     */
+    this._prefabs = new Map();
 
     let name1 = "Player";
     let obj1 = new GameObject(name1);
@@ -28,9 +36,16 @@ export default class ObjectManager {
     let obj3 = new GameObject(name3);
     obj3.addComponent(Components.CIRCLE_COLLIDER, 0, 0, 48 * 2);
 
-    this.prefabs_.set(name1, obj1);
-    this.prefabs_.set(name2, obj2);
-    this.prefabs_.set(name3, obj3);
+    let name4 = 'Test';
+    let obj4 = new GameObject(name4);
+    obj4.addComponent(Components.RIGIDBODY);
+    obj4.addComponent(Components.CIRCLE_COLLIDER, -24, -24, 24);
+    obj4.addComponent(Components.RENDER, 'hero.png');
+
+    this._prefabs.set(name1, obj1);
+    this._prefabs.set(name2, obj2);
+    this._prefabs.set(name3, obj3);
+    this._prefabs.set(name4, obj4);
   }
 
   /**
@@ -42,12 +57,16 @@ export default class ObjectManager {
    * @return {GameObject} cloned object.
    */
   static instantiate(objectName, position = null, parent = null) {
-    let original = this.prefabs_.get(objectName);
+    let original = this._prefabs.get(objectName);
     if (!objectName) {
       console.log("ERROR: no such object in prefab: " + objectName);
       return null;
     }
-    return GameObject.instantiate(original, position, parent);
+
+    let cloned = GameObject.instantiate(original, position, parent);
+    this._objects.push(cloned);
+    console.log(this._objects);
+    return cloned;
   }
 
   /**
@@ -75,5 +94,15 @@ export default class ObjectManager {
 
   }
 
+  /**
+   *  Usually used by client Physics engine to get Rigidbody and Colliders.
+   *  And used by client Render engine to get RenderComponent as well.
+   *
+   * @param type {number} Donjon.Components
+   */
+  static retrieveAllComponents(type) {
+    const retrieved = this._objects.map(obj => obj.getComponents(type));
+    return [].concat(...retrieved);
+  }
 
 }

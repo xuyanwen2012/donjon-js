@@ -5,6 +5,7 @@ import Rigidbody from '../donjon_components/rigidbody';
 import BoxCollider from '../donjon_components/box_collider';
 import CircleCollider from '../donjon_components/circle_collider';
 import Behaviour from '../donjon_components/behaviour';
+import RenderComponent from "../donjon_components/render";
 
 
 /**
@@ -100,6 +101,8 @@ export default class GameObject {
         return new BoxCollider(targetObject, ...param);
       case Components.CIRCLE_COLLIDER:
         return new CircleCollider(targetObject, ...param);
+      case Components.RENDER:
+        return new RenderComponent(targetObject, ...param);
       default:
         console.log("Cannot create Component: " + componentType);
     }
@@ -195,6 +198,7 @@ export default class GameObject {
 
   /**
    * @param type {number} Enum to Game Components
+   * @return {Array.<Components>}
    */
   getComponent(type) {
     let comp = this._components[type];
@@ -203,6 +207,15 @@ export default class GameObject {
       return null;
     }
     return Array.isArray(comp) ? comp[0] : comp;
+  }
+
+  /**
+   * @param type {number} Enum to Game Components
+   * @return {Array.<Array>}
+   */
+  getComponents(type) {
+    let comp = this._components[type];
+    return !comp ? [] : Array.isArray(comp) ? comp : [comp];
   }
 
   /** @param value {number} */

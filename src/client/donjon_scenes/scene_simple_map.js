@@ -1,6 +1,7 @@
 /**
  * @extends SceneBase
  */
+
 class SceneMap extends SceneMapBase {
 
   /**
@@ -16,11 +17,6 @@ class SceneMap extends SceneMapBase {
    * @override
    */
   create() {
-    //const mapId = $gamePlayer.isTransferring() ? $gamePlayer.newMapId() :
-    // $gameMap.mapId(); console.log("map id: "+ mapId +"
-    // $gamePlayer.newMapId() = "+ $gamePlayer.newMapId() + ",$gameMap.mapId()
-    // = "+$gameMap.mapId());
-
     DataManager.loadMapData(1);
   }
 
@@ -32,6 +28,7 @@ class SceneMap extends SceneMapBase {
     //$gamePlayer.performTransfer();
     $gameMap.setup(this._newMapId, $dataMap); //setup map data before construct
     // objects
+    $gameObjects.instantiate('Test', new Victor(5, 5));
     super.onMapLoaded();
   }
 
@@ -76,6 +73,8 @@ class SceneMap extends SceneMapBase {
    */
   updateMain() {
     const active = this.isActive();
+
+
     $gameMap.update(active);
     //$gamePlayer.update(active);
     $gameScreen.update();

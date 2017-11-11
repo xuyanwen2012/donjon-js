@@ -135,6 +135,10 @@ class DataManager {
   static createGameObjects() {
     //$gameTemp = new Game_Temp();
     //$gameSystem = new GameSystem();
+    $gameObjects = Donjon.ObjectManager;
+    $gameObjects.initializeObjectPool();
+    $gameObjects.createTempPrefabs();
+
     $gameScreen = new Donjon.GameScreen();
     $gameMap = new Donjon.DonjonMap();
   }

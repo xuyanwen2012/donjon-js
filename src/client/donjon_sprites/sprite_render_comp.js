@@ -95,7 +95,7 @@ class SpriteRenderComponent extends SpriteBase {
 
   /** @private @return {boolean} */
   isImageChanged() {
-    return this._assetName !== this._renderComponent.assetName();
+    return this._assetName !== this._renderComponent.assetName;
   }
 
   /**

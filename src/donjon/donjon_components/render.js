@@ -1,5 +1,6 @@
 import Component from './component';
 import {Components} from '../core/const';
+//import DonjonMap from '../donjon_objects/donjon_map';
 
 /**
  * A Render component contains essential data to Pixi.Sprite.
@@ -8,15 +9,16 @@ export default class RenderComponent extends Component {
 
   /**
    * @param owner {GameObject}
+   * @param assetName {string}
    */
-  constructor(owner) {
+  constructor(owner, assetName) {
     super(owner);
 
     /**
      * @type {string}
      * @protected
      */
-    this._assetName = '';
+    this._assetName = assetName;
 
     /** @protected @type {number} */
     this._type = Components.RENDER;
@@ -67,15 +69,15 @@ export default class RenderComponent extends Component {
 
   /** @return {number} x position on canvas to render */
   screenX() {
-    //todo: make $gameMap a donjon.js object
-    const sx = this._transform.position.x - $gameMap.displayX();
-    const tw = $gameMap.tileWidth();
+    //todo use Camera instance
+    const sx = this._transform.position.x;// - $gameMap.displayX();
+    const tw = 48;//$gameMap.tileWidth();
     return Math.round(sx * tw + tw / 2);
   }
 
   screenY() {
-    const sy = this._transform.position.y - $gameMap.displayY();
-    const th = $gameMap.tileHeight();
+    const sy = this._transform.position.y;// - $gameMap.displayY();
+    const th = 48;//$gameMap.tileHeight();
     return Math.round(sy * th + th / 2);
   }
 
