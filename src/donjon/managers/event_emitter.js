@@ -16,7 +16,6 @@ export default class EventEmitter {
   static addListener(name, callback) {
     this.listeners.has(name) || this.listeners.set(name, []);
     this.listeners.get(name).push(callback);
-    console.log(`Successfully added a delegate on event: ${name}`);
   }
 
   /**
@@ -33,11 +32,20 @@ export default class EventEmitter {
       listeners.forEach(listener =>
         listener(...args)
       );
-      console.log(`Successfully Sent Event ${name} to delegates.`);
       return true;
     }
-    console.error(`Fail to Send Event ${name} to delegates.`);
     return false;
+  }
+
+  /**
+   *
+   * @param name {string} the event name to queue
+   * @param args {[]=}
+   */
+  static queueEvent(name, ...args) {
+    if (this.listeners.has(name)) {
+      this.queuedEvents[this.currentQueue].push([name, ...args]);
+    }
   }
 
   /**
@@ -52,7 +60,8 @@ export default class EventEmitter {
 
     if (listeners && listeners.length) {
       index = listeners.reduce((i, listener, index) => {
-        return (typeof callback === 'function' || false) && listener === callback ? (i = index) : i;
+        return (typeof callback === 'function' || false) &&
+        listener === callback ? (i = index) : i;
       }, -1);
 
       if (index > -1) {
@@ -63,7 +72,47 @@ export default class EventEmitter {
     }
     return false;
   }
-}
 
+  /**
+   *
+   */
+  static tick() {
+    //swap queue
+    let queueToProcess = this.currentQueue;
+    this.currentQueue = (this.currentQueue + 1) % this.MAX;
+
+    //process
+    this.queuedEvents[queueToProcess].forEach(arr =>
+      this.emit(...arr)
+    );
+
+    //clean up old processed queue
+    this.queuedEvents[queueToProcess] = [];
+  }
+}
+/**
+ * @static
+ * @private
+ * @type {Map}
+ */
 EventEmitter.listeners = new Map();
+/**
+ * @static
+ * @private
+ * @type {[[],[]]}
+ */
+EventEmitter.queuedEvents = [[], []];
+/**
+ * @static
+ * @private
+ * @type {number}
+ */
+EventEmitter.currentQueue = 0;
+/**
+ * @static
+ * @private
+ * @type {number}
+ */
+EventEmitter.MAX = 2;
+
 
