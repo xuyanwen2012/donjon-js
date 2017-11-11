@@ -27,21 +27,21 @@ class SceneBase extends Stage {
     this._fadeSprite = null;
 
     /** @private @type {number} */
-    this.imageReservationId_ = Utils.generateRuntimeId();
+    this.imageReservationId = Utils.generateRuntimeId();
   }
 
   /**
    * Attach a reservation to the reserve queue.
    */
   attachReservation() {
-    ImageManager.setDefaultReservationId(this.imageReservationId_);
+    ImageManager.setDefaultReservationId(this.imageReservationId);
   }
 
   /**
    * Remove the reservation from the Reserve queue.
    */
   detachReservation() {
-    ImageManager.releaseReservation(this.imageReservationId_);
+    ImageManager.releaseReservation(this.imageReservationId);
   }
 
   /** @abstract */
@@ -77,8 +77,8 @@ class SceneBase extends Stage {
    * Handle fading update and update all children
    */
   update() {
-    //EventsManager.tick();
-    this.updateFade();
+    Donjon.EventEmitter.tick();
+    //this.updateFade();
     this.updateChildren();
     AudioManager.checkErrors();
   }
@@ -94,87 +94,94 @@ class SceneBase extends Stage {
     return this._fadeDuration > 0;
   }
 
-  /**
-   * @param duration {Number}
-   * @param white {Boolean}
-   */
-  startFadeIn(duration, white = false) {
-    this.createFadeSprite(white);
-    this._fadeSign = 1;
-    this._fadeDuration = duration || 30;
-    this._fadeSprite.opacity = 255;
-  }
+  // /**
+  //  * @param duration {Number}
+  //  * @param white {Boolean}
+  //  */
+  // startFadeIn(duration, white = false) {
+  //   this.createFadeSprite(white);
+  //   this._fadeSign = 1;
+  //   this._fadeDuration = duration || 30;
+  //   this._fadeSprite.opacity = 255;
+  // }
+  //
+  // /**
+  //  * @param duration {Number}
+  //  * @param white {Boolean}
+  //  */
+  // startFadeOut(duration, white = false) {
+  //   this.createFadeSprite(white);
+  //   this._fadeSign = -1;
+  //   this._fadeDuration = duration || 30;
+  //   this._fadeSprite.opacity = 0;
+  // }
+  //
+  // /**
+  //  * @private
+  //  * @param white {Boolean}
+  //  */
+  // createFadeSprite(white) {
+  //   if (!this._fadeSprite) {
+  //     this._fadeSprite = new ScreenSprite();
+  //     this.addChild(this._fadeSprite);
+  //   }
+  //   if (white) {
+  //     this._fadeSprite.setWhite();
+  //   } else {
+  //     this._fadeSprite.setBlack();
+  //   }
+  // }
+  //
+  // /** @private */
+  // updateFade() {
+  //   if (this._fadeDuration > 0) {
+  //     let d = this._fadeDuration;
+  //     if (this._fadeSign > 0) {
+  //       this._fadeSprite.opacity -= this._fadeSprite.opacity / d;
+  //     } else {
+  //       this._fadeSprite.opacity += (255 - this._fadeSprite.opacity) / d;
+  //     }
+  //     this._fadeDuration--;
+  //   }
+  // }
 
   /**
-   * @param duration {Number}
-   * @param white {Boolean}
-   */
-  startFadeOut(duration, white = false) {
-    this.createFadeSprite(white);
-    this._fadeSign = -1;
-    this._fadeDuration = duration || 30;
-    this._fadeSprite.opacity = 0;
-  }
-
-  /**
-   * @private
-   * @param white {Boolean}
-   */
-  createFadeSprite(white) {
-    if (!this._fadeSprite) {
-      this._fadeSprite = new ScreenSprite();
-      this.addChild(this._fadeSprite);
-    }
-    if (white) {
-      this._fadeSprite.setWhite();
-    } else {
-      this._fadeSprite.setBlack();
-    }
-  }
-
-  /** @private */
-  updateFade() {
-    if (this._fadeDuration > 0) {
-      let d = this._fadeDuration;
-      if (this._fadeSign > 0) {
-        this._fadeSprite.opacity -= this._fadeSprite.opacity / d;
-      } else {
-        this._fadeSprite.opacity += (255 - this._fadeSprite.opacity) / d;
-      }
-      this._fadeDuration--;
-    }
-  }
-
-  /**
+   * Update the children of the scene EACH frame.
    * the children includes {PIXI.DisplayObject}
    * @protected
    */
   updateChildren() {
-    for (let i = 0; i < this.children.length; i++) {
-      const child = this.children[i];
+    this.children.forEach(function (child) {
       if (child.update) {
         child.update();
       }
-    }
+    });
   }
 
+  /**
+   * Pop the scene from the stack array and switch to the
+   * previous scene.
+   */
   popScene() {
     SceneManager.pop();
   }
 
-  fadeOutAll() {
-    const time = this.slowFadeSpeed() / 60;
-    AudioManager.fadeOutBgm(time);
-    AudioManager.fadeOutBgs(time);
-    AudioManager.fadeOutMe(time);
-    this.startFadeOut(this.slowFadeSpeed());
-  }
-
-  fadeSpeed() {
-    return 24;
-  }
-
-  slowFadeSpeed() {
-    return this.fadeSpeed() * 2;
-  }
+  // /**
+  //  * Slowly fade out all the visual and audio of the scene.
+  //  */
+  // fadeOutAll() {
+  //   const time = this.slowFadeSpeed() / 60;
+  //   AudioManager.fadeOutBgm(time);
+  //   AudioManager.fadeOutBgs(time);
+  //   AudioManager.fadeOutMe(time);
+  //   this.startFadeOut(this.slowFadeSpeed());
+  // }
+  //
+  // fadeSpeed() {
+  //   return 24;
+  // }
+  //
+  // slowFadeSpeed() {
+  //   return this.fadeSpeed() * 2;
+  // }
 }

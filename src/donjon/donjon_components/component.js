@@ -22,7 +22,7 @@ export default class Component {
     this._owner = owner;
     /** @protected @type {number} */
     this._type = Components.NULL;
-    /** @protected @type {Transform} */
+    /** @private @type {Transform} */
     this._transform = owner ? owner.transform : null;
   }
 

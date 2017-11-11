@@ -124,6 +124,7 @@ export default class GameObject {
       GameObject.instantiateComponent(cloned, comp, comp._type)
     );
 
+
     if (position) {
       cloned.transform.setPosition(position);
     }

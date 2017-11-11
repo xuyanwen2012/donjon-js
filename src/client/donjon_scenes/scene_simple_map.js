@@ -4,14 +4,14 @@
 
 class SceneMap extends SceneMapBase {
 
-  /**
-   * @override
-   * @constructor
-   */
-  constructor() {
-    super();
-
-  }
+  // /**
+  //  * @override
+  //  * @constructor
+  //  */
+  // constructor() {
+  //   super();
+  //
+  // }
 
   /**
    * @override
@@ -29,6 +29,8 @@ class SceneMap extends SceneMapBase {
     $gameMap.setup(this._newMapId, $dataMap); //setup map data before construct
     // objects
     $gameObjects.instantiate('Test', new Victor(5, 5));
+    $gameObjects.instantiate('Test', new Victor(10, 10));
+    console.log("Test Object instantiated.");
     super.onMapLoaded();
   }
 

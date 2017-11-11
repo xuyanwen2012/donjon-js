@@ -40,7 +40,7 @@ export default class ObjectManager {
     let obj4 = new GameObject(name4);
     obj4.addComponent(Components.RIGIDBODY);
     obj4.addComponent(Components.CIRCLE_COLLIDER, -24, -24, 24);
-    obj4.addComponent(Components.RENDER, 'hero.png');
+    obj4.addComponent(Components.RENDER, 'hero');
 
     this._prefabs.set(name1, obj1);
     this._prefabs.set(name2, obj2);
@@ -65,7 +65,7 @@ export default class ObjectManager {
 
     let cloned = GameObject.instantiate(original, position, parent);
     this._objects.push(cloned);
-    console.log(this._objects);
+    console.log(cloned);
     return cloned;
   }
 

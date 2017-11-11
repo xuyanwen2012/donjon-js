@@ -6,14 +6,15 @@
 class SpriteRenderComponent extends SpriteBase {
 
   /**
-   * @param {Bitmap=} bitmap The image for the sprite
    * @param renderComponent {RenderComponent}
    */
-  constructor(bitmap, renderComponent) {
-    super(bitmap);
+  constructor(renderComponent) {
+    super();
     if (!renderComponent) {
       console.error("Creating SpriteRenderComponent without RenderComponent.");
     }
+
+    console.log(renderComponent);
 
     /**
      * @type {RenderComponent}

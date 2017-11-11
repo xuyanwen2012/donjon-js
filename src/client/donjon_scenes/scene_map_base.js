@@ -14,7 +14,6 @@ class SceneMapBase extends SceneBase {
     this._mapLoaded = false;
     /** @private @type {number} */
     this._waitCount = 0;
-
   }
 
   /**
@@ -38,9 +37,6 @@ class SceneMapBase extends SceneBase {
    */
   onMapLoaded() {
     this.createDisplayObjects();
-    //sent out loaded event
-    // EventsManager.queueEvent(
-    //   new Evnt_SpritesetMapCreated(performance.now(), this._spriteset));
   }
 
   /** @private */

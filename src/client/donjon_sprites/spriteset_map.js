@@ -2,6 +2,7 @@
  * @extends SpritesetBase
  */
 class SpritesetMap extends SpritesetBase {
+
   /**
    * @override
    * @protected
@@ -10,7 +11,7 @@ class SpritesetMap extends SpritesetBase {
     super.createLowerLayer();
     this.createParallax();
     this.createTilemap();
-    //this.createCharacters();
+    this.createCharacters();
     this.createWeather();
   }
 
@@ -52,9 +53,7 @@ class SpritesetMap extends SpritesetBase {
     this._baseSprite.addChild(this._tilemap);
   }
 
-  /**
-   *
-   */
+  /** @private */
   loadTileset() {
     /** @protected @type {{tilesetNames}} */
     this.tileset = $gameMap.tileset();
@@ -72,6 +71,22 @@ class SpritesetMap extends SpritesetBase {
     }
   }
 
+  /** @private */
+  createCharacters() {
+    console.log('SpritesetMap:createCharacters');
+    this._characterSprites = [];
+
+    let comps = Donjon.ObjectManager
+      .retrieveAllComponents(Donjon.Components.RENDER);
+
+    comps.forEach(comp =>
+      this._characterSprites.push(new SpriteRenderComponent(comp))
+    );
+
+    this._characterSprites.forEach(sprite =>
+      this._tilemap.addChild(sprite)
+    );
+  }
 
   /** @private */
   createWeather() {

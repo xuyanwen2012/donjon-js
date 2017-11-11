@@ -76,7 +76,7 @@ export default class Transform extends Component {
 
   /** @param pos {Victor}*/
   setPosition(pos) {
-    this._position = pos;
+    this._position.copy(pos);
   }
 
   /**

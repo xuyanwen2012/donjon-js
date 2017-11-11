@@ -28,18 +28,14 @@ class SceneBoot extends SceneBase {
     ImageManager.reserveSystem('ButtonSet');
   }
 
-  /**
-   * @override
-   */
-  create() {
-    super.create();
-    DataManager.loadDatabase();
-    ConfigManager.load();
-    this.loadSystemWindowImage();
+  /** @private */
+  static loadSystemWindowImage() {
+    ImageManager.reserveSystem('Window');
   }
 
-  loadSystemWindowImage() {
-    ImageManager.reserveSystem('Window');
+  /** @private */
+  static updateDocumentTitle() {
+    document.title = $dataSystem.gameTitle;
   }
 
   /**
@@ -64,6 +60,23 @@ class SceneBoot extends SceneBase {
     }
   }
 
+  /** @private */
+  static checkPlayerLocation() {
+    if ($dataSystem.startMapId === 0) {
+      throw new Error('Player\'s starting position is not set');
+    }
+  }
+
+  /**
+   * @override
+   */
+  create() {
+    super.create();
+    DataManager.loadDatabase();
+    ConfigManager.load();
+    SceneBoot.loadSystemWindowImage();
+  }
+
   /**
    * will trigger when all data in database is loaded.
    * @override
@@ -71,19 +84,9 @@ class SceneBoot extends SceneBase {
   start() {
     super.start();
     SoundManager.preloadImportantSounds();
-    this.checkPlayerLocation();
+    SceneBoot.checkPlayerLocation();
     DataManager.setupNewGame();
     SceneManager.goto(SceneMap);
-    this.updateDocumentTitle();
-  }
-
-  updateDocumentTitle() {
-    document.title = $dataSystem.gameTitle;
-  }
-
-  checkPlayerLocation() {
-    if ($dataSystem.startMapId === 0) {
-      throw new Error('Player\'s starting position is not set');
-    }
+    SceneBoot.updateDocumentTitle();
   }
 }

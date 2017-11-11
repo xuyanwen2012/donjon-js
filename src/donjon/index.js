@@ -11,9 +11,9 @@ export * from './core/const';
 export {
   GameObject,
   GameScreen,
+  RenderComponent,
   DonjonMap,
   ObjectManager,
   EventEmitter,
   Behaviour,
-  RenderComponent,
 };
