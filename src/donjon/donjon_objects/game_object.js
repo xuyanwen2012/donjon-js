@@ -119,7 +119,7 @@ export default class GameObject {
     /* create empty object */
     const cloned = new GameObject(original._name);
 
-    /* clone transform from prefab */
+    /* clone transform(no position) from prefab */
     cloned.transform.copy(original.transform);
 
     /* clone each component from prefab */
@@ -134,6 +134,8 @@ export default class GameObject {
     if (parent) {
       parent.addChild(cloned);
     }
+    /* send out event */
+
     return cloned;
   }
 
@@ -256,7 +258,8 @@ export default class GameObject {
   broadcastMessage(methodName, parameter = null) {
     this.sendMessage(methodName, parameter);
     this._children.forEach(behaviour =>
-      behaviour[methodName](parameter));
+      behaviour[methodName](parameter)
+    );
   }
 
   /**
@@ -267,7 +270,8 @@ export default class GameObject {
    */
   sendMessage(methodName, value) {
     this._behaviours.forEach(behaviour =>
-      behaviour[methodName](value));
+      behaviour[methodName](value)
+    );
   }
 
   /**

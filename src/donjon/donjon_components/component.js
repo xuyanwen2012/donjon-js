@@ -22,7 +22,7 @@ export default class Component {
     this._owner = owner;
     /** @protected @type {number} */
     this._type = Components.NULL;
-    /** @private @type {Transform} */
+    /** @protected @type {Transform} */
     this._transform = owner ? owner.transform : null;
   }
 
@@ -50,6 +50,5 @@ export default class Component {
   /** @abstract */
   update() {
   }
-
 }
 

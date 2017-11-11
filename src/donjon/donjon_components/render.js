@@ -89,12 +89,11 @@ export default class RenderComponent extends Component {
 
   /** @return {number} x scale on canvas to render */
   screenScaleX() {
-    return this.transform.scale.x;
+    return this._transform.scale.x;
   }
 
   /** @return {number} y scale on canvas to render */
   screenScaleY() {
-    return this.transform.scale.y;
+    return this._transform.scale.y;
   }
-
 }
