@@ -33,12 +33,18 @@ export default class Component {
 
   /** @return {Transform} */
   get transform() {
-    return this._transform
+    return this._transform;
   }
 
   /** @return {number} */
   get type() {
     return this._type;
+  }
+
+  /** @param owner {GameObject} */
+  setOwner(owner) {
+    this._owner = owner;
+    this._transform = owner ? owner.transform : null;
   }
 
   /** @abstract */

@@ -54,22 +54,22 @@ export default class GameObject {
 
   /** @return {number} */
   get id() {
-    return this._id
+    return this._id;
   }
 
   /** @return {Transform} */
   get transform() {
-    return this._transform
+    return this._transform;
   }
 
   /** @return {number} */
   get layer() {
-    return this._layer
+    return this._layer;
   }
 
   /** @return {number} */
   get tag() {
-    return this._tag
+    return this._tag;
   }
 
   /**
@@ -144,9 +144,12 @@ export default class GameObject {
    * @param type {number}
    */
   static instantiateComponent(targetObject, origin, type) {
-    //create empty component (no params passed)
+    /* create default component (no param passed) */
     let cloned = this.createComponent(targetObject, type);
+    /* clone */
     Object.assign(cloned, origin);
+    /* change the ownership from prefab to cloned object */
+    cloned.setOwner(targetObject);
     targetObject.addComponent(cloned);
   }
 
@@ -156,7 +159,7 @@ export default class GameObject {
   setParent(parent) {
     if (parent instanceof GameObject) {
       this._parent = parent;
-      this.transform.setParent(parent.transform);
+      // this.transform.setParent(parent.transform);
     }
   }
 
@@ -171,7 +174,10 @@ export default class GameObject {
   }
 
   /**
+   * [Private]
    * Adds a component.js class of type type to the game object
+   *
+   *
    * @param type {number || Component} Enum to Game Components, or you can
    * simply pass an instance of Component.
    * @param param

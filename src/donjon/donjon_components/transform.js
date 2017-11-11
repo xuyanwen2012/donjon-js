@@ -28,14 +28,14 @@ export default class Transform extends Component {
     this._rotation = 0;
     /** @private @type {Victor} */
     this._scale = scale;
-    /** @private @type {Transform} */
-    this._parent = null;
+    // /** @private @type {Transform} */
+    // this._parent = null;
   }
 
-  /** @return {Transform} */
-  get parent() {
-    return this._parent;
-  }
+  // /** @return {Transform} */
+  // get parent() {
+  //   return this._parent;
+  // }
 
   /** @return {Victor} */
   get position() {
@@ -67,12 +67,12 @@ export default class Transform extends Component {
     return first._position.distanceSq(second._position);
   }
 
-  /** @param value {Transform}*/
-  setParent(value) {
-    if (value instanceof Transform) {
-      this._parent = value;
-    }
-  }
+  // /** @param value {Transform}*/
+  // setParent(value) {
+  //   if (value instanceof Transform) {
+  //     this._parent = value;
+  //   }
+  // }
 
   /** @param pos {Victor}*/
   setPosition(pos) {

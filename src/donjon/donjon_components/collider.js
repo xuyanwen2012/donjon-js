@@ -1,5 +1,4 @@
 import Component from './component';
-import {Components} from '../core/const';
 //import Rigidbody from './rigidbody';
 
 /**
@@ -14,18 +13,18 @@ export default class Collider extends Component {
   constructor(owner) {
     super(owner);
 
-    /** @private @type{Rigidbody} */
-    this._attachedRigidbody = owner ?
-      owner.getComponent(Components.RIGIDBODY) : null;
+    // /** @private @type{Rigidbody} */
+    // this._attachedRigidbody = owner ?
+    //   owner.getComponent(Components.RIGIDBODY) : null;
 
     /** @private @type{number} */
     this._offset = 0;
   }
 
-  /** @return {Rigidbody} */
-  get attachedRigidbody() {
-    return this._attachedRigidbody;
-  }
+  // /** @return {Rigidbody} */
+  // get attachedRigidbody() {
+  //   return this._attachedRigidbody;
+  // }
 
   /**
    * @override
@@ -34,10 +33,10 @@ export default class Collider extends Component {
 
   }
 
-  /** @param value{Rigidbody} */
-  attachToRigidbody(value) {
-    this._attachedRigidbody = value;
-  }
+  // /** @param value{Rigidbody} */
+  // attachToRigidbody(value) {
+  //   this._attachedRigidbody = value;
+  // }
 
   /**
    * @param collider{Collider} The collider to check if it is touching this
