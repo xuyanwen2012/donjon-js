@@ -3,7 +3,9 @@ import GameObject from '../donjon_objects/game_object';
 import {Components} from '../core/const';
 
 export default class ObjectManager {
-
+  constructor() {
+    throw new Error('This is a static class');
+  }
 
   static initializeObjectPool() {
     /**
@@ -12,6 +14,8 @@ export default class ObjectManager {
      * @private
      */
     this._objects = [];
+
+    this._objectsMap = new Map();
   }
 
   static createTempPrefabs() {
@@ -26,6 +30,7 @@ export default class ObjectManager {
     let obj1 = new GameObject(name1);
     obj1.addComponent(Components.RIGIDBODY);
     obj1.addComponent(Components.CIRCLE_COLLIDER, -24, -24, 24);
+    obj1.addComponent(Components.RENDER, 'hero');
 
     let name2 = "Enemy";
     let obj2 = new GameObject(name2);
@@ -65,9 +70,18 @@ export default class ObjectManager {
     }
 
     let cloned = GameObject.instantiate(original, position, parent);
-    this._objects.push(cloned);
+    this.addObject(cloned);
     console.log(cloned);
     return cloned;
+  }
+
+  /**
+   *
+   * @param gameObject {GameObject}
+   */
+  static addObject(gameObject) {
+    this._objects.push(gameObject);
+    this._objectsMap.set(gameObject._name, gameObject);
   }
 
   /**
@@ -84,7 +98,7 @@ export default class ObjectManager {
    * @return {GameObject}
    */
   static find(name) {
-
+    return this._objectsMap.get(name);
   }
 
   /**
@@ -105,5 +119,4 @@ export default class ObjectManager {
     const retrieved = this._objects.map(obj => obj.getComponents(type));
     return [].concat(...retrieved);
   }
-
 }
