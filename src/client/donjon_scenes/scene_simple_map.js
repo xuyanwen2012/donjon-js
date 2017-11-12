@@ -30,6 +30,9 @@ class SceneMap extends SceneMapBase {
     // objects
     $gameObjects.instantiate('Player', new Victor(5, 5));
     $gameObjects.instantiate('Test', new Victor(10, 10));
+
+    Donjon.Physics.setup();
+
     console.log("Test Object instantiated.");
     super.onMapLoaded();
   }
@@ -75,14 +78,16 @@ class SceneMap extends SceneMapBase {
    */
   updateMain() {
     const active = this.isActive();
-    let test_speed = 4.0;
     const delta_time = 1.0 / 60.0;
+
+
+    Donjon.Physics.tick();
 
     $gameMap.update(active);
 
-    const player = $gameObjects.find('Player');
-    if (player)
-      player.transform.translate(new Victor(delta_time, delta_time));
+    // const player = $gameObjects.find('Player');
+    // if (player)
+    //   player.transform.translate(new Victor(delta_time, delta_time));
 
     //$gamePlayer.update(active);
     $gameScreen.update();

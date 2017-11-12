@@ -5,10 +5,12 @@ import RenderComponent from './donjon_components/render';
 import GameScreen from './donjon_objects/game_screen';
 import DonjonMap from './donjon_objects/donjon_map';
 import EventEmitter from './managers/event_emitter';
+import Physics from './core/physics';
 
 export * from './core/const';
 
 export {
+  Physics,
   GameObject,
   GameScreen,
   RenderComponent,
