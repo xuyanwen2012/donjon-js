@@ -12,8 +12,12 @@ export default class Physics {
 
     this._bodyPairs = [];
 
+    /**
+     * @type {p2.World}
+     * @private
+     */
     this._world = new p2.World({
-      gravity: [0, -10]
+      gravity: [0, 0]
     });
 
     this.fixDeltaTime = 1 / 60.0;

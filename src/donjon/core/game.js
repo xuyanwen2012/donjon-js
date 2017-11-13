@@ -81,7 +81,9 @@ export default class Game {
    * is called on a reliable timer, independent of the frame rate.
    */
   fixedUpdate() {
+    EventEmitter.tick();
     /* update game object's fixedUpdate */
+
     this._gameMap.update();
     this._gameScreen.update();
 
@@ -97,7 +99,6 @@ export default class Game {
    * frame updates.
    */
   update() {
-    EventEmitter.tick();
     /* Handle Input */
 
   }

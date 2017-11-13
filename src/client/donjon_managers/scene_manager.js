@@ -119,7 +119,7 @@ class SceneManager {
 
   static initInput() {
     Input.initialize();
-    TouchInput.initialize();
+    //TouchInput.initialize();
   }
 
   static initNwjs() {
@@ -230,7 +230,7 @@ class SceneManager {
 
   static updateInputData() {
     Input.update();
-    TouchInput.update();
+    //TouchInput.update();
   }
 
   /**
