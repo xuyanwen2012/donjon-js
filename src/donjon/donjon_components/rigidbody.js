@@ -6,14 +6,14 @@ import {
   RigidBodyTypes,
   SleepModes
 } from '../core/const';
-
-// import p2 from 'p2';
+import EventEmitter from '../managers/event_emitter';
 
 
 /**
  * @extends Component
  */
 export default class Rigidbody extends Component {
+
   /**
    * @param owner {GameObject}
    * @param param {[]}
@@ -27,15 +27,12 @@ export default class Rigidbody extends Component {
     /** @private @type {number} */
     this._bodyType = RigidBodyTypes.DYNAMIC;
 
-    /** @private @type {number} */
-    this._detectionMode = CollisionDetectionModes.DISCRETE;
+    // /** @private @type {number} */
+    // this._detectionMode = CollisionDetectionModes.DISCRETE;
 
     /** @private @type {number} */
     this._sleepMode = SleepModes.START_AWAKE;
 
-    /** @private @type {number} */
-    this._drag = 0.5;
-    //this._angularDrag = 0;
     /** @private @type {number} */
     this._mass = 1.0;
 
@@ -58,6 +55,10 @@ export default class Rigidbody extends Component {
     this._deltaPos = new Victor();
   }
 
+  get mass() {
+    return this._mass;
+  }
+
   /** @return {Victor} */
   get velocity() {
     return this._velocity;
@@ -66,6 +67,10 @@ export default class Rigidbody extends Component {
   /** @param value {Victor} */
   set velocity(value) {
     this._velocity = value;
+  }
+
+  getBodyType() {
+    return this._bodyType;
   }
 
   /**
@@ -77,6 +82,7 @@ export default class Rigidbody extends Component {
    * @param force {Victor} Components of the force in the X and Y axes.
    */
   addForce(force) {
+    EventEmitter.emit('addForce', this, [force.x, force.y]);
     this._impactForces.add(force);
   }
 
@@ -95,6 +101,10 @@ export default class Rigidbody extends Component {
 
   isKinematic() {
     return this._bodyType === RigidBodyTypes.KINEMATIC;
+  }
+
+  isStatic() {
+    return this._bodyType === RigidBodyTypes.STATIC;
   }
 
   isAwake() {
@@ -147,42 +157,4 @@ export default class Rigidbody extends Component {
     this._forces.zero();
   }
 
-  update(d_t) {
-    this.calcLoads(d_t);
-    this.updateBodyEuler(d_t);
-  }
-
-  /**
-   * @param d_t {number}
-   */
-  calcLoads(d_t) {
-    //aggregate forces
-    this.resetForces();
-
-    //test force
-    this._forces.add(this._impactForces);
-
-    this._impactForces.zero();
-  }
-
-  /**
-   * @param d_t {number}
-   */
-  updateBodyEuler(d_t) {
-    let a = this._forces.clone().divideScalar(this._mass);
-
-    let dv = a.multiplyScalar(d_t);
-    this._velocity.add(dv);
-
-    let ds = this._velocity.clone().multiplyScalar(d_t);
-    this.owner.transform.translate(ds);
-
-    //Misc. calculation
-    //this._speed = this._velocity.magnitude();
-    //console.log(this._speed);
-
-    //maybe
-    this.owner.transform.translate(this._deltaPos);
-    this._deltaPos.zero();
-  }
 }

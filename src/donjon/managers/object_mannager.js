@@ -29,28 +29,17 @@ export default class ObjectManager {
     let name1 = "Player";
     let obj1 = new GameObject(name1);
     obj1.addComponent(Components.RIGIDBODY);
-    obj1.addComponent(Components.CIRCLE_COLLIDER, -24, -24, 24);
+    obj1.addComponent(Components.CIRCLE_COLLIDER, 0.5);
     obj1.addComponent(Components.RENDER, 'hero');
-
-    let name2 = "Enemy";
-    let obj2 = new GameObject(name2);
-    obj2.addComponent(Components.RIGIDBODY);
-    obj2.addComponent(Components.BOX_COLLIDER, -24, -24, 48, 48);
-
-    let name3 = "Spawn Area";
-    let obj3 = new GameObject(name3);
-    obj3.addComponent(Components.CIRCLE_COLLIDER, 0, 0, 48 * 2);
 
     let name4 = 'Test';
     let obj4 = new GameObject(name4);
     obj4.transform.scale.x = 2.0;
     obj4.addComponent(Components.RIGIDBODY);
-    obj4.addComponent(Components.CIRCLE_COLLIDER, -24, -24, 24);
+    obj4.addComponent(Components.CIRCLE_COLLIDER, 0.5);
     obj4.addComponent(Components.RENDER, 'hero');
 
     this._prefabs.set(name1, obj1);
-    this._prefabs.set(name2, obj2);
-    this._prefabs.set(name3, obj3);
     this._prefabs.set(name4, obj4);
   }
 

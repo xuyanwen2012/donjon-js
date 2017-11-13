@@ -31,9 +31,8 @@ class SceneMap extends SceneMapBase {
     $gameObjects.instantiate('Player', new Victor(5, 5));
     $gameObjects.instantiate('Test', new Victor(10, 10));
 
-    Donjon.Physics.setup();
 
-    console.log("Test Object instantiated.");
+    Donjon.Physics.setup();
     super.onMapLoaded();
   }
 
@@ -58,19 +57,7 @@ class SceneMap extends SceneMapBase {
   }
 
   updateScene() {
-    // this.checkGameover();
-    // if (!SceneManager.isSceneChanging()) {
-    //   this.updateTransferPlayer();
-    // }
-    // if (!SceneManager.isSceneChanging()) {
-    //   this.updateEncounter();
-    // }
-    // if (!SceneManager.isSceneChanging()) {
-    //   this.updateCallMenu();
-    // }
-    // if (!SceneManager.isSceneChanging()) {
-    //   this.updateCallDebug();
-    // }
+
   }
 
   /**
@@ -82,14 +69,12 @@ class SceneMap extends SceneMapBase {
 
 
     Donjon.Physics.tick();
-
     $gameMap.update(active);
 
     // const player = $gameObjects.find('Player');
     // if (player)
     //   player.transform.translate(new Victor(delta_time, delta_time));
 
-    //$gamePlayer.update(active);
     $gameScreen.update();
   }
 }

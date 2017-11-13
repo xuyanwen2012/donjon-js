@@ -1,16 +1,7 @@
 import p2 from 'p2';
 import ObjectManager from "../managers/object_mannager";
 import {Components} from "./const";
-
-//local alias
-/** @namespace p2.World */
-const World = p2.World;
-/** @namespace p2.Body */
-const Body = p2.Body;
-/** @namespace p2.Circle */
-const Circle = p2.Circle;
-/** @namespace p2.Box */
-const Box = p2.Box;
+import EventEmitter from "../managers/event_emitter";
 
 /**
  *
@@ -20,6 +11,17 @@ export default class Physics {
     throw new Error('This is a static class');
   }
 
+  static initializeListeners() {
+    EventEmitter.addListener('addForce', this.addForceToBody);
+  }
+
+  /**
+   * @private
+   */
+  static addForceToBody(rigidbody, forceArr) {
+
+  }
+
   /**
    * Construct p2.Body from RigidbodyComponent
    *
@@ -27,8 +29,9 @@ export default class Physics {
    */
   static addRigidbody(rigidbody) {
     /* create p2 body */
-    let body = new Body({
-      mass: 1,
+    let body = new p2.Body({
+      mass: rigidbody.mass,
+      type: rigidbody.getBodyType(),
       position: rigidbody.transform.position.toArray(),
       fixedRotation: true,
     });
@@ -44,16 +47,16 @@ export default class Physics {
 
     box.forEach(b => {
         console.log("box added");
-        body.addShape(new Box({
-          width: 1,
-          height: 1
+      body.addShape(new p2.Box({
+        width: b.width,
+        height: b.height,
         }))
       }
     );
     circle.forEach(circle => {
         console.log("circle added");
-        body.addShape(new Circle({
-          radius: 0.5
+      body.addShape(new p2.Circle({
+        radius: circle.radius,
         }))
       }
     );
@@ -64,8 +67,9 @@ export default class Physics {
   }
 
   static setup() {
-    const bodies = ObjectManager.retrieveAllComponents(Components.RIGIDBODY);
+    this.initializeListeners();
 
+    const bodies = ObjectManager.retrieveAllComponents(Components.RIGIDBODY);
     bodies.forEach(body =>
       this.addRigidbody(body)
     );
@@ -85,24 +89,25 @@ export default class Physics {
   static tick() {
     this._world.step(Physics.fixDeltaTime);
 
-    /* update object's position */
+    /* update game object's position */
     this._bodyPairs.forEach(pair => {
         pair[0].owner.transform.setPosition({
           x: pair[1].position[0],
           y: pair[1].position[1]
         });
-        console.log(`(${pair[0].owner.transform.position.x}, ${pair[0].owner.transform.position.y})`);
+      //console.log(`(${pair[0].owner.transform.position.x},
+      // ${pair[0].owner.transform.position.y})`);
       }
     )
-
   }
 
 
 }
+
 Physics._bodyPairs = [];
 Physics._coliders = [];
-Physics._world = new World({
-  gravity: [0, -1]
+Physics._world = new p2.World({
+  gravity: [0, -10]
 });
 Physics.fixDeltaTime = 1 / 60.0;
 Physics.maxSubSteps = 5;
