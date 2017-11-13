@@ -2,6 +2,7 @@
  *
  */
 export default class EventEmitter {
+
   constructor() {
     throw new Error('This is a static class');
   }

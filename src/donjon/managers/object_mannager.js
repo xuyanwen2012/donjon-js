@@ -3,6 +3,7 @@ import GameObject from '../donjon_objects/game_object';
 import {Components} from '../core/const';
 
 export default class ObjectManager {
+
   constructor() {
     throw new Error('This is a static class');
   }

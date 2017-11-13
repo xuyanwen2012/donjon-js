@@ -7,18 +7,24 @@ import EventEmitter from "../managers/event_emitter";
  *
  */
 export default class Physics {
+
   constructor() {
-    throw new Error('This is a static class');
+    this._bodyPairs = [];
+    this._world = new p2.World({
+      gravity: [0, -10]
+    });
+    this.fixDeltaTime = 1 / 60.0;
+    this.initializeListeners();
   }
 
-  static initializeListeners() {
+  initializeListeners() {
     EventEmitter.addListener('addForce', this.addForceToBody);
   }
 
   /**
    * @private
    */
-  static addForceToBody(rigidbody, forceArr) {
+  addForceToBody(rigidbody, forceArr) {
 
   }
 
@@ -27,7 +33,7 @@ export default class Physics {
    *
    * @param rigidbody {Rigidbody}
    */
-  static addRigidbody(rigidbody) {
+  addRigidbody(rigidbody) {
     /* create p2 body */
     let body = new p2.Body({
       mass: rigidbody.mass,
@@ -66,9 +72,7 @@ export default class Physics {
     console.log(this._world);
   }
 
-  static setup() {
-    this.initializeListeners();
-
+  setup() {
     const bodies = ObjectManager.retrieveAllComponents(Components.RIGIDBODY);
     bodies.forEach(body =>
       this.addRigidbody(body)
@@ -86,28 +90,15 @@ export default class Physics {
   /**
    *
    */
-  static tick() {
-    this._world.step(Physics.fixDeltaTime);
+  tick() {
+    this._world.step(this.fixDeltaTime);
 
     /* update game object's position */
-    this._bodyPairs.forEach(pair => {
-        pair[0].owner.transform.setPosition({
-          x: pair[1].position[0],
-          y: pair[1].position[1]
-        });
-      //console.log(`(${pair[0].owner.transform.position.x},
-      // ${pair[0].owner.transform.position.y})`);
-      }
+    this._bodyPairs.forEach(pair =>
+      pair[0].owner.transform.setPosition({
+        x: pair[1].position[0],
+        y: pair[1].position[1]
+      })
     )
   }
-
-
 }
-
-Physics._bodyPairs = [];
-Physics._coliders = [];
-Physics._world = new p2.World({
-  gravity: [0, -10]
-});
-Physics.fixDeltaTime = 1 / 60.0;
-Physics.maxSubSteps = 5;
