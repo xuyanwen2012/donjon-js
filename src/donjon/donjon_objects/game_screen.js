@@ -62,7 +62,7 @@ export default class GameScreen {
     this._fadeOutDuration = 0;
     /** @private @type {number} */
     this._fadeInDuration = 0;
-  };
+  }
 
   clearTone() {
     /**
@@ -78,7 +78,7 @@ export default class GameScreen {
 
     /** @private @type {number} */
     this._toneDuration = 0;
-  };
+  }
 
   clearFlash() {
     /**
@@ -88,7 +88,7 @@ export default class GameScreen {
     this._flashColor = [0, 0, 0, 0];
     /** @private @type {number} */
     this._flashDuration = 0;
-  };
+  }
 
   clearShake() {
     /** @private @type {number} */
@@ -101,7 +101,7 @@ export default class GameScreen {
     this._shakeDirection = 1;
     /** @private @type {number} */
     this._shake = 0;
-  };
+  }
 
   clearZoom() {
     /** @private @type {number} */
@@ -114,7 +114,7 @@ export default class GameScreen {
     this._zoomScaleTarget = 1;
     /** @private @type {number} */
     this._zoomDuration = 0;
-  };
+  }
 
   clearWeather() {
     /** @private @type {string} */
@@ -125,7 +125,7 @@ export default class GameScreen {
     this._weatherPowerTarget = 0;
     /** @private @type {number} */
     this._weatherDuration = 0;
-  };
+  }
 
   /**
    * @param duration {number}
@@ -133,7 +133,7 @@ export default class GameScreen {
   startFadeOut(duration) {
     this._fadeOutDuration = duration;
     this._fadeInDuration = 0;
-  };
+  }
 
   /**
    * @param duration {number}
@@ -141,7 +141,7 @@ export default class GameScreen {
   startFadeIn(duration) {
     this._fadeInDuration = duration;
     this._fadeOutDuration = 0;
-  };
+  }
 
   /**
    * @param tone {[number,number,number,number]}
@@ -153,7 +153,7 @@ export default class GameScreen {
     if (this._toneDuration === 0) {
       this._tone = this._toneTarget.clone();
     }
-  };
+  }
 
   /**
    *
@@ -163,7 +163,7 @@ export default class GameScreen {
   startFlash(color, duration) {
     this._flashColor = color.clone();
     this._flashDuration = duration;
-  };
+  }
 
   /**
    *
@@ -175,7 +175,7 @@ export default class GameScreen {
     this._shakePower = power;
     this._shakeSpeed = speed;
     this._shakeDuration = duration;
-  };
+  }
 
   /**
    *
@@ -189,7 +189,7 @@ export default class GameScreen {
     this._zoomY = y;
     this._zoomScaleTarget = scale;
     this._zoomDuration = duration;
-  };
+  }
 
   /**
    *
@@ -201,7 +201,7 @@ export default class GameScreen {
     this._zoomX = x;
     this._zoomY = y;
     this._zoomScale = scale;
-  };
+  }
 
   /**
    *
@@ -218,7 +218,7 @@ export default class GameScreen {
     if (duration === 0) {
       this._weatherPower = this._weatherPowerTarget;
     }
-  };
+  }
 
   update() {
     this.updateFadeOut();
@@ -228,7 +228,7 @@ export default class GameScreen {
     this.updateShake();
     this.updateZoom();
     this.updateWeather();
-  };
+  }
 
   updateFadeOut() {
     if (this._fadeOutDuration > 0) {
@@ -236,7 +236,7 @@ export default class GameScreen {
       this._brightness = (this._brightness * (d - 1)) / d;
       this._fadeOutDuration--;
     }
-  };
+  }
 
   updateFadeIn() {
     if (this._fadeInDuration > 0) {
@@ -244,7 +244,7 @@ export default class GameScreen {
       this._brightness = (this._brightness * (d - 1) + 255) / d;
       this._fadeInDuration--;
     }
-  };
+  }
 
   updateTone() {
     if (this._toneDuration > 0) {
@@ -254,7 +254,7 @@ export default class GameScreen {
       }
       this._toneDuration--;
     }
-  };
+  }
 
   updateFlash() {
     if (this._flashDuration > 0) {
@@ -262,7 +262,7 @@ export default class GameScreen {
       this._flashColor[3] *= (d - 1) / d;
       this._flashDuration--;
     }
-  };
+  }
 
   updateShake() {
     if (this._shakeDuration > 0 || this._shake !== 0) {
@@ -280,7 +280,7 @@ export default class GameScreen {
       }
       this._shakeDuration--;
     }
-  };
+  }
 
   updateZoom() {
     if (this._zoomDuration > 0) {
@@ -289,7 +289,7 @@ export default class GameScreen {
       this._zoomScale = (this._zoomScale * (d - 1) + t) / d;
       this._zoomDuration--;
     }
-  };
+  }
 
   updateWeather() {
     if (this._weatherDuration > 0) {
@@ -301,10 +301,9 @@ export default class GameScreen {
         this._weatherType = 'none';
       }
     }
-  };
+  }
 
   startFlashForDamage() {
     this.startFlash([255, 0, 0, 128], 8);
-  };
-
+  }
 }

@@ -38,21 +38,6 @@ export const Shapes = {
   CIRCLE: 2,
 };
 
-
-// /**
-//  * @static
-//  * @constant
-//  * @name CollisionDetectionModes
-//  * @memberof Donjon
-//  * @type {object}
-//  * @property {number} DISCRETE
-//  * @property {number} CONTINUOUS
-//  */
-// export const CollisionDetectionModes = {
-//   DISCRETE: 1,
-//   CONTINUOUS: 2,
-// };
-
 /**
  * @static
  * @constant

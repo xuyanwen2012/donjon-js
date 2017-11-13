@@ -9,11 +9,15 @@ import EventEmitter from "../managers/event_emitter";
 export default class Physics {
 
   constructor() {
+
     this._bodyPairs = [];
+
     this._world = new p2.World({
       gravity: [0, -10]
     });
+
     this.fixDeltaTime = 1 / 60.0;
+
     this.initializeListeners();
   }
 

@@ -8,25 +8,23 @@ export default class ObjectManager {
     throw new Error('This is a static class');
   }
 
-  static initializeObjectPool() {
+  static initialize() {
     /**
      * @static
      * @type {Array.<GameObject>}
      * @private
      */
     this._objects = [];
-
     this._objectsMap = new Map();
-  }
-
-  static createTempPrefabs() {
     /**
      * @static
      * @type {Map}
      * @private
      */
     this._prefabs = new Map();
+  }
 
+  static createTempPrefabs() {
     let name1 = "Player";
     let obj1 = new GameObject(name1);
     obj1.addComponent(Components.RIGIDBODY);

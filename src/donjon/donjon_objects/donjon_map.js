@@ -63,7 +63,7 @@ export default class DonjonMap {
    * @param map {object}
    */
   setup(mapId, map) {
-    if (!map) {
+    if (map === undefined) {
       throw new Error('DonjonMap: The map data is not available');
     }
     this._dataMap = map;
@@ -104,11 +104,6 @@ export default class DonjonMap {
   /** @return {String} */
   parallaxName() {
     return this._parallaxName
-  }
-
-  /** @private */
-  setupObjects() {
-
   }
 
   /** @private */
@@ -377,13 +372,8 @@ export default class DonjonMap {
     return this._scrollRest > 0;
   }
 
-  /**
-   * @param sceneActive {boolean}
-   */
-  update(sceneActive) {
+  update() {
     //this.refreshIfNeeded();
-    if (sceneActive) {
-    }
     this.updateScroll();
     this.updateParallax();
     //this.updateEvents();
@@ -437,36 +427,34 @@ export default class DonjonMap {
     }
   }
 
-  /**
-   * @param tilesetId {number}
-   */
-  changeTileset(tilesetId) {
-    this._tilesetId = tilesetId;
-    this.refresh();
-  }
-
-  /**
-   * @param name {string}
-   * @param loopX {number}
-   * @param loopY {number}
-   * @param sx {number}
-   * @param sy {number}
-   */
-  changeParallax(name, loopX, loopY, sx, sy) {
-    this._parallaxName = name;
-    // this._parallaxZero = ImageManager.isZeroParallax(this._parallaxName);
-    this._parallaxZero = false;
-    if (this._parallaxLoopX && !loopX) {
-      this._parallaxX = 0;
-    }
-    if (this._parallaxLoopY && !loopY) {
-      this._parallaxY = 0;
-    }
-    this._parallaxLoopX = loopX;
-    this._parallaxLoopY = loopY;
-    this._parallaxSx = sx;
-    this._parallaxSy = sy;
-  }
-
-
+  // /**
+  //  * @param tilesetId {number}
+  //  */
+  // changeTileset(tilesetId) {
+  //   this._tilesetId = tilesetId;
+  //   this.refresh();
+  // }
+  //
+  // /**
+  //  * @param name {string}
+  //  * @param loopX {number}
+  //  * @param loopY {number}
+  //  * @param sx {number}
+  //  * @param sy {number}
+  //  */
+  // changeParallax(name, loopX, loopY, sx, sy) {
+  //   this._parallaxName = name;
+  //   // this._parallaxZero = ImageManager.isZeroParallax(this._parallaxName);
+  //   this._parallaxZero = false;
+  //   if (this._parallaxLoopX && !loopX) {
+  //     this._parallaxX = 0;
+  //   }
+  //   if (this._parallaxLoopY && !loopY) {
+  //     this._parallaxY = 0;
+  //   }
+  //   this._parallaxLoopX = loopX;
+  //   this._parallaxLoopY = loopY;
+  //   this._parallaxSx = sx;
+  //   this._parallaxSy = sy;
+  // }
 }
