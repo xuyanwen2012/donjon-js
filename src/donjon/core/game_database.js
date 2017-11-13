@@ -24,6 +24,10 @@ export default class Database {
     this.dataTilesets = data;
   }
 
+  setMap(data) {
+    this.dataMap = data;
+  }
+
   getMapInfos() {
     return this.dataMapInfos;
   }

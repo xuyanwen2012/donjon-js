@@ -3,10 +3,10 @@ let $dataSystem = null;
 let $dataMapInfos = null;
 let $dataMap = null;
 
-// let $gameTemp = null;
-// let $gameSystem = null;
+//client alias for donjon.js
 let $gameScreen = null;
 let $gameMap = null;
 let $gameObjects = null;
+let $game = null;
 
 

@@ -1,7 +1,6 @@
 /**
  * @extends SceneBase
  */
-
 class SceneMap extends SceneMapBase {
 
   // /**
@@ -25,14 +24,21 @@ class SceneMap extends SceneMapBase {
    * @override
    */
   onMapLoaded() {
-    //$gamePlayer.performTransfer();
     $gameMap.setup(this._newMapId, $dataMap); //setup map data before construct
-    // objects
-    $gameObjects.instantiate('Player', new Victor(5, 5));
-    $gameObjects.instantiate('Test', new Victor(10, 10));
 
+    $game.database.setMapInfos($dataMapInfos);
+    $game.database.setSystem($dataSystem);
+    $game.database.setTilesets($dataTilesets);
+    $game.database.setMap($dataMap);
 
-    Donjon.Physics.setup();
+    /* temp objects */
+    $gameObjects.instantiate('Player', new Victor(4.75, 5));
+
+    for (var i = 0; i < 10; i++) {
+      $gameObjects.instantiate('Test', new Victor(5 + Math.randomInt(5), 5 + Math.randomInt(5)));
+    }
+
+    $game.start();
     super.onMapLoaded();
   }
 
@@ -67,14 +73,11 @@ class SceneMap extends SceneMapBase {
     const active = this.isActive();
     const delta_time = 1.0 / 60.0;
 
-
-    Donjon.Physics.tick();
-    $gameMap.update(active);
+    /* update donjon game */
+    $game.fixedUpdate();
 
     // const player = $gameObjects.find('Player');
     // if (player)
     //   player.transform.translate(new Victor(delta_time, delta_time));
-
-    $gameScreen.update();
   }
 }

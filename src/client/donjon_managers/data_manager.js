@@ -133,14 +133,11 @@ class DataManager {
   }
 
   static createGameObjects() {
-    //$gameTemp = new Game_Temp();
-    //$gameSystem = new GameSystem();
+    $game = new Donjon.Game();
     $gameObjects = Donjon.ObjectManager;
-    $gameObjects.initialize();
-    $gameObjects.createTempPrefabs();
 
-    $gameScreen = new Donjon.GameScreen();
-    $gameMap = new Donjon.DonjonMap();
+    $gameScreen = $game.gameScreen;
+    $gameMap = $game.gameMap;
   }
 
   static setupNewGame() {
@@ -149,6 +146,7 @@ class DataManager {
     // $gameParty.setupStartingMembers();
     // $gamePlayer.reserveTransfer($dataSystem.startMapId,
     //     $dataSystem.startX, $dataSystem.startY);
+
     Graphics.frameCount = 0;
   }
 

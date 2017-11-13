@@ -7,15 +7,6 @@ import DonjonMap from '../donjon_objects/donjon_map';
 
 /**
  * Server game Object.
- *
- * var game = Donjon.Game();
- *  ...(load resource, data)
- * game.start();
- * game.pause();
- * game.terminate();
- *
- *
- * @memberOf Donjon
  */
 export default class Game {
 
@@ -23,10 +14,8 @@ export default class Game {
    *
    */
   constructor() {
-
-    this.database = new Database();
-
     /* game managers */
+    this.database = new Database();
     ObjectManager.initialize();
     ObjectManager.createTempPrefabs(); // temp
 
@@ -47,6 +36,15 @@ export default class Game {
     this.log('Game Successfully Initialized.');
   }
 
+  /** @return {DonjonMap} */
+  get gameMap() {
+    return this._gameMap;
+  }
+
+  /** @return {GameScreen} */
+  get gameScreen() {
+    return this._gameScreen;
+  }
 
   /**
    * Must load all data and assets before calling start()
