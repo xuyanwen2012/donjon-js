@@ -77,7 +77,6 @@ class SceneBase extends Stage {
    * Handle fading update and update all children
    */
   update() {
-    Donjon.EventEmitter.tick();
     //this.updateFade();
     this.updateChildren();
     AudioManager.checkErrors();

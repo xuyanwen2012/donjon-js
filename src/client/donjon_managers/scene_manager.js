@@ -119,7 +119,7 @@ class SceneManager {
 
   static initInput() {
     Input.initialize();
-    TouchInput.initialize();
+    //TouchInput.initialize();
   }
 
   static initNwjs() {
@@ -161,13 +161,10 @@ class SceneManager {
       }
       this.updateManagers();
       this.updateMain();
-
       this.tickEnd();
     } catch (e) {
       this.catchException(e);
     }
-
-
   }
 
   static terminate() {
@@ -233,7 +230,7 @@ class SceneManager {
 
   static updateInputData() {
     Input.update();
-    TouchInput.update();
+    //TouchInput.update();
   }
 
   /**
@@ -414,15 +411,6 @@ class SceneManager {
     return Bitmap.snap(this._scene);
   }
 
-  static snapForBackground() {
-    this._backgroundBitmap = this.snap();
-    this._backgroundBitmap.blur();
-  }
-
-  static backgroundBitmap() {
-    return this._backgroundBitmap;
-  }
-
   static resume() {
     this._stopped = false;
     this.requestUpdate();
@@ -454,11 +442,6 @@ SceneManager._stopped = false;
 SceneManager._sceneStarted = false;
 SceneManager._exiting = false;
 SceneManager._previousClass = null;
-/**
- * @type {Bitmap}
- * @private
- */
-SceneManager._backgroundBitmap = null;
 SceneManager._screenWidth = 1280;
 SceneManager._screenHeight = 720;
 SceneManager._boxWidth = 1280;

@@ -38,21 +38,6 @@ export const Shapes = {
   CIRCLE: 2,
 };
 
-
-/**
- * @static
- * @constant
- * @name CollisionDetectionModes
- * @memberof Donjon
- * @type {object}
- * @property {number} DISCRETE
- * @property {number} CONTINUOUS
- */
-export const CollisionDetectionModes = {
-  DISCRETE: 1,
-  CONTINUOUS: 2,
-};
-
 /**
  * @static
  * @constant
@@ -60,13 +45,13 @@ export const CollisionDetectionModes = {
  * @memberof Donjon
  * @type {object}
  * @property {number} DYNAMIC
- * @property {number} KINEMATIC
  * @property {number} STATIC
+ * @property {number} KINEMATIC
  */
 export const RigidBodyTypes = {
   DYNAMIC: 1,
-  KINEMATIC: 2,
-  STATIC: 3,
+  STATIC: 2,
+  KINEMATIC: 4,
 };
 
 /**

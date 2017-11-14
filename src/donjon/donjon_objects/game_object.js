@@ -31,9 +31,6 @@ export default class GameObject {
     this._children = [];
 
     /** @private @type {number} */
-    this._layer = GameObject.Layers.DEFAULT;
-
-    /** @private @type {number} */
     this._tag = GameObject.Tags.UNTAGGED;
 
     /** @private @type {Transform} */
@@ -54,22 +51,17 @@ export default class GameObject {
 
   /** @return {number} */
   get id() {
-    return this._id
+    return this._id;
   }
 
   /** @return {Transform} */
   get transform() {
-    return this._transform
-  }
-
-  /** @return {number} */
-  get layer() {
-    return this._layer
+    return this._transform;
   }
 
   /** @return {number} */
   get tag() {
-    return this._tag
+    return this._tag;
   }
 
   /**
@@ -116,21 +108,26 @@ export default class GameObject {
    * @param parent {GameObject=}
    */
   static instantiate(original, position = null, parent = null) {
-    //create empty object
+    /* create empty object */
     const cloned = new GameObject(original._name);
 
-    //clone each component from prefab
+    /* clone transform(no position) from prefab */
+    cloned.transform.copy(original.transform);
+
+    /* clone each component from prefab */
     original._components.forEach(comp =>
       GameObject.instantiateComponent(cloned, comp, comp._type)
     );
 
-
     if (position) {
+      /* assign new position, if applies */
       cloned.transform.setPosition(position);
     }
     if (parent) {
       parent.addChild(cloned);
     }
+    /* send out event */
+
     return cloned;
   }
 
@@ -139,14 +136,18 @@ export default class GameObject {
    * a clone of the origin and alter the owner to new Object. Used for prefabs
    * only. Do NOT use this on a existing game object.
    *
+   * @private
    * @param targetObject {GameObject}
    * @param origin {Component}
    * @param type {number}
    */
   static instantiateComponent(targetObject, origin, type) {
-    //create empty component (no params passed)
+    /* create default component (no param passed) */
     let cloned = this.createComponent(targetObject, type);
+    /* clone */
     Object.assign(cloned, origin);
+    /* change the ownership from prefab to cloned object */
+    cloned.setOwner(targetObject);
     targetObject.addComponent(cloned);
   }
 
@@ -156,7 +157,7 @@ export default class GameObject {
   setParent(parent) {
     if (parent instanceof GameObject) {
       this._parent = parent;
-      this.transform.setParent(parent.transform);
+      // this.transform.setParent(parent.transform);
     }
   }
 
@@ -171,7 +172,10 @@ export default class GameObject {
   }
 
   /**
+   * [Private]
    * Adds a component.js class of type type to the game object
+   *
+   *
    * @param type {number || Component} Enum to Game Components, or you can
    * simply pass an instance of Component.
    * @param param
@@ -246,7 +250,8 @@ export default class GameObject {
   broadcastMessage(methodName, parameter = null) {
     this.sendMessage(methodName, parameter);
     this._children.forEach(behaviour =>
-      behaviour[methodName](parameter));
+      behaviour[methodName](parameter)
+    );
   }
 
   /**
@@ -257,7 +262,8 @@ export default class GameObject {
    */
   sendMessage(methodName, value) {
     this._behaviours.forEach(behaviour =>
-      behaviour[methodName](value));
+      behaviour[methodName](value)
+    );
   }
 
   /**
@@ -280,11 +286,6 @@ export default class GameObject {
   update() {
   }
 }
-
-/** @const @enum {number} */
-GameObject.Layers = {
-  DEFAULT: 1,
-};
 
 /** @const @enum {number} */
 GameObject.Tags = {

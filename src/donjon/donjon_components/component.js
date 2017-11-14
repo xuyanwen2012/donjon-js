@@ -22,7 +22,7 @@ export default class Component {
     this._owner = owner;
     /** @protected @type {number} */
     this._type = Components.NULL;
-    /** @private @type {Transform} */
+    /** @protected @type {Transform} */
     this._transform = owner ? owner.transform : null;
   }
 
@@ -33,7 +33,7 @@ export default class Component {
 
   /** @return {Transform} */
   get transform() {
-    return this._transform
+    return this._transform;
   }
 
   /** @return {number} */
@@ -41,9 +41,14 @@ export default class Component {
     return this._type;
   }
 
+  /** @param owner {GameObject} */
+  setOwner(owner) {
+    this._owner = owner;
+    this._transform = owner ? owner.transform : null;
+  }
+
   /** @abstract */
   update() {
   }
-
 }
 

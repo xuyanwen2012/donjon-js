@@ -70,15 +70,14 @@ export default class RenderComponent extends Component {
   /** @return {number} x position on canvas to render */
   screenX() {
     //todo use Camera instance's position
-    const sx = this._transform.position.x;// - $gameMap.displayX();
+    const sx = this.transform.position.x;// - $gameMap.displayX();
     const tw = 48;//$gameMap.tileWidth();
-    let number = Math.round(sx * tw + tw / 2);
-    //console.log(sx);
-    return number;
+    return Math.round(sx * tw + tw / 2);
   }
 
+  /** @return {number} y position on canvas to render */
   screenY() {
-    const sy = this._transform.position.y;// - $gameMap.displayY();
+    const sy = this.transform.position.y;// - $gameMap.displayY();
     const th = 48;//$gameMap.tileHeight();
     return Math.round(sy * th + th / 2);
   }
@@ -86,5 +85,15 @@ export default class RenderComponent extends Component {
   /** @return {number} z position on canvas to render */
   screenZ() {
     return (this._priorityType << 1 ) + 1;
+  }
+
+  /** @return {number} x scale on canvas to render */
+  screenScaleX() {
+    return this._transform.scale.x;
+  }
+
+  /** @return {number} y scale on canvas to render */
+  screenScaleY() {
+    return this._transform.scale.y;
   }
 }
