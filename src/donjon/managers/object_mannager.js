@@ -33,9 +33,9 @@ export default class ObjectManager {
 
     let name4 = 'Test';
     let obj4 = new GameObject(name4);
-    obj4.transform.scale.x = 2.0;
+    //obj4.transform.scale.x = 2.0;
     obj4.addComponent(Components.RIGIDBODY);
-    obj4.addComponent(Components.CIRCLE_COLLIDER, 0.5);
+    obj4.addComponent(Components.CIRCLE_COLLIDER, 1 / 3);
     obj4.addComponent(Components.RENDER, 'hero');
 
     this._prefabs.set(name1, obj1);

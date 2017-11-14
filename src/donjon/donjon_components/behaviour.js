@@ -34,4 +34,8 @@ export default class Behaviour extends Component {
   fixedUpdate() {
   }
 
+
+  update() {
+  }
+
 }

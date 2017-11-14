@@ -1,7 +1,6 @@
 import p2 from 'p2';
 import ObjectManager from "../managers/object_mannager";
 import {Components} from "./const";
-import EventEmitter from "../managers/event_emitter";
 
 /**
  *
@@ -17,16 +16,16 @@ export default class Physics {
      * @private
      */
     this._world = new p2.World({
-      gravity: [0, 0]
+      // gravity: [0, -1]
     });
 
-    this.fixDeltaTime = 1 / 60.0;
+    // this.fixDeltaTime = 1 / 60.0;
 
     this.initializeListeners();
   }
 
   initializeListeners() {
-    EventEmitter.addListener('addForce', this.addForceToBody);
+    //EventEmitter.addListener('addForce', this.addForceToBody);
   }
 
   /**
@@ -48,6 +47,7 @@ export default class Physics {
       type: rigidbody.getBodyType(),
       position: rigidbody.transform.position.toArray(),
       fixedRotation: true,
+      allowSleep: true,
     });
 
     const bodyPair = [rigidbody, body];
@@ -87,19 +87,27 @@ export default class Physics {
     );
 
     /* add debug plane */
-    const planeShape = new p2.Plane();
+    //const planeShape = new p2.Plane();
     const planeBody = new p2.Body({
       position: [0, 0]
     });
-    planeBody.addShape(planeShape);
+    // const planeBody2 = new p2.Body({
+    //   position: [0, -10]
+    // });
+    planeBody.addShape(new p2.Plane());
+    //planeBody2.addShape(new p2.Plane());
     this._world.addBody(planeBody);
+    //this._world.addBody(planeBody2);
   }
 
   /**
    *
    */
-  tick() {
-    this._world.step(this.fixDeltaTime);
+  tick(dt) {
+
+
+    /* internal step */
+    this._world.step(dt);
 
     /* update game object's position */
     this._bodyPairs.forEach(pair =>

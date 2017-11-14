@@ -88,7 +88,7 @@ export default class Game {
     this._gameScreen.update();
 
     /* update internal physics system, i.e. p2.World */
-    this._physics.tick();
+    this._physics.tick(1 / 60.0);
 
     this._gameTick++;
     this._gameClockReal += new Date().getTime() - this._gameClockReal;

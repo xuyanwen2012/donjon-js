@@ -31,9 +31,6 @@ export default class GameObject {
     this._children = [];
 
     /** @private @type {number} */
-    this._layer = GameObject.Layers.DEFAULT;
-
-    /** @private @type {number} */
     this._tag = GameObject.Tags.UNTAGGED;
 
     /** @private @type {Transform} */
@@ -60,11 +57,6 @@ export default class GameObject {
   /** @return {Transform} */
   get transform() {
     return this._transform;
-  }
-
-  /** @return {number} */
-  get layer() {
-    return this._layer;
   }
 
   /** @return {number} */
@@ -294,11 +286,6 @@ export default class GameObject {
   update() {
   }
 }
-
-/** @const @enum {number} */
-GameObject.Layers = {
-  DEFAULT: 1,
-};
 
 /** @const @enum {number} */
 GameObject.Tags = {
