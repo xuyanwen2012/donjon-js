@@ -3,7 +3,7 @@ import Transform from '../donjon_components/transform';
 import Rigidbody from '../donjon_components/rigidbody';
 import BoxCollider from '../donjon_components/box_collider';
 import CircleCollider from '../donjon_components/circle_collider';
-import Behaviour from '../donjon_components/behaviour';
+// import Behaviour from '../donjon_components/behaviour';
 import RenderComponent from "../donjon_components/render";
 
 
@@ -20,16 +20,13 @@ export default class GameObject {
    */
   constructor(name = 'unnamed') {
     /** @private @type{number} */
-    this._id = 0;//Utils.generateRuntimeId();
+    this._id = 0;
 
     /** @private @type {GameObject} */
     this._parent = null;
 
     /** @private @type {Array.<GameObject>} */
     this._children = [];
-
-    /** @private @type {number} */
-    this._tag = GameObject.Tags.UNTAGGED;
 
     /** @private @type {Transform} */
     this._transform = new Transform(this);
@@ -57,24 +54,19 @@ export default class GameObject {
     return this._transform;
   }
 
-  /** @return {number} */
-  get tag() {
-    return this._tag;
-  }
-
   /**
    *
    * @param targetObject {GameObject}
    * @param script {Object}
    */
-  static createBehaviour(targetObject, script) {
-    const behaviour = new Behaviour(targetObject);
-    console.log("===========");
-    console.log(script);
-    console.log("===========");
-    Object.assign(behaviour, script);
-    return behaviour;
-  };
+  // static createBehaviour(targetObject, script) {
+  //   const behaviour = new Behaviour(targetObject);
+  //   console.log("===========");
+  //   console.log(script);
+  //   console.log("===========");
+  //   Object.assign(behaviour, script);
+  //   return behaviour;
+  // };
 
   /**
    *
@@ -232,14 +224,6 @@ export default class GameObject {
   }
 
   /**
-   * @param tag {number} The tag to compare.
-   * @return {boolean} Is this game object tagged with tag ?
-   */
-  compareTag(tag) {
-    return this._tag === tag;
-  }
-
-  /**
    * Calls the method named methodName on every MonoBehaviour in this game
    * object or any of its children.
    * @param methodName {string} Name of method to call.
@@ -284,10 +268,3 @@ export default class GameObject {
   update() {
   }
 }
-
-/** @const @enum {number} */
-GameObject.Tags = {
-  UNTAGGED: 1,
-  RESPAWN: 2,
-  PLAYER: 3,
-};

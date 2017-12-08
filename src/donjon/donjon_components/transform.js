@@ -114,6 +114,7 @@ export default class Transform extends Component {
    * @param target{Transform} Object to point towards.
    */
   lookAt(target) {
+
   }
 
   /**

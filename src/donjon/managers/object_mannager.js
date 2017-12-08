@@ -14,7 +14,6 @@ export default class ObjectManager {
      * @private
      */
     this._objects = [];
-    this._objectsMap = new Map();
     /**
      * @static
      * @type {Map}
@@ -68,7 +67,6 @@ export default class ObjectManager {
    */
   static addObject(gameObject) {
     this._objects.push(gameObject);
-    this._objectsMap.set(gameObject._name, gameObject);
   }
 
   /**
@@ -85,15 +83,7 @@ export default class ObjectManager {
    * @return {GameObject}
    */
   static find(name) {
-    return this._objectsMap.get(name);
-  }
-
-  /**
-   * @param tag {number}
-   * @return {GameObject}
-   */
-  static findWithTag(tag) {
-
+    //return this._objectsMap.get(name);
   }
 
   /**

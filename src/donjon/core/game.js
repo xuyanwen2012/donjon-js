@@ -14,7 +14,7 @@ export default class Game {
    *
    */
   constructor() {
-    /* game managers */
+    /* setup game managers */
     this.database = new Database();
     ObjectManager.initialize();
     ObjectManager.createTempPrefabs(); // temp
