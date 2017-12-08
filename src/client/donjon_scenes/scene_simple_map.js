@@ -35,7 +35,11 @@ class SceneMap extends SceneMapBase {
     //$gameObjects.instantiate('Player', new Victor(4.75, 5));
 
     for (var i = 0; i < 100; i++) {
-      $gameObjects.instantiate('Test', new Victor(5 + Math.randomInt(10), 5 + Math.randomInt(10)));
+      //$gameObjects.instantiate('Test', new Victor(5 + Math.randomInt(10),
+      // 5 + Math.randomInt(10)));
+
+
+      $gameObjects.instantiate('Test', [5 + Math.random() * 10, 5 + Math.random() * 10]);
     }
 
     $game.start();

@@ -90,6 +90,7 @@ export default class EventEmitter {
     this.queuedEvents[queueToProcess] = [];
   }
 }
+
 /**
  * @static
  * @private
@@ -114,5 +115,3 @@ EventEmitter.currentQueue = 0;
  * @type {number}
  */
 EventEmitter.MAX = 2;
-
-

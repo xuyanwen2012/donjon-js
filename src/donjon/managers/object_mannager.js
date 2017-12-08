@@ -1,4 +1,3 @@
-import Victor from 'victor';
 import GameObject from '../donjon_objects/game_object';
 import {Components} from '../core/const';
 
@@ -46,7 +45,7 @@ export default class ObjectManager {
    *
    *
    * @param objectName {string} name in prefabs.
-   * @param position {Victor=} new position to deploy this object.
+   * @param position {Array.<number>=} new position to deploy this object.
    * @param parent {GameObject}
    * @return {GameObject} cloned object.
    */

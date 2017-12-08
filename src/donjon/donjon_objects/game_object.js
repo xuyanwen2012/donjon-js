@@ -1,4 +1,3 @@
-import Victor from 'victor';
 import {Components} from '../core/const';
 import Transform from '../donjon_components/transform';
 import Rigidbody from '../donjon_components/rigidbody';
@@ -12,7 +11,6 @@ import RenderComponent from "../donjon_components/render";
  * Do NOT manually create instance of GameObject. Use following instead:
  *
  *  ObjectManager.instantiate("name 1");
- *  ObjectManager.instantiate("name 2", new Victor(2.0,5.0));
  *
  */
 export default class GameObject {
@@ -104,7 +102,7 @@ export default class GameObject {
    * Clones the object original and returns the clone.
    *
    * @param original {GameObject}
-   * @param position {Victor=}
+   * @param position {Array.<number>=}
    * @param parent {GameObject=}
    */
   static instantiate(original, position = null, parent = null) {

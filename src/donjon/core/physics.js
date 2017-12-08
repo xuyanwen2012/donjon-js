@@ -59,27 +59,25 @@ export default class Physics {
     const box = obj.getComponents(Components.BOX_COLLIDER);
     const circle = obj.getComponents(Components.CIRCLE_COLLIDER);
 
-    box.forEach(b => {
-        console.log("box added");
+    box.forEach(b =>
       body.addShape(new p2.Box({
         width: b.width,
         height: b.height,
-        }))
-      }
+      }))
     );
-    circle.forEach(circle => {
-        console.log("circle added");
+    circle.forEach(circle =>
       body.addShape(new p2.Circle({
         radius: circle.radius,
-        }))
-      }
+      }))
     );
 
     /* Add the body to the world */
     this._world.addBody(body);
-    console.log(this._world);
   }
 
+  /**
+   *
+   */
   setup() {
     const bodies = ObjectManager.retrieveAllComponents(Components.RIGIDBODY);
     bodies.forEach(body =>
@@ -104,17 +102,12 @@ export default class Physics {
    *
    */
   tick(dt) {
-
-
     /* internal step */
     this._world.step(dt);
 
     /* update game object's position */
     this._bodyPairs.forEach(pair =>
-      pair[0].owner.transform.setPosition({
-        x: pair[1].position[0],
-        y: pair[1].position[1]
-      })
+      pair[0].owner.transform.setPosition(pair[1].position)
     )
   }
 }

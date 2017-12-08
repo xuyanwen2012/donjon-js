@@ -6,28 +6,29 @@ import {Components} from "../core/const";
  * @extends Component
  */
 export default class Transform extends Component {
+
   /**
    * @param owner {GameObject} The game object this component.js is attached
    *     to. A component.js is always attached to a game object.
-   * @param pos {Victor=} The position of the transform.
+   * @param pos {Array.<number>=} The position of the transform.
    * @param height {number=} The Height of the transform.
-   * @param scale {Victor=} The scale of the transform.
+   * @param scale {Array.<number>=} The scale of the transform.
    */
-  constructor(owner, pos = new Victor(0, 0),
-              height = 0, scale = new Victor(1, 1)) {
+  constructor(owner, pos = [0, 0], height = 0, scale = [1, 1]) {
     super(owner);
+
     /** @private @type {number} */
     this._type = Components.TRANSFORM;
     /** @private @type {Transform} */
     this._transform = this;
     /** @private @type {Victor} */
-    this._position = pos;
+    this._position = Victor.fromArray(pos);
     /** @private @type {number} */
     this._height = height;
     /** @private @type {number} */
     this._rotation = 0;
     /** @private @type {Victor} */
-    this._scale = scale;
+    this._scale = Victor.fromArray(scale);
     // /** @private @type {Transform} */
     // this._parent = null;
   }
@@ -85,9 +86,10 @@ export default class Transform extends Component {
   //   }
   // }
 
-  /** @param pos {Victor}*/
+  /** @param pos {Array.<number>}*/
   setPosition(pos) {
-    this._position.copy(pos);
+    this._position.x = pos[0] || 0;
+    this._position.y = pos[1] || 0;
   }
 
   /**
@@ -98,10 +100,12 @@ export default class Transform extends Component {
 
   /**
    * Moves the transform in the direction and distance of translation.
-   * @param translation {Victor} Victor with direction and distance.
+   * @param translation {Array.<number>} Victor with direction and distance.
    */
   translate(translation) {
-    this._position.add(translation);
+    //this._position.add(translation);
+    this._position.x += translation[0];
+    this._position.y += translation[1];
   }
 
   /**
