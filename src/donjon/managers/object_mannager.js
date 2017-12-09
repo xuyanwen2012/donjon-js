@@ -55,7 +55,9 @@ export default class ObjectManager {
       return null;
     }
 
-    let cloned = GameObject.instantiate(original, position, parent);
+    let cloned = new GameObject();
+    cloned.copy(original, position, parent);
+
     this.addObject(cloned);
     console.log(cloned);
     return cloned;

@@ -55,6 +55,25 @@ export default class Rigidbody extends Component {
     this._deltaPos = new Victor();
   }
 
+  /**
+   * Copy data from another transform
+   * @param other {Rigidbody}
+   */
+  copy(other) {
+    this._bodyType = other._bodyType;
+    this._sleepMode = other._sleepMode;
+    this._mass = other._mass;
+    this._speed = other._speed;
+    this._impactForces.copy(other._impactForces);
+    this._forces.copy(other._forces);
+    this._velocity.copy(other._velocity);
+    this._deltaPos.copy(other._deltaPos);
+  }
+
+  update() {
+
+  }
+
   get mass() {
     return this._mass;
   }

@@ -44,6 +44,28 @@ export default class GameObject {
     this._active = true;
   }
 
+  //
+  /**
+   * Clone and assign a component to the targetObject. This action will make
+   * a clone of the origin and alter the owner to new Object. Used for prefabs
+   * only. Do NOT use this on a existing game object.
+   *
+   * @private
+   * @param targetObject {GameObject}
+   * @param origin {Component}
+   * @param type {number}
+   */
+  static instantiateComponent(targetObject, origin, type) {
+    /* create default component (no param passed) */
+    let cloned = this.createComponent(targetObject, type);
+    /* clone */
+    cloned.copy(origin);
+    /* change the ownership from prefab to cloned object */
+    cloned.setOwner(targetObject);
+    cloned._transform = targetObject._transform;
+    targetObject.addComponent(cloned);
+  }
+
   /** @return {number} */
   get id() {
     return this._id;
@@ -90,55 +112,61 @@ export default class GameObject {
     }
   }
 
+  // /**
+  //  * Clones the object original and returns the clone.
+  //  *
+  //  * @param original {GameObject}
+  //  * @param position {Array.<number>=}
+  //  * @param parent {GameObject=}
+  //  */
+  // static instantiate(original, position = null, parent = null) {
+  //   /* create empty object */
+  //   const cloned = new GameObject(original._name);
+  //
+  //   /* clone transform(no position) from prefab */
+  //   cloned.transform.copy(original.transform);
+  //
+  //   /* clone each component from prefab */
+  //   original._components.forEach(comp =>
+  //     GameObject.instantiateComponent(cloned, comp, comp._type)
+  //   );
+  //
+  //   if (position) {
+  //     /* assign new position, if applies */
+  //     cloned.transform.setPosition(position);
+  //   }
+  //   if (parent) {
+  //     parent.addChild(cloned);
+  //   }
+  //   /* send out event */
+  //
+  //   return cloned;
+  // }
+
   /**
-   * Clones the object original and returns the clone.
+   *
    *
    * @param original {GameObject}
    * @param position {Array.<number>=}
    * @param parent {GameObject=}
    */
-  static instantiate(original, position = null, parent = null) {
-    /* create empty object */
-    const cloned = new GameObject(original._name);
+  copy(original, position = null, parent = null) {
 
     /* clone transform(no position) from prefab */
-    cloned.transform.copy(original.transform);
+    this._transform.copy(original.transform);
 
     /* clone each component from prefab */
     original._components.forEach(comp =>
-      GameObject.instantiateComponent(cloned, comp, comp._type)
-    );
+        GameObject.instantiateComponent(this, comp, comp._type)
+      , this);
 
     if (position) {
       /* assign new position, if applies */
-      cloned.transform.setPosition(position);
+      this._transform.setPosition(position);
     }
     if (parent) {
-      parent.addChild(cloned);
+      parent.addChild(this);
     }
-    /* send out event */
-
-    return cloned;
-  }
-
-  /**
-   * Clone and assign a component to the targetObject. This action will make
-   * a clone of the origin and alter the owner to new Object. Used for prefabs
-   * only. Do NOT use this on a existing game object.
-   *
-   * @private
-   * @param targetObject {GameObject}
-   * @param origin {Component}
-   * @param type {number}
-   */
-  static instantiateComponent(targetObject, origin, type) {
-    /* create default component (no param passed) */
-    let cloned = this.createComponent(targetObject, type);
-    /* clone */
-    Object.assign(cloned, origin);
-    /* change the ownership from prefab to cloned object */
-    cloned.setOwner(targetObject);
-    targetObject.addComponent(cloned);
   }
 
   /**

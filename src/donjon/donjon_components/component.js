@@ -48,6 +48,10 @@ export default class Component {
   }
 
   /** @abstract */
+  copy(other) {
+  }
+
+  /** @abstract */
   update() {
   }
 }

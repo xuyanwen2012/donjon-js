@@ -15,6 +15,15 @@ export default class CircleCollider extends Collider {
     this._radius = param[0];
   }
 
+  /**
+   *
+   * @param other {CircleCollider}
+   */
+  copy(other) {
+    super.copy(other);
+    this._radius = other._radius;
+  }
+
   get radius() {
     return this._radius;
   }

@@ -15,6 +15,16 @@ export default class BoxCollider extends Collider {
     this._height = param[1];
   }
 
+  /**
+   *
+   * @param other {BoxCollider}
+   */
+  copy(other) {
+    super.copy(other);
+    this._width = other._width;
+    this._height = other._height;
+  }
+
   get height() {
     return this._height;
   }
@@ -22,5 +32,4 @@ export default class BoxCollider extends Collider {
   get width() {
     return this._width;
   }
-
 }

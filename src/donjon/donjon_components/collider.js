@@ -26,6 +26,10 @@ export default class Collider extends Component {
   //   return this._attachedRigidbody;
   // }
 
+  copy(other) {
+    this._offset = other._offset;
+  }
+
   /**
    * @override
    */

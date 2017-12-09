@@ -34,7 +34,7 @@ export default class Transform extends Component {
   }
 
   /**
-   *
+   * Copy data from another transform
    * @param other {Transform}
    */
   copy(other) {
@@ -103,7 +103,6 @@ export default class Transform extends Component {
    * @param translation {Array.<number>} Victor with direction and distance.
    */
   translate(translation) {
-    //this._position.add(translation);
     this._position.x += translation[0];
     this._position.y += translation[1];
   }

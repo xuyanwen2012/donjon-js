@@ -13,15 +13,14 @@ export default class RenderComponent extends Component {
    */
   constructor(owner, assetName) {
     super(owner);
+    /** @protected @type {number} */
+    this._type = Components.RENDER;
 
     /**
      * @type {string}
      * @protected
      */
     this._assetName = assetName;
-
-    /** @protected @type {number} */
-    this._type = Components.RENDER;
 
     /** @protected @type {number} */
     this._priorityType = 1;
@@ -34,6 +33,22 @@ export default class RenderComponent extends Component {
 
     /** @protected @type {boolean} */
     this._transparent = false;
+
+  }
+
+  /**
+   *
+   * @param other{RenderComponent}
+   */
+  copy(other) {
+    this._assetName = other._assetName;
+    this._priorityType = other._priorityType;
+    this._opacity = other._opacity;
+    this._blendMode = other._blendMode;
+    this._transparent = other._transparent;
+  }
+
+  update() {
 
   }
 
