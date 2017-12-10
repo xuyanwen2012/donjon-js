@@ -19,8 +19,6 @@ export default class Physics {
       // gravity: [0, -1]
     });
 
-    // this.fixDeltaTime = 1 / 60.0;
-
     this.initializeListeners();
   }
 
@@ -65,9 +63,9 @@ export default class Physics {
         height: b.height,
       }))
     );
-    circle.forEach(circle =>
+    circle.forEach(c =>
       body.addShape(new p2.Circle({
-        radius: circle.radius,
+        radius: c.radius,
       }))
     );
 
@@ -76,7 +74,7 @@ export default class Physics {
   }
 
   /**
-   *
+   * Create
    */
   setup() {
     const bodies = ObjectManager.retrieveAllComponents(Components.RIGIDBODY);
@@ -85,17 +83,11 @@ export default class Physics {
     );
 
     /* add debug plane */
-    //const planeShape = new p2.Plane();
     const planeBody = new p2.Body({
       position: [0, 0]
     });
-    // const planeBody2 = new p2.Body({
-    //   position: [0, -10]
-    // });
     planeBody.addShape(new p2.Plane());
-    //planeBody2.addShape(new p2.Plane());
     this._world.addBody(planeBody);
-    //this._world.addBody(planeBody2);
   }
 
   /**
@@ -106,8 +98,8 @@ export default class Physics {
     this._world.step(dt);
 
     /* update game object's position */
-    this._bodyPairs.forEach(pair =>
+    this._bodyPairs.forEach(pair => {
       pair[0].owner.transform.setPosition(pair[1].position)
-    )
+    })
   }
 }

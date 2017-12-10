@@ -175,5 +175,4 @@ export default class Rigidbody extends Component {
   resetForces() {
     this._forces.zero();
   }
-
 }
