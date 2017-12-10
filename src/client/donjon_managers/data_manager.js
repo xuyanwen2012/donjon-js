@@ -142,11 +142,6 @@ class DataManager {
 
   static setupNewGame() {
     this.createGameObjects();
-    //this.selectSavefileForNewGame();
-    // $gameParty.setupStartingMembers();
-    // $gamePlayer.reserveTransfer($dataSystem.startMapId,
-    //     $dataSystem.startX, $dataSystem.startY);
-
     Graphics.frameCount = 0;
   }
 

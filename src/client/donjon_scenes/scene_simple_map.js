@@ -32,10 +32,10 @@ class SceneMap extends SceneMapBase {
     $game.database.setMap($dataMap);
 
     /* temp objects */
-    //$gameObjects.instantiate('Player', new Victor(4.75, 5));
+    $gameObjects.spawnUnit([1, 1]);
 
-    for (var i = 0; i < 100; i++) {
-      $gameObjects.instantiate('Test', new Victor(5 + Math.randomInt(10), 5 + Math.randomInt(10)));
+    for (let i = 0; i < 100; i++) {
+      $gameObjects.spawnUnit([5 + Math.random() * 10, 5 + Math.random() * 10]);
     }
 
     $game.start();
@@ -70,14 +70,7 @@ class SceneMap extends SceneMapBase {
    * @private
    */
   updateMain() {
-    //const active = this.isActive();
-    //const delta_time = 1.0 / 60.0;
-
     /* update donjon game */
     $game.fixedUpdate();
-
-    // const player = $gameObjects.find('Player');
-    // if (player)
-    //   player.transform.translate(new Victor(delta_time, delta_time));
   }
 }

@@ -77,7 +77,7 @@ class SpritesetMap extends SpritesetBase {
     this._characterSprites = [];
 
     let comps = Donjon.ObjectManager
-      .retrieveAllComponents(Donjon.Components.RENDER);
+      .retrieveAllComponents(Donjon.Components.GRAPHIC);
 
     comps.forEach(comp =>
       this._characterSprites.push(new SpriteRenderComponent(comp))

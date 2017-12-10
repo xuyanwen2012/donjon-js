@@ -27,10 +27,9 @@ export default class EventEmitter {
    */
   static emit(name, ...args) {
     const listeners = this.listeners.get(name);
-
     if (listeners && listeners.length) {
-      listeners.forEach(listener =>
-        listener(...args)
+      listeners.forEach(
+        listener => listener(...args)
       );
       return true;
     }
@@ -90,6 +89,7 @@ export default class EventEmitter {
     this.queuedEvents[queueToProcess] = [];
   }
 }
+
 /**
  * @static
  * @private
@@ -114,5 +114,3 @@ EventEmitter.currentQueue = 0;
  * @type {number}
  */
 EventEmitter.MAX = 2;
-
-

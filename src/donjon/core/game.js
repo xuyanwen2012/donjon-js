@@ -1,7 +1,7 @@
 import Database from './game_database';
 import EventEmitter from '../managers/event_emitter';
 import ObjectManager from '../managers/object_mannager';
-import Physics from './physics';
+//import Physics from './physics';
 import GameScreen from '../donjon_objects/game_screen';
 import DonjonMap from '../donjon_objects/donjon_map';
 
@@ -14,14 +14,14 @@ export default class Game {
    *
    */
   constructor() {
-    /* game managers */
+    /* setup game managers */
     this.database = new Database();
     ObjectManager.initialize();
     ObjectManager.createTempPrefabs(); // temp
 
     /* game instances */
     /** @private @type {Physics}*/
-    this._physics = new Physics();
+    //this._physics = new Physics();
     /** @private @type {GameScreen}*/
     this._gameScreen = new GameScreen();
     /** @private @type {DonjonGameMap}*/
@@ -62,7 +62,7 @@ export default class Game {
     this._gameMap.setup(1, this.database.getMap());
 
     /* construct physics world from game objects */
-    this._physics.setup();
+    //this._physics.setup();
 
     /* Board cast 'start' message to all objects */
 
@@ -88,7 +88,7 @@ export default class Game {
     this._gameScreen.update();
 
     /* update internal physics system, i.e. p2.World */
-    this._physics.tick(1 / 60.0);
+    //this._physics.tick(1 / 60.0);
 
     this._gameTick++;
     this._gameClockReal += new Date().getTime() - this._gameClockReal;
