@@ -1,48 +1,46 @@
-/**
- * Can parse from json, can convert to json
- *
- * Create a prefab object, store it in object pool.
- * Instantiate the Object when used it.
- *
- *
- */
 import {Components} from '../../core/const';
+import Transform from '../donjon_components/transform';
 
 /**
  * @implements {Serializable}
  */
 export default class GameObject {
-  constructor() {
+
+  constructor(id = -1) {
     /**
      * the id value -1 means the object is created but not GameObject.instantiated.
      *
      * @type {number} run time id
      */
-    this.id = -1;
-    this._transform = null;
+    this.id = id;
+    this._transform = new Transform();
     this._components = [];
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
 
   /**
-   * @param component {Component} add to self
+   * @param comp {Component} add to self
    */
-  addComponent(component) {
-    component.setOwner(this);
-    if (component.type === Components.TRANSFORM) {
-      this._transform = component;
+  addComponent(comp) {
+    comp.setOwner(this);
+    if (comp.type === Components.TRANSFORM) {
+      this._transform = comp;
     } else {
-      this._components[component.type] = component; // 'type' as index
+      this._components[comp.type] = comp; // 'type' as index
     }
   }
 
   /**
    * @param type {number} enum of Components
-   * @return {Component ||object} Component of type type, null if not found.
+   * @return {object} Component of type type, null if not found.
    */
   getComponent(type) {
-    return this._components[type] || null;
+    if (this._components[type]) {
+      return this._components[type];
+    }
+    console.log(`Could not get component type: ${type}.`);
+    return {};
   }
 
   /**
@@ -65,7 +63,6 @@ export default class GameObject {
   }
 
   deserialize(str) {
-
   }
 
   /* --------------------Messages--------------------------- */
@@ -79,5 +76,4 @@ export default class GameObject {
     this._components.forEach(component =>
       component.triggerMessage(...params));
   }
-
 }

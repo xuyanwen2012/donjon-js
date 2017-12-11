@@ -1,4 +1,5 @@
 import ObjectFactory from "../abstract_game_object/donjon_objects/object_factory";
+import EventEmitter from "./event_emitter";
 
 export default class ObjectManager {
 
@@ -31,9 +32,15 @@ export default class ObjectManager {
 
   /**
    * @param position {Array.<number>}
+   * @return {GameObject}
    */
   static spawnUnit(position) {
-    this._objects.push(this._factory.instantiate(this._prefab, position));
+    const gameObject = this._factory.instantiate(this._prefab, position);
+    this._objects.push(gameObject);
+
+    /* send out spawn event. */
+    EventEmitter.queueEvent('onUnitSpawn', gameObject);
+    return gameObject;
   }
 
 

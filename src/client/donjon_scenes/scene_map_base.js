@@ -14,6 +14,12 @@ class SceneMapBase extends SceneBase {
     this._mapLoaded = false;
     /** @private @type {number} */
     this._waitCount = 0;
+
+    /*  */
+    let self = this;
+    Donjon.EventEmitter.addListener('onUnitSpawn', obj => {
+      self.onUnitSpawn(obj)
+    });
   }
 
   /**
@@ -27,6 +33,14 @@ class SceneMapBase extends SceneBase {
       this._mapLoaded = true;
     }
     return this._mapLoaded && super.isReady();
+  }
+
+
+  onUnitSpawn(object) {
+    console.log('SceneMapBase::onUnitSpawn');
+    if (this._spriteset) {
+      this._spriteset.addCharacter(object);
+    }
   }
 
   /**

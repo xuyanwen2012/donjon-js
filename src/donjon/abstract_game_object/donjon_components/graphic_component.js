@@ -1,10 +1,9 @@
 import Component from './component';
 import {Components} from '../../core/const';
 
-/**
- * A Render component contains essential data to Pixi.Sprite.
- */
+
 export default class GraphicComponent extends Component {
+
   constructor(data) {
     super(data);
     this._type = Components.GRAPHIC;
