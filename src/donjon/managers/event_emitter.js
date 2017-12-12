@@ -39,7 +39,7 @@ export default class EventEmitter {
   /**
    *
    * @param name {string} the event name to queue
-   * @param args {[]=}
+   * @param args
    */
   static queueEvent(name, ...args) {
     if (this.listeners.has(name)) {

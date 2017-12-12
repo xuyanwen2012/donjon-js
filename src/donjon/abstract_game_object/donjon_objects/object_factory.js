@@ -1,15 +1,16 @@
-/**
- *
- */
+import Pool from './object_pool';
 import GameObject from './game_object';
 import {
   BoxCollider,
   GraphicComponent,
   Rigidbody,
-  Transform
 } from '../donjon_components/index';
 
+/**
+ *
+ */
 export default class ObjectFactory {
+
   constructor() {
     /**
      * String to Class Map
@@ -18,12 +19,17 @@ export default class ObjectFactory {
      * @private
      */
     this._creatorsMap = new Map([
-      ['Transform', Transform],
       ['GraphicComponent', GraphicComponent],
       ['BoxCollider', BoxCollider],
       ['Rigidbody', Rigidbody]
     ]);
 
+    /**
+     *
+     * @type {Pool}
+     * @private
+     */
+    this._objectPool = new Pool(500);
     this._objectCountMap = new Map();
   }
 
@@ -36,15 +42,17 @@ export default class ObjectFactory {
    * @private
    * @param key{string} type of component, defined in _creatorsMap.
    * @param data{object} parameters to component key
-   * @return {Component} instance of type key component, copy constructed.
+   * @return {Component || {}} instance of type key component, copy constructed.
    */
   _createComponent(key, data) {
     if (this._creatorsMap.has(key)) {
       let creator = this._creatorsMap.get(key);
+      //TODO: use object pool
+      /* _create a new object of type creator */
       return new creator(data);
     }
-    console.log(`no such component: ${key}`);
-    return null;
+    console.log(`No such component: ${key}`);
+    return {};
   }
 
   /**
@@ -53,7 +61,18 @@ export default class ObjectFactory {
    * @private
    */
   _cloneComponent(origin) {
+    //console.log(origin.constructor.name);
     return this._createComponent(origin.constructor.name, origin);
+  }
+
+  /**
+   * @param trans
+   * @param origin_trans
+   * @private
+   */
+  _cloneTransform(trans, origin_trans) {
+    trans.setPosition(origin_trans.position);
+    trans.setScale(origin_trans.scale)
   }
 
   /**
@@ -64,17 +83,18 @@ export default class ObjectFactory {
    */
   createObject(source) {
     /* Create empty game object */
-    const object = new GameObject();
+    const object = this._objectPool.create();
     const objectKeys = Object.keys(source);
 
-    /* Check Transform data, create default if does not exist. */
-    if (objectKeys.indexOf('Transform') === -1) {
-      const defaultTransform = this._createComponent('Transform', {});
-      object.addComponent(defaultTransform);
+    /* Set Transform data, if applies. */
+    const index = objectKeys.indexOf('Transform');
+    if (index !== -1) {
+      this._cloneTransform(object.getTransform(), source['Transform']);
+      objectKeys.splice(index, 1);
     }
 
     /* Loop through keys(Components) from source json */
-    objectKeys.map(key => {
+    objectKeys.forEach(key => {
       let component = this._createComponent(key, source[key]);
       if (component) {
         object.addComponent(component);
@@ -87,31 +107,36 @@ export default class ObjectFactory {
   }
 
   /**
-   * make a clone of object 'origin', optional to change position
+   * Make a clone of object 'origin', optional to change position.
+   * Use this to create game entities.
    *
    * @param origin {GameObject}
    * @param position {Array.<number>=} new position to deploy this object.
    * @return {GameObject} a clone of 'origin' prefab
    */
   instantiate(origin, position = null) {
-    const cloned = new GameObject();
+    /* Create from object pool */
+    const cloned = this._objectPool.get();
+    cloned.id = ObjectFactory.generateRunTimeId();
 
-    cloned._transform = this._cloneComponent(origin.getTransform());
+    /* Clone transform and each components */
+    this._cloneTransform(cloned._transform, origin.getTransform());
     origin._components.forEach(ori_comp =>
         cloned.addComponent(this._cloneComponent(ori_comp))
       , this);
 
-    /* Assign new position, if applies */
-    if (position) {
-      cloned._transform.setPosition(position);
-    }
-    /* Set unique id */
-    cloned.id = ObjectFactory.generateRunTimeId();
-
     /* Fire event::onInstantiate */
-    cloned.sendMessage('onInstantiate', cloned);
+    cloned.sendMessage('onInstantiate', cloned, position);
     return cloned;
   }
+
+  /**
+   * @param object{GameObject}
+   */
+  deleteObject(object) {
+    this._objectPool.release(object);
+  }
 }
+
 /** @private @type {number}*/
 ObjectFactory._lastId = 0;

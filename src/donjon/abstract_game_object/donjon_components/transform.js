@@ -2,23 +2,70 @@ import {Components} from '../../core/const';
 import Component from './component';
 
 export default class Transform extends Component {
+
   constructor(data) {
     super(data);
     this._type = Components.TRANSFORM;
   }
 
-  copyConstructor(data) {
+  /**
+   * @param first {Transform}
+   * @param second {Transform}
+   * @return {number}
+   */
+  static distance(first, second) {
+    return Math.sqrt(this.sqrDistance(first, second));
+  }
+
+  /* -------------------Static---------------------------- */
+
+  /**
+   * @param first {Transform}
+   * @param second {Transform}
+   * @return {number}
+   */
+  static sqrDistance(first, second) {
+    const dx = first.position[0] - second.position[0];
+    const dy = first.position[1] - second.position[1];
+    return dx * dx + dy * dy;
+  }
+
+  copyConstructor(data = {}) {
     this.position = data.position ? data.position.slice(0) : [0, 0];
     this.scale = data.scale ? data.scale.slice(0) : [1.0, 1.0];
+
   }
+
+  /* ------------------------------------------------------------------- */
+
+
+
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
 
-  /** @param pos {Array.<number>}*/
-  setPosition(pos) {
-    this.position[0] = pos[0] || 0;
-    this.position[1] = pos[1] || 0;
+  /** @return {number} */
+  getX() {
+    return this.position[0];
   }
+
+  /** @return {number} */
+  getY() {
+    return this.position[0];
+  }
+
+  /** @param pos {Array.<number>}*/
+  setPosition(pos = [0, 0]) {
+    this.position[0] = pos[0];
+    this.position[1] = pos[1];
+  }
+
+  /** @param scale {Array.<number>}*/
+  setScale(scale = [1.0, 1.0]) {
+    this.scale[0] = scale[0];
+    this.scale[1] = scale[1];
+  }
+
+  /* ------------------------------------------------------ */
 
   /** @param translation {Array.<number>}*/
   translate(translation) {
@@ -37,4 +84,16 @@ export default class Transform extends Component {
   }
 
   /* --------------------Messages--------------------------- */
+  /**
+   *
+   * @param owner
+   * @param newPos
+   */
+  onInstantiate(owner, newPos) {
+    super.onInstantiate(owner);
+    /* Assign new position, if applies */
+    if (newPos) {
+      owner._transform.setPosition(newPos);
+    }
+  }
 }

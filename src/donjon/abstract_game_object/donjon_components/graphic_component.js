@@ -1,10 +1,8 @@
 import Component from './component';
 import {Components} from '../../core/const';
 
-/**
- * A Render component contains essential data to Pixi.Sprite.
- */
 export default class GraphicComponent extends Component {
+
   constructor(data) {
     super(data);
     this._type = Components.GRAPHIC;
@@ -36,14 +34,14 @@ export default class GraphicComponent extends Component {
   /** @return {number} x position on canvas to render */
   screenX() {
     //todo use Camera instance's position
-    const sx = this.owner.getTransform().position[0];
+    const sx = this.getOwner().getTransform().getX();
     const tw = 48;
     return Math.round(sx * tw + tw / 2);
   }
 
   /** @return {number} y position on canvas to render */
   screenY() {
-    const sy = this.owner.getTransform().position[1];
+    const sy = this.getOwner().getTransform().getY();
     const th = 48;
     return Math.round(sy * th + th / 2);
   }
@@ -55,12 +53,12 @@ export default class GraphicComponent extends Component {
 
   /** @return {number} x scale on canvas to render */
   screenScaleX() {
-    return this.owner.getTransform().scale[0];
+    return this.getOwner().getTransform().scale[0];
   }
 
   /** @return {number} y scale on canvas to render */
   screenScaleY() {
-    return this.owner.getTransform().scale[1];
+    return this.getOwner().getTransform().scale[1];
   }
 
   /* -------------------Serializable-------------------------- */

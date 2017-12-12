@@ -8,9 +8,9 @@ class SceneMapBase extends SceneBase {
    */
   constructor() {
     super();
-    /** @private @type {SpritesetMap} */
+    /** @type {SpritesetMap} */
     this._spriteset = null;
-    /** @private @type {boolean} */
+    /** @type {boolean} */
     this._mapLoaded = false;
     /** @private @type {number} */
     this._waitCount = 0;
@@ -28,6 +28,8 @@ class SceneMapBase extends SceneBase {
     }
     return this._mapLoaded && super.isReady();
   }
+
+  /* --------------------Messages--------------------------- */
 
   /**
    * Called automatically when map resources are loaded. Generate Spriteset

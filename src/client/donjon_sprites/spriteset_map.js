@@ -73,19 +73,22 @@ class SpritesetMap extends SpritesetBase {
 
   /** @private */
   createCharacters() {
-    console.log('SpritesetMap:createCharacters');
+    //console.log('SpritesetMap:createCharacters');
     this._characterSprites = [];
+  }
 
-    let comps = Donjon.ObjectManager
-      .retrieveAllComponents(Donjon.Components.GRAPHIC);
-
-    comps.forEach(comp =>
-      this._characterSprites.push(new SpriteRenderComponent(comp))
-    );
-
-    this._characterSprites.forEach(sprite =>
-      this._tilemap.addChild(sprite)
-    );
+  /**
+   * @param gameObject {GameObject}
+   */
+  addCharacter(gameObject) {
+    const graphicComp = gameObject.getComponent(Donjon.Components.GRAPHIC);
+    if (graphicComp) {
+      const sprite = new SpriteRenderComponent(graphicComp);
+      this._characterSprites.push(sprite);
+      this._tilemap.addChild(sprite);
+    } else {
+      console.warn(`Object does not have renderer component.`);
+    }
   }
 
   /** @private */

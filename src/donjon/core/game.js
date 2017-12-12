@@ -1,7 +1,7 @@
 import Database from './game_database';
 import EventEmitter from '../managers/event_emitter';
 import ObjectManager from '../managers/object_mannager';
-//import Physics from './physics';
+import Physics from '../physics/physics';
 import GameScreen from '../donjon_objects/game_screen';
 import DonjonMap from '../donjon_objects/donjon_map';
 
@@ -21,7 +21,7 @@ export default class Game {
 
     /* game instances */
     /** @private @type {Physics}*/
-    //this._physics = new Physics();
+    this._physics = new Physics();
     /** @private @type {GameScreen}*/
     this._gameScreen = new GameScreen();
     /** @private @type {DonjonGameMap}*/
@@ -46,6 +46,8 @@ export default class Game {
     return this._gameScreen;
   }
 
+  /* ----------------------------Game Flow----------------------------------- */
+
   /**
    * Must load all data and assets before calling start()
    * Start/Restart the game tick:
@@ -58,13 +60,13 @@ export default class Game {
       throw new Error('Starting game without data.')
     }
 
-    /* construct game instances from data loaded.  */
+    /*------------temp---*/
+    ObjectManager.spawnUnit([5, 5]);
+
     this._gameMap.setup(1, this.database.getMap());
-
+    /* construct game instances from data loaded.  */
+    this._physics.setup();
     /* construct physics world from game objects */
-    //this._physics.setup();
-
-    /* Board cast 'start' message to all objects */
 
     /* start tick */
     this._gameClockReal = new Date().getTime();
@@ -82,13 +84,16 @@ export default class Game {
    */
   fixedUpdate() {
     EventEmitter.tick();
-    /* update game object's fixedUpdate */
 
+    /* update game object's fixedUpdate */
     this._gameMap.update();
     this._gameScreen.update();
 
     /* update internal physics system, i.e. p2.World */
-    //this._physics.tick(1 / 60.0);
+    this._physics.tick(1 / 60.0);
+
+
+
 
     this._gameTick++;
     this._gameClockReal += new Date().getTime() - this._gameClockReal;
@@ -104,23 +109,13 @@ export default class Game {
   }
 
   /**
-   * LateUpdate is called once per frame, after Update has finished. Any
-   * calculations that are performed in Update will have completed when
-   * LateUpdate begins.
-   */
-  lateUpdate() {
-
-
-  }
-
-  pause() {
-
-  }
-
-  /**
    * Stop the game tick
    */
   terminate() {
+    console.log('Game::terminate');
+  }
+
+  pause() {
 
   }
 

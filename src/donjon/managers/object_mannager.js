@@ -1,4 +1,5 @@
 import ObjectFactory from "../abstract_game_object/donjon_objects/object_factory";
+import EventEmitter from "./event_emitter";
 
 export default class ObjectManager {
 
@@ -20,8 +21,11 @@ export default class ObjectManager {
   static createTempPrefabs() {
 
     let jsonSource = {
-      "GraphicComponent": {
-        "assetName": "hero"
+      'GraphicComponent': {
+        'assetName': 'hero'
+      },
+      'Rigidbody': {
+        'mass': 2
       },
     };
 
@@ -31,20 +35,25 @@ export default class ObjectManager {
 
   /**
    * @param position {Array.<number>}
+   * @return {GameObject}
    */
   static spawnUnit(position) {
-    this._objects.push(this._factory.instantiate(this._prefab, position));
+    const gameObject = this._factory.instantiate(this._prefab, position);
+    this._objects.push(gameObject);
+
+    /* send out spawn event. */
+    EventEmitter.queueEvent('onUnitSpawn', gameObject);
+    return gameObject;
   }
 
-
-  /**
-   *  Usually used by client Physics engine to get Rigidbody and Colliders.
-   *  And used by client Render engine to get RenderComponent as well.
-   *
-   * @param type {number} Donjon.Components
-   */
-  static retrieveAllComponents(type) {
-    const retrieved = this._objects.map(obj => obj.getComponent(type));
-    return [].concat(...retrieved);
-  }
+  // /**
+  //  *  Usually used by client Physics engine to get Rigidbody and Colliders.
+  //  *  And used by client Render engine to get RenderComponent as well.
+  //  *
+  //  * @param type {number} Donjon.Components
+  //  */
+  // static retrieveAllComponents(type) {
+  //   const retrieved = this._objects.map(obj => obj.getComponent(type));
+  //   return [].concat(...retrieved);
+  // }
 }

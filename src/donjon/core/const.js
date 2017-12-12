@@ -21,7 +21,7 @@ export const Components = {
 /**
  * @interface
  */
-export class Serializable {
+class Serializable {
   /**
    * @abstract
    * @return {string}
