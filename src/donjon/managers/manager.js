@@ -11,6 +11,8 @@ export default class Manager {
   initializeListeners() {
   }
 
+  /* ----------------------------Game Flow----------------------------------- */
+
   /** @abstract */
   setup() {
   }
@@ -22,5 +24,7 @@ export default class Manager {
   /** @abstract */
   terminate() {
   }
+
+  /* -----------------------------Messages------------------------------------ */
 
 }

@@ -16,6 +16,8 @@ class SceneMapBase extends SceneBase {
     this._waitCount = 0;
   }
 
+  /* --------------------Status Getter--------------------------- */
+
   /**
    * Load data map first then Image(super)
    * @protected
@@ -29,6 +31,14 @@ class SceneMapBase extends SceneBase {
     return this._mapLoaded && super.isReady();
   }
 
+  /**
+   * check if is waiting
+   * @return {boolean}
+   */
+  isBusy() {
+    return this._waitCount > 0 || super.isBusy();
+  }
+
   /* --------------------Messages--------------------------- */
 
   /**
@@ -38,13 +48,16 @@ class SceneMapBase extends SceneBase {
    * @protected
    */
   onMapLoaded() {
+    console.log('SceneMapBase::onMapLoaded');
     this.createDisplayObjects();
   }
+
+
+  /*----------------------------------------------------------------*/
 
   /** @private */
   createDisplayObjects() {
     this.createSpriteset();
-    //other display objects
   }
 
   /** @private */
@@ -54,11 +67,24 @@ class SceneMapBase extends SceneBase {
   }
 
   /**
+   * @return {boolean}
+   * @private
+   */
+  updateWaitCount() {
+    if (this._waitCount > 0) {
+      this._waitCount--;
+      return true;
+    }
+    return false;
+  }
+
+  /* --------------------Client Game Flow--------------------------- */
+
+  /**
    * @override
    */
   create() {
-    const mapId = $game.getMap().mapId();
-    DataManager.loadMapData(mapId);
+    DataManager.loadMapData(1);
   }
 
   /**
@@ -77,24 +103,8 @@ class SceneMapBase extends SceneBase {
     super.update();
   }
 
-  /**
-   * check if is waiting
-   * @return {boolean}
-   */
-  isBusy() {
-    return this._waitCount > 0 || super.isBusy();
-  }
-
-  /**
-   * @return {boolean}
-   * @protected
-   */
-  updateWaitCount() {
-    if (this._waitCount > 0) {
-      this._waitCount--;
-      return true;
-    }
-    return false;
+  stop() {
+    super.stop();
   }
 
   /**
@@ -103,7 +113,6 @@ class SceneMapBase extends SceneBase {
   terminate() {
     super.terminate();
     ImageManager.clearRequest();
-    $game.getScreen().clearZoom();
     this.removeChild(this._spriteset);
   }
 }

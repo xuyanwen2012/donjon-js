@@ -1,9 +1,7 @@
 /**
- *
- *
  * @extends {SpriteBase}
  */
-class SpriteRenderComponent extends SpriteBase {
+class SpriteGraphicComp extends SpriteBase {
 
   /**
    * @param renderComponent {GraphicComponent}
@@ -11,13 +9,13 @@ class SpriteRenderComponent extends SpriteBase {
   constructor(renderComponent) {
     super();
     if (!renderComponent) {
-      console.error("Creating SpriteRenderComponent without RenderComponent.");
+      console.error("Creating SpriteGraphicComp without RenderComponent.");
     }
     /**
      * @type {GraphicComponent}
      * @private
      */
-    this._renderComponent = renderComponent;
+    this._graphicComp = renderComponent;
 
     /**
      * @type {string}
@@ -44,7 +42,7 @@ class SpriteRenderComponent extends SpriteBase {
   /** @override @protected */
   updateVisibility() {
     super.updateVisibility();
-    if (this._renderComponent.isTransparent()) {
+    if (this._graphicComp.isTransparent()) {
       this.visible = false;
     }
   }
@@ -56,7 +54,7 @@ class SpriteRenderComponent extends SpriteBase {
    */
   updateBitmap() {
     if (this.isImageChanged()) {
-      this._assetName = this._renderComponent.assetName;
+      this._assetName = this._graphicComp.assetName;
       this.setBitmap();
     }
   }
@@ -67,7 +65,6 @@ class SpriteRenderComponent extends SpriteBase {
    * @private
    */
   updateFrame() {
-
     //this.setFrame(sx, sy, pw, ph);
   }
 
@@ -77,9 +74,9 @@ class SpriteRenderComponent extends SpriteBase {
    * @private
    */
   updatePosition() {
-    this.x = this._renderComponent.screenX();
-    this.y = this._renderComponent.screenY();
-    this.z = this._renderComponent.screenZ();
+    this.x = this._graphicComp.screenX();
+    this.y = this._graphicComp.screenY();
+    this.z = this._graphicComp.screenZ();
   }
 
   /**
@@ -88,8 +85,8 @@ class SpriteRenderComponent extends SpriteBase {
    * @private
    */
   updateScale() {
-    this.scale.x = this._renderComponent.screenScaleX();
-    this.scale.y = this._renderComponent.screenScaleY();
+    this.scale.x = this._graphicComp.screenScaleX();
+    this.scale.y = this._graphicComp.screenScaleY();
   }
 
   /**
@@ -98,13 +95,13 @@ class SpriteRenderComponent extends SpriteBase {
    * @private
    */
   updateOther() {
-    this.opacity = this._renderComponent.opacity;
-    this.blendMode = this._renderComponent.blendMode;
+    this.opacity = this._graphicComp.opacity;
+    this.blendMode = this._graphicComp.blendMode;
   }
 
   /** @private @return {boolean} */
   isImageChanged() {
-    return this._assetName !== this._renderComponent.assetName;
+    return this._assetName !== this._graphicComp.assetName;
   }
 
   /**

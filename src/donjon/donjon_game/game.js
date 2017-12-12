@@ -1,6 +1,6 @@
 import Database from './game_database';
 import EventEmitter from '../managers/event_emitter';
-import ObjectManager from '../managers/object_mannager';
+import ObjectManager from '../abstract_game_object/object_mannager';
 import Physics from '../physics/physics';
 import GameScreen from './game_screen';
 import DonjonMap from './game_map';
@@ -16,8 +16,7 @@ export default class Game {
   constructor() {
     /* setup game managers */
     this.database = new Database();
-    ObjectManager.initialize();
-    ObjectManager.createTempPrefabs(); // temp
+    this._objectManager = new ObjectManager();
 
     /* game instances */
     /** @private @type {Physics}*/
@@ -35,10 +34,18 @@ export default class Game {
     /** @private @type {number}*/
     this._gameClockReal = 0;
 
-    this.log('Game Successfully Initialized.');
+    Game.log('Game Successfully Initialized.');
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
+
+  /**
+   * @param msg {string}
+   * @private
+   */
+  static log(msg) {
+    console.log(msg);
+  }
 
   /** @return {DonjonMap} */
   getMap() {
@@ -51,6 +58,37 @@ export default class Game {
   }
 
   /* ----------------------------Game Flow----------------------------------- */
+
+  /** @return {ObjectManager} */
+  getObjectManager() {
+    return this._objectManager;
+  }
+
+  create() {
+
+  }
+
+  fixedUpdate() {
+    EventEmitter.tick();
+
+    /* update game object's fixedUpdate */
+    this._gameMap.update();
+    this._gameScreen.update();
+
+    /* update internal physics system, i.e. p2.World */
+    this._physics.tick(1 / 60.0);
+
+    this._gameTick++;
+    this._gameClockReal += new Date().getTime() - this._gameClockReal;
+  }
+
+  /**
+   * Update is called once per frame. It is the main workhorse function for
+   * frame updates.
+   */
+  update() {
+    /* Handle Input */
+  }
 
   /**
    * Must load all data and assets before calling start()
@@ -65,57 +103,15 @@ export default class Game {
     }
 
     /*------------temp---*/
-    ObjectManager.spawnUnit([5, 5]);
-
+    this._objectManager.spawnUnit([5, 5]);
 
     this._gameMap.setup(1, this.database.getMap());
-    /* construct game instances from data loaded.  */
     this._physics.setup();
-    /* construct physics world from game objects */
 
     /* start tick */
     this._gameClockReal = new Date().getTime();
-    this.log(`Game Started ${this._gameClockReal}`);
-  }
+    Game.log(`Game Started ${this._gameClockReal}`);
 
-  /**
-   * FixedUpdate is often called more frequently than Update. It can be
-   * called multiple times per frame, if the frame rate is low and it may
-   * not be called between frames at all if the frame rate is high. All
-   * physics calculations and updates occur immediately after FixedUpdate.
-   * When applying movement calculations inside FixedUpdate, you do not need
-   * to multiply your values by Time.deltaTime. This is because FixedUpdate
-   * is called on a reliable timer, independent of the frame rate.
-   */
-  fixedUpdate() {
-    EventEmitter.tick();
-
-    /* update game object's fixedUpdate */
-    this._gameMap.update();
-    this._gameScreen.update();
-
-    /* update internal physics system, i.e. p2.World */
-    this._physics.tick(1 / 60.0);
-
-
-    this._gameTick++;
-    this._gameClockReal += new Date().getTime() - this._gameClockReal;
-  }
-
-  /**
-   * Update is called once per frame. It is the main workhorse function for
-   * frame updates.
-   */
-  update() {
-    /* Handle Input */
-
-  }
-
-  /**
-   * Stop the game tick
-   */
-  terminate() {
-    console.log('Game::terminate');
   }
 
   pause() {
@@ -123,10 +119,12 @@ export default class Game {
   }
 
   /**
-   * @param msg {string}
-   * @private
+   * Stop the game tick
    */
-  log(msg) {
-    console.log(msg);
+  terminate() {
+    this._gameScreen.clearZoom();
+    /* terminate managers */
+    this._physics.terminate();
+    this._objectManager.terminate();
   }
 }

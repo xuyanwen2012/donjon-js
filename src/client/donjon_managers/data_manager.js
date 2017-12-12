@@ -134,7 +134,6 @@ class DataManager {
 
   static createGameObjects() {
     $game = new Donjon.Game();
-    $gameObjects = Donjon.ObjectManager;
   }
 
   static setupNewGame() {
@@ -144,6 +143,4 @@ class DataManager {
 
 }
 
-// DataManager._lastAccessedId = 1;
 DataManager._errorUrl = null;
-// DataManager._globalId = 'RPGMV';

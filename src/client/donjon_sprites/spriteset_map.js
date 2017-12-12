@@ -73,7 +73,6 @@ class SpritesetMap extends SpritesetBase {
 
   /** @private */
   createCharacters() {
-    //console.log('SpritesetMap:createCharacters');
     this._characterSprites = [];
   }
 
@@ -81,9 +80,9 @@ class SpritesetMap extends SpritesetBase {
    * @param gameObject {GameObject}
    */
   addCharacter(gameObject) {
-    const graphicComp = gameObject.getComponent(Donjon.Components.GRAPHIC);
+    const graphicComp = gameObject.getGraphicComp();
     if (graphicComp) {
-      const sprite = new SpriteRenderComponent(graphicComp);
+      const sprite = new SpriteGraphicComp(graphicComp);
       this._characterSprites.push(sprite);
       this._tilemap.addChild(sprite);
     } else {

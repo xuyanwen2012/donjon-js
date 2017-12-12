@@ -66,10 +66,8 @@ export default class Component {
   onCreate() {
   }
 
-
   onInstantiate(owner) {
     /* Reset ownership of components */
     this.setOwner(owner);
   }
-
 }

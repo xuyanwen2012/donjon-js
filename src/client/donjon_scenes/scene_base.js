@@ -44,13 +44,7 @@ class SceneBase extends Stage {
     ImageManager.releaseReservation(this.imageReservationId);
   }
 
-  /** @abstract */
-  create() {
-  }
-
-  terminate() {
-    this.removeChild(this._fadeSprite);
-  }
+  /* --------------------Status Getter--------------------------- */
 
   /**
    * @return {boolean}
@@ -67,94 +61,65 @@ class SceneBase extends Stage {
   }
 
   /**
-   *
-   */
-  start() {
-    this._active = true;
-  }
-
-  /**
-   * Handle fading update and update all children
-   */
-  update() {
-    //this.updateFade();
-    this.updateChildren();
-    AudioManager.checkErrors();
-  }
-
-  stop() {
-    this._active = false;
-  }
-
-  /**
    * @return {boolean}
    */
   isBusy() {
     return this._fadeDuration > 0;
   }
 
-  // /**
-  //  * @param duration {Number}
-  //  * @param white {Boolean}
-  //  */
-  // startFadeIn(duration, white = false) {
-  //   this.createFadeSprite(white);
-  //   this._fadeSign = 1;
-  //   this._fadeDuration = duration || 30;
-  //   this._fadeSprite.opacity = 255;
-  // }
-  //
-  // /**
-  //  * @param duration {Number}
-  //  * @param white {Boolean}
-  //  */
-  // startFadeOut(duration, white = false) {
-  //   this.createFadeSprite(white);
-  //   this._fadeSign = -1;
-  //   this._fadeDuration = duration || 30;
-  //   this._fadeSprite.opacity = 0;
-  // }
-  //
-  // /**
-  //  * @private
-  //  * @param white {Boolean}
-  //  */
-  // createFadeSprite(white) {
-  //   if (!this._fadeSprite) {
-  //     this._fadeSprite = new ScreenSprite();
-  //     this.addChild(this._fadeSprite);
-  //   }
-  //   if (white) {
-  //     this._fadeSprite.setWhite();
-  //   } else {
-  //     this._fadeSprite.setBlack();
-  //   }
-  // }
-  //
-  // /** @private */
-  // updateFade() {
-  //   if (this._fadeDuration > 0) {
-  //     let d = this._fadeDuration;
-  //     if (this._fadeSign > 0) {
-  //       this._fadeSprite.opacity -= this._fadeSprite.opacity / d;
-  //     } else {
-  //       this._fadeSprite.opacity += (255 - this._fadeSprite.opacity) / d;
-  //     }
-  //     this._fadeDuration--;
-  //   }
-  // }
+  /* --------------------Client Game Flow--------------------------- */
+
+  /** @abstract */
+  create() {
+  }
+
+  /** @abstract */
+  start() {
+    this._active = true;
+  }
 
   /**
-   * Update the children of the scene EACH frame.
-   * the children includes {PIXI.DisplayObject}
-   * @protected
+   * Handle fading update and update all children
+   * @abstract
    */
-  updateChildren() {
-    this.children.forEach(function (child) {
-      if (child.update) {
-        child.update();
-      }
-    });
+  update() {
+    this.updateFade();
+    this.updateChildren();
+    AudioManager.checkErrors();
+  }
+
+  /** @abstract */
+  stop() {
+    this._active = false;
+  }
+
+  /** @abstract */
+  terminate() {
+    this.removeChild(this._fadeSprite);
+  }
+
+  /*-----------------Public functional methods-------------------------------*/
+
+  /**
+   * @param duration {Number}
+   * @param white {Boolean}
+   */
+  startFadeIn(duration, white = false) {
+    this.createFadeSprite(white);
+    this._fadeSign = 1;
+    this._fadeDuration = duration || 30;
+    this._fadeSprite.opacity = 255;
+  }
+
+  /**
+   * @param duration {Number}
+   * @param white {Boolean}
+   */
+  startFadeOut(duration, white = false) {
+    this.createFadeSprite(white);
+    this._fadeSign = -1;
+    this._fadeDuration = duration || 30;
+    this._fadeSprite.opacity = 0;
   }
 
   /**
@@ -163,6 +128,50 @@ class SceneBase extends Stage {
    */
   popScene() {
     SceneManager.pop();
+  }
+
+  /*----------------------------------------------------------------*/
+
+  /**
+   * @private
+   * @param white {Boolean}
+   */
+  createFadeSprite(white) {
+    if (!this._fadeSprite) {
+      this._fadeSprite = new ScreenSprite();
+      this.addChild(this._fadeSprite);
+    }
+    if (white) {
+      this._fadeSprite.setWhite();
+    } else {
+      this._fadeSprite.setBlack();
+    }
+  }
+
+  /** @private */
+  updateFade() {
+    if (this._fadeDuration > 0) {
+      let d = this._fadeDuration;
+      if (this._fadeSign > 0) {
+        this._fadeSprite.opacity -= this._fadeSprite.opacity / d;
+      } else {
+        this._fadeSprite.opacity += (255 - this._fadeSprite.opacity) / d;
+      }
+      this._fadeDuration--;
+    }
+  }
+
+  /**
+   * Update the children of the scene EACH frame.
+   * the children includes {PIXI.DisplayObject}
+   * @private
+   */
+  updateChildren() {
+    this.children.forEach(function (child) {
+      if (child.update) {
+        child.update();
+      }
+    });
   }
 
   // /**

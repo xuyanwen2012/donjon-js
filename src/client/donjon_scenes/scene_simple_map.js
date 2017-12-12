@@ -1,3 +1,7 @@
+/** @namespace $game*/
+
+/** @namespace Donjon*/
+
 /**
  * @extends SceneBase
  */
@@ -9,19 +13,14 @@ class SceneMap extends SceneMapBase {
    */
   constructor() {
     super();
-    /*  */
+
+    /* setup listeners */
     let self = this;
     Donjon.EventEmitter.addListener('onUnitSpawn', obj => {
       self.onUnitSpawn(obj)
     });
   }
 
-  /**
-   * @override
-   */
-  create() {
-    DataManager.loadMapData(1);
-  }
 
   /**
    * @return {boolean}
@@ -35,6 +34,9 @@ class SceneMap extends SceneMapBase {
 
   }
 
+  /*----------------------------------------------------------------*/
+
+
   /* --------------------Messages--------------------------- */
 
   /**
@@ -42,8 +44,7 @@ class SceneMap extends SceneMapBase {
    * @override
    */
   onMapLoaded() {
-    //TODO Event Emitter
-    $game.getMap().setup(this._newMapId, $dataMap); //setup map data before construct
+    $game.getMap().setup(1, $dataMap); //setup map data before construct
 
     $game.database.setMapInfos($dataMapInfos);
     $game.database.setSystem($dataSystem);
@@ -60,11 +61,20 @@ class SceneMap extends SceneMapBase {
     }
   }
 
-  /* --------------------Game Flow--------------------------- */
+  /* --------------------Client Game Flow--------------------------- */
+
+  /**
+   * @override
+   */
+  create() {
+    super.create();
+    console.log('SceneMap::create');
+  }
 
   start() {
     super.start();
     $game.start();
+    console.log('SceneMap::start');
   }
 
   /**
@@ -75,8 +85,14 @@ class SceneMap extends SceneMapBase {
     super.update();
   }
 
+  stop() {
+    super.stop();
+    console.log('SceneMap::stop');
+  }
+
   terminate() {
     super.terminate();
     $game.terminate();
+    console.log('SceneMap::terminate');
   }
 }

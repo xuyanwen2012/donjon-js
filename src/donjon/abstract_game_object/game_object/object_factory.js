@@ -1,10 +1,6 @@
 import Pool from './object_pool';
 import GameObject from './game_object';
-import {
-  BoxCollider,
-  GraphicComponent,
-  Rigidbody,
-} from '../donjon_components/index';
+import {BoxCollider, GraphicComponent, Rigidbody,} from '../components/index';
 
 /**
  *

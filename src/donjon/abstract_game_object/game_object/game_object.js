@@ -1,5 +1,5 @@
 import {Components} from '../../core/const';
-import Transform from '../donjon_components/transform';
+import Transform from '../components/transform';
 
 /**
  * @implements {Serializable}
@@ -41,6 +41,14 @@ export default class GameObject {
     }
     console.log(`Could not get component type: ${type}.`);
     return {};
+  }
+
+  /**
+   *
+   * @return {GraphicComponent}
+   */
+  getGraphicComp() {
+    return this.getComponent(Components.GRAPHIC);
   }
 
   /**
