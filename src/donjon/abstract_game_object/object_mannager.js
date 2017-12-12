@@ -27,6 +27,12 @@ export default class ObjectManager extends Manager {
     this._prefab = this._factory.createObject(jsonSource);
   }
 
+  initializeListeners() {
+
+  }
+
+  /* ------------------Public functional method-------------------------- */
+
   /**
    * @param position {Array.<number>}
    * @return {GameObject}
@@ -40,15 +46,19 @@ export default class ObjectManager extends Manager {
     return gameObject;
   }
 
+  /* ----------------------------Game Flow----------------------------------- */
+
   setup() {
+    //temp
+    this.spawnUnit([5, 5]);
   }
 
   terminate() {
+    this._objects.forEach(obj =>
+      this._factory.deleteObject(obj), this)
   }
 
   tick(dt) {
-  }
 
-  initializeListeners() {
   }
 }

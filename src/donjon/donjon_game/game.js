@@ -4,6 +4,7 @@ import ObjectManager from '../abstract_game_object/object_mannager';
 import Physics from '../physics/physics';
 import GameScreen from './game_screen';
 import DonjonMap from './game_map';
+import Input from "../core/input";
 
 /**
  * Server game Object.
@@ -17,6 +18,7 @@ export default class Game {
     /* setup game managers */
     this.database = new Database();
     this._objectManager = new ObjectManager();
+    Input.initialize();
 
     /* game instances */
     /** @private @type {Physics}*/
@@ -57,6 +59,10 @@ export default class Game {
     return this._gameScreen;
   }
 
+  /* -----------------------------Messages------------------------------------ */
+
+
+
   /* ----------------------------Game Flow----------------------------------- */
 
   /** @return {ObjectManager} */
@@ -77,6 +83,7 @@ export default class Game {
 
     /* update internal physics system, i.e. p2.World */
     this._physics.tick(1 / 60.0);
+    this._objectManager.tick(1 / 60.0);
 
     this._gameTick++;
     this._gameClockReal += new Date().getTime() - this._gameClockReal;
@@ -88,6 +95,8 @@ export default class Game {
    */
   update() {
     /* Handle Input */
+    console.log(Input);
+    Input.update();
   }
 
   /**
@@ -102,10 +111,8 @@ export default class Game {
       throw new Error('Starting game without data.')
     }
 
-    /*------------temp---*/
-    this._objectManager.spawnUnit([5, 5]);
-
     this._gameMap.setup(1, this.database.getMap());
+    this._objectManager.setup();
     this._physics.setup();
 
     /* start tick */

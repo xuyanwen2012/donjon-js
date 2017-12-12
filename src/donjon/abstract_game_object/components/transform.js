@@ -50,7 +50,7 @@ export default class Transform extends Component {
 
   /** @return {number} */
   getY() {
-    return this.position[0];
+    return this.position[1];
   }
 
   /** @param pos {Array.<number>}*/

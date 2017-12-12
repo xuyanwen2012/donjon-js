@@ -118,7 +118,7 @@ class SceneManager {
   }
 
   static initInput() {
-    Input.initialize();
+    ClientInput.initialize();
     //TouchInput.initialize();
   }
 
@@ -156,9 +156,9 @@ class SceneManager {
   static update() {
     try {
       this.tickStart();
-      if (Utils.isMobileSafari()) {
-        this.updateInputData();
-      }
+      //if (Utils.isMobileSafari()) {
+      //  this.updateInputData();
+      //}
       this.updateManagers();
       this.updateMain();
       this.tickEnd();
@@ -229,7 +229,7 @@ class SceneManager {
   }
 
   static updateInputData() {
-    Input.update();
+    //Input.update();
     //TouchInput.update();
   }
 
@@ -248,7 +248,7 @@ class SceneManager {
       this._accumulator += fTime;
 
       while (this._accumulator >= this._deltaTime) {
-        this.updateInputData();
+        //this.updateInputData();
         this.changeScene();
         this.updateScene();
         this._accumulator -= this._deltaTime;

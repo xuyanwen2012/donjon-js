@@ -1,4 +1,5 @@
 /**
+ * @namespace $game
  * @extends Sprite
  */
 class SpritesetBase extends Sprite {

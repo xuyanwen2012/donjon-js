@@ -1,4 +1,5 @@
 /**
+ * @namespace $game
  * @extends SpritesetBase
  */
 class SpritesetMap extends SpritesetBase {
@@ -55,7 +56,7 @@ class SpritesetMap extends SpritesetBase {
 
   /** @private */
   loadTileset() {
-    /** @protected @type {{tilesetNames}} */
+    /** @protected @type {object} */
     this.tileset = $game.getMap().tileset();
     if (this.tileset) {
       let tilesetNames = this.tileset.tilesetNames;

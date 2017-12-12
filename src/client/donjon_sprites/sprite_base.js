@@ -41,5 +41,4 @@ class SpriteBase extends Sprite {
   updateVisibility() {
     this.visible = !this._hiding;
   }
-
 }
