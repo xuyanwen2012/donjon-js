@@ -27,8 +27,8 @@ export default class BoxCollider extends Component {
    * @return {boolean} Whether the x/y coordinates are within this Rectangle
    */
   contains(x, y) {
-    const dx = this.owner.getTransform().position[0];
-    const dy = this.owner.getTransform().position[1];
+    const dx = this.getOwner().getTransform().position[0];
+    const dy = this.getOwner().getTransform().position[1];
     const sw = this.width / 2;
     const sh = this.height / 2;
 

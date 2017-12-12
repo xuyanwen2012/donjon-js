@@ -30,8 +30,6 @@ export default class ObjectFactory {
      * @private
      */
     this._objectPool = new Pool(500);
-
-
     this._objectCountMap = new Map();
   }
 
@@ -96,7 +94,7 @@ export default class ObjectFactory {
     }
 
     /* Loop through keys(Components) from source json */
-    objectKeys.map(key => {
+    objectKeys.forEach(key => {
       let component = this._createComponent(key, source[key]);
       if (component) {
         object.addComponent(component);

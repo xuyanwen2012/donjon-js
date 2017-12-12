@@ -21,8 +21,11 @@ export default class ObjectManager {
   static createTempPrefabs() {
 
     let jsonSource = {
-      "GraphicComponent": {
-        "assetName": "hero"
+      'GraphicComponent': {
+        'assetName': 'hero'
+      },
+      'Rigidbody': {
+        'mass': 2
       },
     };
 
@@ -43,15 +46,14 @@ export default class ObjectManager {
     return gameObject;
   }
 
-
-  /**
-   *  Usually used by client Physics engine to get Rigidbody and Colliders.
-   *  And used by client Render engine to get RenderComponent as well.
-   *
-   * @param type {number} Donjon.Components
-   */
-  static retrieveAllComponents(type) {
-    const retrieved = this._objects.map(obj => obj.getComponent(type));
-    return [].concat(...retrieved);
-  }
+  // /**
+  //  *  Usually used by client Physics engine to get Rigidbody and Colliders.
+  //  *  And used by client Render engine to get RenderComponent as well.
+  //  *
+  //  * @param type {number} Donjon.Components
+  //  */
+  // static retrieveAllComponents(type) {
+  //   const retrieved = this._objects.map(obj => obj.getComponent(type));
+  //   return [].concat(...retrieved);
+  // }
 }

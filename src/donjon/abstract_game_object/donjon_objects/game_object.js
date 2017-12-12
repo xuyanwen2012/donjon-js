@@ -24,10 +24,10 @@ export default class GameObject {
    */
   addComponent(comp) {
     comp.setOwner(this);
-    if (comp.type === Components.TRANSFORM) {
+    if (comp.getType() === Components.TRANSFORM) {
       this._transform = comp;
     } else {
-      this._components[comp.type] = comp; // 'type' as index
+      this._components[comp.getType()] = comp; // 'type' as index
     }
   }
 
@@ -76,4 +76,6 @@ export default class GameObject {
     this._components.forEach(component =>
       component.triggerMessage(...params));
   }
+
+
 }

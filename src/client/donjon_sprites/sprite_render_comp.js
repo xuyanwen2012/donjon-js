@@ -6,7 +6,7 @@
 class SpriteRenderComponent extends SpriteBase {
 
   /**
-   * @param renderComponent {RenderComponent}
+   * @param renderComponent {GraphicComponent}
    */
   constructor(renderComponent) {
     super();
@@ -14,7 +14,7 @@ class SpriteRenderComponent extends SpriteBase {
       console.error("Creating SpriteRenderComponent without RenderComponent.");
     }
     /**
-     * @type {RenderComponent}
+     * @type {GraphicComponent}
      * @private
      */
     this._renderComponent = renderComponent;

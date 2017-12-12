@@ -14,7 +14,6 @@ export default class Component {
     /* initialize member field through copy constructor */
     this.copyConstructor(data);
   }
-
   /**
    * Copy constructor
    * @abstract
@@ -27,12 +26,12 @@ export default class Component {
   /* -------------------Getter/Setter/Accessor-------------------------- */
 
   /** @return {GameObject} */
-  get owner() {
+  getOwner() {
     return this._owner;
   }
 
   /** @return {number} */
-  get type() {
+  getType() {
     return this._type;
   }
 

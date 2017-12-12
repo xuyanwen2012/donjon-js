@@ -8,18 +8,12 @@ class SceneMapBase extends SceneBase {
    */
   constructor() {
     super();
-    /** @private @type {SpritesetMap} */
+    /** @type {SpritesetMap} */
     this._spriteset = null;
-    /** @private @type {boolean} */
+    /** @type {boolean} */
     this._mapLoaded = false;
     /** @private @type {number} */
     this._waitCount = 0;
-
-    /*  */
-    let self = this;
-    Donjon.EventEmitter.addListener('onUnitSpawn', obj => {
-      self.onUnitSpawn(obj)
-    });
   }
 
   /**
@@ -35,13 +29,7 @@ class SceneMapBase extends SceneBase {
     return this._mapLoaded && super.isReady();
   }
 
-
-  onUnitSpawn(object) {
-    console.log('SceneMapBase::onUnitSpawn');
-    if (this._spriteset) {
-      this._spriteset.addCharacter(object);
-    }
-  }
+  /* --------------------Messages--------------------------- */
 
   /**
    * Called automatically when map resources are loaded. Generate Spriteset

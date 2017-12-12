@@ -1,7 +1,6 @@
 import Component from './component';
 import {Components} from '../../core/const';
 
-
 /**
  *
  */

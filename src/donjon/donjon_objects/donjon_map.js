@@ -376,7 +376,6 @@ export default class DonjonMap {
     //this.refreshIfNeeded();
     this.updateScroll();
     this.updateParallax();
-    //this.updateEvents();
   }
 
   /** @private */
