@@ -2,8 +2,8 @@ import Database from './game_database';
 import EventEmitter from '../managers/event_emitter';
 import ObjectManager from '../managers/object_mannager';
 import Physics from '../physics/physics';
-import GameScreen from '../donjon_objects/game_screen';
-import DonjonMap from '../donjon_objects/donjon_map';
+import GameScreen from './game_screen';
+import DonjonMap from './game_map';
 
 /**
  * Server game Object.
@@ -22,8 +22,10 @@ export default class Game {
     /* game instances */
     /** @private @type {Physics}*/
     this._physics = new Physics();
+
     /** @private @type {GameScreen}*/
     this._gameScreen = new GameScreen();
+
     /** @private @type {DonjonGameMap}*/
     this._gameMap = new DonjonMap();
 
@@ -36,13 +38,15 @@ export default class Game {
     this.log('Game Successfully Initialized.');
   }
 
+  /* -------------------Getter/Setter/Accessor-------------------------- */
+
   /** @return {DonjonMap} */
-  get gameMap() {
+  getMap() {
     return this._gameMap;
   }
 
   /** @return {GameScreen} */
-  get gameScreen() {
+  getScreen() {
     return this._gameScreen;
   }
 
@@ -62,6 +66,7 @@ export default class Game {
 
     /*------------temp---*/
     ObjectManager.spawnUnit([5, 5]);
+
 
     this._gameMap.setup(1, this.database.getMap());
     /* construct game instances from data loaded.  */
@@ -91,8 +96,6 @@ export default class Game {
 
     /* update internal physics system, i.e. p2.World */
     this._physics.tick(1 / 60.0);
-
-
 
 
     this._gameTick++;

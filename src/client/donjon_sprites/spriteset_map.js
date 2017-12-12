@@ -43,10 +43,10 @@ class SpritesetMap extends SpritesetBase {
     } else {
       this._tilemap = new Tilemap();
     }
-    this._tilemap.tileWidth = $gameMap.tileWidth();
-    this._tilemap.tileHeight = $gameMap.tileHeight();
+    this._tilemap.tileWidth = $game.getMap().tileWidth();
+    this._tilemap.tileHeight = $game.getMap().tileHeight();
     //ignore the warning
-    this._tilemap.setData($gameMap.width(), $gameMap.height(), $gameMap.data());
+    this._tilemap.setData($game.getMap().width(), $game.getMap().height(), $game.getMap().data());
     this._tilemap.horizontalWrap = false;
     this._tilemap.verticalWrap = false;
     this.loadTileset();
@@ -56,13 +56,13 @@ class SpritesetMap extends SpritesetBase {
   /** @private */
   loadTileset() {
     /** @protected @type {{tilesetNames}} */
-    this.tileset = $gameMap.tileset();
+    this.tileset = $game.getMap().tileset();
     if (this.tileset) {
       let tilesetNames = this.tileset.tilesetNames;
       for (let i = 0; i < tilesetNames.length; i++) {
         this._tilemap.bitmaps[i] = ImageManager.loadTileset(tilesetNames[i]);
       }
-      let newTilesetFlags = $gameMap.tilesetFlags();
+      let newTilesetFlags = $game.getMap().tilesetFlags();
       this._tilemap.refreshTileset();
       if (!this._tilemap.flags.equals(newTilesetFlags)) {
         this._tilemap.refresh();
@@ -99,7 +99,7 @@ class SpritesetMap extends SpritesetBase {
 
   /** @private */
   updateTileset() {
-    if (this.tileset !== $gameMap.tileset()) {
+    if (this.tileset !== $game.getMap().tileset()) {
       this.loadTileset();
     }
   }
@@ -119,8 +119,8 @@ class SpritesetMap extends SpritesetBase {
 
   /** @private */
   updateParallax() {
-    if (this.parallaxName !== $gameMap.parallaxName()) {
-      this.parallaxName = $gameMap.parallaxName();
+    if (this.parallaxName !== $game.getMap().parallaxName()) {
+      this.parallaxName = $game.getMap().parallaxName();
 
       if (this.parallax.bitmap && Graphics.isWebGL() !== true) {
         this.canvasReAddParallax();
@@ -129,22 +129,22 @@ class SpritesetMap extends SpritesetBase {
       }
     }
     if (this.parallax.bitmap) {
-      this.parallax.origin.x = $gameMap.parallaxOx();
-      this.parallax.origin.y = $gameMap.parallaxOy();
+      this.parallax.origin.x = $game.getMap().parallaxOx();
+      this.parallax.origin.y = $game.getMap().parallaxOy();
     }
   }
 
   /** @private */
   updateTilemap() {
-    this._tilemap.origin.x = $gameMap.displayX() * $gameMap.tileWidth();
-    this._tilemap.origin.y = $gameMap.displayY() * $gameMap.tileHeight();
+    this._tilemap.origin.x = $game.getMap().displayX() * $game.getMap().tileWidth();
+    this._tilemap.origin.y = $game.getMap().displayY() * $game.getMap().tileHeight();
   }
 
   /** @private */
   updateWeather() {
-    this._weather.type = $gameScreen.weatherType();
-    this._weather.power = $gameScreen.weatherPower();
-    this._weather.origin.x = $gameMap.displayX() * $gameMap.tileWidth();
-    this._weather.origin.y = $gameMap.displayY() * $gameMap.tileHeight();
+    this._weather.type = $game.getScreen().weatherType();
+    this._weather.power = $game.getScreen().weatherPower();
+    this._weather.origin.x = $game.getMap().displayX() * $game.getMap().tileWidth();
+    this._weather.origin.y = $game.getMap().displayY() * $game.getMap().tileHeight();
   }
 }

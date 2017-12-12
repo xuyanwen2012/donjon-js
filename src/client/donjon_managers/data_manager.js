@@ -135,9 +135,6 @@ class DataManager {
   static createGameObjects() {
     $game = new Donjon.Game();
     $gameObjects = Donjon.ObjectManager;
-
-    $gameScreen = $game.gameScreen;
-    $gameMap = $game.gameMap;
   }
 
   static setupNewGame() {

@@ -57,7 +57,7 @@ class SceneMapBase extends SceneBase {
    * @override
    */
   create() {
-    const mapId = $gameMap.mapId();
+    const mapId = $game.getMap().mapId();
     DataManager.loadMapData(mapId);
   }
 
@@ -103,7 +103,7 @@ class SceneMapBase extends SceneBase {
   terminate() {
     super.terminate();
     ImageManager.clearRequest();
-    $gameScreen.clearZoom();
+    $game.getScreen().clearZoom();
     this.removeChild(this._spriteset);
   }
 }

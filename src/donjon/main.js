@@ -1,4 +1,4 @@
-import Game from "./core/game";
+import Game from "./donjon_game/game";
 
 const game = new Game();
 

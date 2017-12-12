@@ -1,4 +1,4 @@
-import Game from './core/game';
+import Game from './donjon_game/game';
 import ObjectManager from './managers/object_mannager';
 import EventEmitter from './managers/event_emitter';
 // import GameObject from './donjon_objects/game_object';

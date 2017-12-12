@@ -42,7 +42,8 @@ class SceneMap extends SceneMapBase {
    * @override
    */
   onMapLoaded() {
-    $gameMap.setup(this._newMapId, $dataMap); //setup map data before construct
+    //TODO Event Emitter
+    $game.getMap().setup(this._newMapId, $dataMap); //setup map data before construct
 
     $game.database.setMapInfos($dataMapInfos);
     $game.database.setSystem($dataSystem);

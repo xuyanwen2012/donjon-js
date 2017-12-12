@@ -108,17 +108,17 @@ class SpritesetBase extends Sprite {
    * @private
    */
   updateScreenSprites() {
-    const color = $gameScreen.flashColor();
+    const color = $game.getScreen().flashColor();
     this._flashSprite.setColor(color[0], color[1], color[2]);
     this._flashSprite.opacity = color[3];
-    this._fadeSprite.opacity = 255 - $gameScreen.brightness();
+    this._fadeSprite.opacity = 255 - $game.getScreen().brightness();
   }
 
   /**
    * @private
    */
   updateToneChanger() {
-    const tone = $gameScreen.tone();
+    const tone = $game.getScreen().tone();
     if (!this._tone.equals(tone)) {
       this._tone = tone.clone();
       if (Graphics.isWebGL()) {
@@ -151,7 +151,7 @@ class SpritesetBase extends Sprite {
    * @private
    */
   updatePosition() {
-    const screen = $gameScreen;
+    const screen = $game.getScreen();
     const scale = screen.zoomScale();
     this.scale.x = scale;
     this.scale.y = scale;
