@@ -1,5 +1,4 @@
 import Component from './component';
-import {Components} from '../../core/const';
 
 /**
  *
@@ -8,17 +7,38 @@ export default class Rigidbody extends Component {
 
   constructor() {
     super();
-    this._type = Components.RIGIDBODY;
+    this._type = Component.RIGIDBODY;
+
+    /* non data properties */
+    this._body = null;
   }
 
   clearData() {
     super.clearData();
     this.mass = 1.0;
     this.bodyType = Rigidbody.DYNAMIC;
+
+    this._body = null;
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
 
+  setBody(body) {
+    this._body = body;
+  }
+
+  /* --------------------Game Flow--------------------------- */
+
+  update() {
+
+  }
+
+  updateBodyEuler() {
+    this.getOwner().getTransform()
+      .setPosition(this._body.position);
+    this._body.velocity[0] = 0;
+    this._body.velocity[1] = 0;
+  }
 
   /* -------------------Serializable-------------------------- */
 
@@ -27,6 +47,11 @@ export default class Rigidbody extends Component {
 
   serialize() {
     return `${this._type}: `
+  }
+
+  /* --------------------Messages--------------------------- */
+  onInstantiate(owner) {
+
   }
 
 }

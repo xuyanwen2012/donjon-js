@@ -1,22 +1,14 @@
 import Component from './component';
-import {Components} from '../../core/const';
 import Input from '../../core/input';
 
 export default class GraphicComponent extends Component {
 
   constructor(data) {
     super(data);
-    this._type = Components.GRAPHIC;
+    this._type = Component.GRAPHIC;
 
     /* non data properties */
     this._animator = null;
-  }
-
-  /**
-   * @param data {object}
-   */
-  setData(data) {
-    Object.assign(this, data);
   }
 
   clearData() {
@@ -25,6 +17,13 @@ export default class GraphicComponent extends Component {
     this.opacity = 255;
     this.blendMode = 0;
     this.transparent = false;
+  }
+
+  /**
+   * @param data {object}
+   */
+  setData(data) {
+    Object.assign(this, data);
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
@@ -110,5 +109,8 @@ export default class GraphicComponent extends Component {
 
   deserialize(str) {
   }
+
+  /* --------------------Messages--------------------------- */
+
 
 }

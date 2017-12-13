@@ -1,13 +1,11 @@
-import {Components} from '../../core/const';
 import Component from './component';
 
 export default class Transform extends Component {
 
   constructor() {
     super();
-    this._type = Components.TRANSFORM;
+    this._type = Component.TRANSFORM;
 
-    /* create default data (should only construct by Factory) */
   }
 
   /**

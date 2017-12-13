@@ -78,3 +78,11 @@ export default class Component {
     this.setOwner(owner);
   }
 }
+
+Component.NULL = 0;
+Component.TRANSFORM = 1;
+Component.GRAPHIC = 2;
+Component.RIGIDBODY = 3;
+Component.CIRCLE_COLLIDER = 4;
+Component.BOX_COLLIDER = 5;
+Component.ANIMATOR = 6;

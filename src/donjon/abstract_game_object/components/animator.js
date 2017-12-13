@@ -5,6 +5,8 @@ export default class Animator extends Component {
 
   constructor() {
     super();
+    this._type = Component.ANIMATOR;
+
     this._stopCount = 0;
     this._pattern = 0;
     this._animationCount = 0;
@@ -15,6 +17,10 @@ export default class Animator extends Component {
     this.maxPattern = 4;
     this.walkAnime = true;
     this.stepAnime = false;
+
+    this._stopCount = 0;
+    this._pattern = 0;
+    this._animationCount = 0;
   }
 
   /* ------------------- Game Flow -------------------------- */

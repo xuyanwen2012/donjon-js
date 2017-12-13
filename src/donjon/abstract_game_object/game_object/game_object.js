@@ -1,5 +1,5 @@
-import {Components} from '../../core/const';
 import Transform from '../components/transform';
+import Component from '../components/component';
 
 /**
  * @implements {Serializable}
@@ -24,7 +24,7 @@ export default class GameObject {
    */
   addComponent(comp) {
     comp.setOwner(this);
-    if (comp.getType() === Components.TRANSFORM) {
+    if (comp.getType() === Component.TRANSFORM) {
       this._transform = comp;
     } else {
       this._components[comp.getType()] = comp; // 'type' as index
@@ -47,7 +47,7 @@ export default class GameObject {
    * @return {GraphicComponent}
    */
   getGraphicComp() {
-    return this.getComponent(Components.GRAPHIC);
+    return this.getComponent(Component.GRAPHIC);
   }
 
   /**

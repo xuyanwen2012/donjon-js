@@ -1,11 +1,10 @@
-import {Components} from '../../core/const';
 import Component from './component';
 
 export default class BoxCollider extends Component {
 
   constructor() {
     super();
-    this._type = Components.BOX_COLLIDER;
+    this._type = Component.BOX_COLLIDER;
   }
 
   clearData() {
