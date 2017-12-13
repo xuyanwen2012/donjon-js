@@ -8,23 +8,17 @@ export default class GraphicComponent extends Component {
     super(data);
     this._type = Components.GRAPHIC;
     this._animator = null;
-
-    this.assetName = '';
-    this.priorityType = 1;
-    this.opacity = 255;
-    this.blendMode = 0;
-    this.transparent = false;
   }
 
   /**
    * @param data {object}
    */
-  setData(data) {
-    Object.assign(this, data);
-  }
-
-  clearData() {
-
+  copyConstructor(data) {
+    this.assetName = data.assetName || '';
+    this.priorityType = data.priorityType || 1;
+    this.opacity = data.opacity || 255;
+    this.blendMode = data.blendMode || 0;
+    this.transparent = data.transparent || false;
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */

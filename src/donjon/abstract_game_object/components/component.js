@@ -4,29 +4,21 @@
  */
 export default class Component {
 
-  constructor() {
+  constructor(data) {
     /**
      * @type {GameObject}
      */
     this._owner = null;
     this._type = 0;
+    /* initialize member field through copy constructor */
+    this.copyConstructor(data);
   }
-
   /**
    * Copy constructor
    * @abstract
    * @param data {object} could be a json file
    */
-  setData(data) {
-    Object.assign(this, data);
-  }
-
-  /**
-   * reset data to Empty state
-   * @abstract
-   */
-  clearData() {
-    this._owner = null;
+  copyConstructor(data) {
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */

@@ -3,24 +3,9 @@ import Component from './component';
 
 export default class Transform extends Component {
 
-  constructor() {
-    super();
+  constructor(data) {
+    super(data);
     this._type = Components.TRANSFORM;
-
-    /* create default data (should only construct by Factory) */
-    this.position = [0, 0];
-    this.scale = [1.0, 1.0];
-    this.direction = 2;
-  }
-
-  /**
-   * basically destructor
-   */
-  clearData() {
-    super.clearData();
-    this.setPosition();
-    this.setScale();
-    this.direction = 2;
   }
 
   /* -------------------Static---------------------------- */
@@ -47,20 +32,10 @@ export default class Transform extends Component {
 
   /* ------------------------------------------------------------------- */
 
-  /**
-   * @override
-   * @param data
-   */
-  setData(data) {
-    if (data.position) {
-      this.setPosition(data.position);
-    }
-    if (data.scale) {
-      this.setPosition(data.scale);
-    }
-    if (data.direction) {
-      this.direction = data.direction;
-    }
+  copyConstructor(data = {}) {
+    this.position = data.position ? data.position.slice(0) : [0, 0];
+    this.scale = data.scale ? data.scale.slice(0) : [1.0, 1.0];
+    this.direction = data.direction ? data.direction : 2;
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */

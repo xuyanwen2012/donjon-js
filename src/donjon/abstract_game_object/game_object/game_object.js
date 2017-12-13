@@ -6,7 +6,7 @@ import Transform from '../components/transform';
  */
 export default class GameObject {
 
-  constructor(id = GameObject.DEFAULT_ID) {
+  constructor(id = -1) {
     /**
      * the id value -1 means the object is created but not GameObject.instantiated.
      *
@@ -74,6 +74,10 @@ export default class GameObject {
 
   /* ------------------- Game Flow -------------------------- */
 
+  // update() {
+  //   this._components.forEach(component =>
+  //     component.update());
+  // }
 
   /* --------------------Messages--------------------------- */
 
@@ -87,8 +91,3 @@ export default class GameObject {
       component.triggerMessage(...params));
   }
 }
-/**
- * @const
- * @type {number}
- */
-GameObject.DEFAULT_ID = -1;

@@ -3,14 +3,18 @@ import Component from './component';
 
 export default class BoxCollider extends Component {
 
-  constructor() {
-    super();
+  constructor(data) {
+    super(data);
     this._type = Components.BOX_COLLIDER;
   }
 
-  clearData() {
-    this.width = 1;
-    this.height = 1;
+  /**
+   * @param data {object}
+   */
+  copyConstructor(data) {
+    this.offset = data.offset || 0;
+    this.width = data.width || 1;
+    this.height = data.height || 1;
   }
 
   /* ---------------------------------------------------- */

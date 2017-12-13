@@ -1,4 +1,4 @@
-import ObjectPool from './object_pool';
+import Pool from './object_pool';
 import GameObject from './game_object';
 import {
   Animator,
@@ -7,7 +7,6 @@ import {
   GraphicComponent,
   Rigidbody
 } from '../components/index';
-import ComponentPool from "./component_pool";
 
 /**
  *
@@ -15,16 +14,26 @@ import ComponentPool from "./component_pool";
 export default class ObjectFactory {
 
   constructor() {
-    const DEFAULT_CAPACITY = 500;
-    this._componentPools = new Map([
-      ['GraphicComponent', new ComponentPool(GraphicComponent, DEFAULT_CAPACITY)],
-      ['Rigidbody', new ComponentPool(Rigidbody, DEFAULT_CAPACITY)],
-      ['BoxCollider', new ComponentPool(BoxCollider, DEFAULT_CAPACITY)],
-      ['CircleCollider', new ComponentPool(CircleCollider, DEFAULT_CAPACITY)],
-      ['Animator', new ComponentPool(Animator, DEFAULT_CAPACITY)],
+    /**
+     * String to Class Map
+     *
+     * @type {Map<string, function>}
+     * @private
+     */
+    this._creatorsMap = new Map([
+      ['GraphicComponent', GraphicComponent],
+      ['Rigidbody', Rigidbody],
+      ['BoxCollider', BoxCollider],
+      ['CircleCollider', CircleCollider],
+      ['Animator', Animator],
     ]);
 
-    this._objectPool = new ObjectPool(DEFAULT_CAPACITY);
+    /**
+     *
+     * @type {Pool}
+     * @private
+     */
+    this._objectPool = new Pool(500);
   }
 
   /** @return {number} generate unique runtime Id for game objects */
@@ -39,11 +48,10 @@ export default class ObjectFactory {
    * @return {Component || {}} instance of type key component, copy constructed.
    */
   _createComponent(key, data) {
-    if (this._componentPools.has(key)) {
-      const pool = this._componentPools.get(key);
-      const comp = pool.get();
-      comp.setData(data);
-      return comp;
+    if (this._creatorsMap.has(key)) {
+      let creator = this._creatorsMap.get(key);
+      //TODO: use object pool
+      return new creator(data);
     }
     console.log(`No such component: ${key}`);
     return {};
@@ -55,6 +63,7 @@ export default class ObjectFactory {
    * @private
    */
   _cloneComponent(origin) {
+    //console.log(origin.constructor.name);
     return this._createComponent(origin.constructor.name, origin);
   }
 
@@ -65,7 +74,7 @@ export default class ObjectFactory {
    */
   _cloneTransform(trans, origin_trans) {
     trans.setPosition(origin_trans.position);
-    trans.setScale(origin_trans.scale);
+    trans.setScale(origin_trans.scale)
   }
 
   /**
@@ -86,10 +95,11 @@ export default class ObjectFactory {
       objectKeys.splice(index, 1);
     }
 
+    /* Loop through keys(Components) from source json */
     objectKeys.forEach(key => {
-      const comp = this._createComponent(key, source[key]);
-      if (comp) {
-        object.addComponent(comp);
+      let component = this._createComponent(key, source[key]);
+      if (component) {
+        object.addComponent(component);
       }
     });
 
@@ -111,7 +121,7 @@ export default class ObjectFactory {
     const cloned = this._objectPool.get();
     cloned.id = ObjectFactory.generateRunTimeId();
 
-    // /* Clone transform and each components */
+    /* Clone transform and each components */
     this._cloneTransform(cloned._transform, origin.getTransform());
     origin._components.forEach(ori_comp =>
         cloned.addComponent(this._cloneComponent(ori_comp))

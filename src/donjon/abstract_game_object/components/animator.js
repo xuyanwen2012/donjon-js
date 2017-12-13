@@ -3,22 +3,17 @@ import Input from '../../core/input';
 
 export default class Animator extends Component {
 
-  constructor() {
-    super();
+  constructor(data) {
+    super(data);
     this._stopCount = 0;
     this._pattern = 0;
     this._animationCount = 0;
-
-    this.maxPattern = 4;
-    this.walkAnime = true;
-    this.stepAnime = false;
   }
 
-  clearData(data) {
-    super.clearData();
-    this.maxPattern = 4;
-    this.walkAnime = true;
-    this.stepAnime = false;
+  copyConstructor(data) {
+    this.maxPattern = data.maxPattern || 4;
+    this.walkAnime = data.walkAnime || true;
+    this.stepAnime = data.stepAnime || false;
   }
 
   /* ------------------- Game Flow -------------------------- */

@@ -6,21 +6,21 @@ import {Components} from '../../core/const';
  */
 export default class Rigidbody extends Component {
 
-  constructor() {
-    super();
+  constructor(data) {
+    super(data);
     this._type = Components.RIGIDBODY;
-
-    this.mass = 1.0;
-    this.bodyType = Rigidbody.DYNAMIC;
   }
 
-  clearData() {
-    super.clearData();
-    this.mass = 1.0;
-    this.bodyType = Rigidbody.DYNAMIC;
+  /**
+   * @param data {object}
+   */
+  copyConstructor(data = {}) {
+    this.mass = data.mass || 1.0;
+    this.bodyType = data.bodyType || Rigidbody.DYNAMIC;
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
+
 
 
   /* -------------------Serializable-------------------------- */
@@ -31,7 +31,6 @@ export default class Rigidbody extends Component {
   serialize() {
     return `${this._type}: `
   }
-
 }
 /**
  * @const
