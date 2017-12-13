@@ -72,6 +72,13 @@ export default class GameObject {
   deserialize(str) {
   }
 
+  /* ------------------- Game Flow -------------------------- */
+
+  update() {
+    this._components.forEach(component =>
+      component.update());
+  }
+
   /* --------------------Messages--------------------------- */
 
   /**
@@ -83,6 +90,4 @@ export default class GameObject {
     this._components.forEach(component =>
       component.triggerMessage(...params));
   }
-
-
 }

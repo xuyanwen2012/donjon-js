@@ -24,7 +24,7 @@ class SpriteGraphicComp extends SpriteBase {
     this._assetName = null;
 
     this.anchor.x = 0.5;
-    this.anchor.y = 0.5;
+    this.anchor.y = 1;
   }
 
   /**
@@ -60,12 +60,16 @@ class SpriteGraphicComp extends SpriteBase {
   }
 
   /**
-   * Set the frame area base on pattern, direction, etc
+   * Set the frame area base on _pattern, direction, etc
    *
    * @private
    */
   updateFrame() {
-    //this.setFrame(sx, sy, pw, ph);
+    let pw = this.patternWidth();
+    let ph = this.patternHeight();
+    let sx = (this.characterBlockX() + this.characterPatternX()) * pw;
+    let sy = (this.characterBlockY() + this.characterPatternY()) * ph;
+    this.setFrame(sx, sy, pw, ph);
   }
 
   /**
@@ -109,5 +113,31 @@ class SpriteGraphicComp extends SpriteBase {
    */
   setBitmap() {
     this.bitmap = ImageManager.loadCharacter(this._assetName);
+  }
+
+  /*-------------------------------------------------------*/
+
+  patternWidth() {
+    return this.bitmap.width / this._graphicComp.frameLength();
+  }
+
+  patternHeight() {
+    return this.bitmap.height / 4;
+  }
+
+  characterBlockX() {
+    return 0;
+  }
+
+  characterBlockY() {
+    return 0;
+  }
+
+  characterPatternX() {
+    return this._graphicComp.pattern();
+  }
+
+  characterPatternY() {
+    return (this._graphicComp.direction() - 2) / 2;
   }
 }

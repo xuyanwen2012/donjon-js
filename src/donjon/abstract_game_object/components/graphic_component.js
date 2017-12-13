@@ -1,11 +1,13 @@
 import Component from './component';
 import {Components} from '../../core/const';
+import Input from '../../core/input';
 
 export default class GraphicComponent extends Component {
 
   constructor(data) {
     super(data);
     this._type = Components.GRAPHIC;
+    this._animator = null;
   }
 
   /**
@@ -20,6 +22,11 @@ export default class GraphicComponent extends Component {
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
+
+  /** @param animator{Animator} */
+  setAnimator(animator) {
+    this._animator = animator;
+  }
 
   /** @return {boolean} */
   isTransparent() {
@@ -60,6 +67,33 @@ export default class GraphicComponent extends Component {
   screenScaleY() {
     return this.getOwner().getTransform().scale[1];
   }
+
+  /* ------------------------------------------ */
+
+  /** @return {number} */
+  frameLength() {
+    return 4;
+  }
+
+  /** @return {number} */
+  pattern() {
+    return this._animator ? this._animator.getPattern() : 0;
+  }
+
+  direction() {
+    //TODO: count by Input Bottom
+    return Input.dir4 === 0 ? 2 : Input.dir4; // temp
+  }
+
+  /* ------------------- Game Flow -------------------------- */
+
+  update() {
+
+  }
+
+  // updateFrame() {
+  //
+  // }
 
   /* -------------------Serializable-------------------------- */
 

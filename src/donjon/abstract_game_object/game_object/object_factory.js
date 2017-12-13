@@ -1,6 +1,7 @@
 import Pool from './object_pool';
 import GameObject from './game_object';
 import {
+  Animator,
   BoxCollider,
   CircleCollider,
   GraphicComponent,
@@ -24,6 +25,7 @@ export default class ObjectFactory {
       ['Rigidbody', Rigidbody],
       ['BoxCollider', BoxCollider],
       ['CircleCollider', CircleCollider],
+      ['Animator', Animator],
     ]);
 
     /**

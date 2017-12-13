@@ -7,7 +7,6 @@ export default class Component {
   constructor(data) {
     /**
      * @type {GameObject}
-     * @protected
      */
     this._owner = null;
     this._type = 0;
@@ -17,7 +16,6 @@ export default class Component {
   /**
    * Copy constructor
    * @abstract
-   * @protected
    * @param data {object} could be a json file
    */
   copyConstructor(data) {
@@ -48,6 +46,13 @@ export default class Component {
 
   /** @abstract */
   deserialize(str) {
+  }
+
+  /* ------------------- Game Flow  -------------------------- */
+  /**
+   * @abstract
+   */
+  update() {
   }
 
   /* --------------------Messages--------------------------- */

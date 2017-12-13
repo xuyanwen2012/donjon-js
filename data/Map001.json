@@ -5461,7 +5461,7 @@
             "tileId": 0,
             "characterName": "Actor1",
             "direction": 2,
-            "pattern": 0,
+            "_pattern": 0,
             "characterIndex": 4
           },
           "list": [
@@ -5624,7 +5624,7 @@
             "tileId": 0,
             "characterName": "Actor1",
             "direction": 2,
-            "pattern": 0,
+            "_pattern": 0,
             "characterIndex": 4
           },
           "list": [
@@ -5726,7 +5726,7 @@
             "tileId": 0,
             "characterName": "Actor1",
             "direction": 2,
-            "pattern": 0,
+            "_pattern": 0,
             "characterIndex": 4
           },
           "list": [

@@ -70,7 +70,7 @@ export default class ObjectManager extends Manager {
   }
 
   tick(dt) {
-
+    this._objects.forEach(obj => obj.update());
   }
 
   terminate() {

@@ -16,6 +16,7 @@ export const Components = {
   RIGIDBODY: 4,
   CIRCLE_COLLIDER: 5,
   BOX_COLLIDER: 6,
+  ANIMATOR: 7,
 };
 
 /**
