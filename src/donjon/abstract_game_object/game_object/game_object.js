@@ -74,10 +74,10 @@ export default class GameObject {
 
   /* ------------------- Game Flow -------------------------- */
 
-  update() {
-    this._components.forEach(component =>
-      component.update());
-  }
+  // update() {
+  //   this._components.forEach(component =>
+  //     component.update());
+  // }
 
   /* --------------------Messages--------------------------- */
 

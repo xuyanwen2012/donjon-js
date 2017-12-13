@@ -8,6 +8,8 @@ export default class Transform extends Component {
     this._type = Components.TRANSFORM;
   }
 
+  /* -------------------Static---------------------------- */
+
   /**
    * @param first {Transform}
    * @param second {Transform}
@@ -16,8 +18,6 @@ export default class Transform extends Component {
   static distance(first, second) {
     return Math.sqrt(this.sqrDistance(first, second));
   }
-
-  /* -------------------Static---------------------------- */
 
   /**
    * @param first {Transform}
@@ -30,16 +30,13 @@ export default class Transform extends Component {
     return dx * dx + dy * dy;
   }
 
+  /* ------------------------------------------------------------------- */
+
   copyConstructor(data = {}) {
     this.position = data.position ? data.position.slice(0) : [0, 0];
     this.scale = data.scale ? data.scale.slice(0) : [1.0, 1.0];
-
+    this.direction = data.direction ? data.direction : 2;
   }
-
-  /* ------------------------------------------------------------------- */
-
-
-
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
 

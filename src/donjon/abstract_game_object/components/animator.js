@@ -1,4 +1,5 @@
 import Component from './component';
+import Input from '../../core/input';
 
 export default class Animator extends Component {
 
@@ -18,6 +19,10 @@ export default class Animator extends Component {
   /* ------------------- Game Flow -------------------------- */
 
   update() {
+    if (this.isStopping()) {
+      //this.updateStop();
+    }
+
     this.updateAnimationCount();
     if (this._animationCount >= this.animationWait()) {
       this.updatePattern();
@@ -25,36 +30,58 @@ export default class Animator extends Component {
     }
   }
 
+  resetStopCount() {
+    this._stopCount = 0;
+  }
+
+  updateStop() {
+    this._stopCount++;
+  }
+
+  /** @private */
   updateAnimationCount() {
-    // if (this.isMoving() && this.hasWalkAnime())
-    this._animationCount += 1.5;
-    // else if (this.hasStepAnime() || !this.isOriginalPattern())
-    //this._animationCount++;
+    if (this.isMoving() && this.walkAnime) //  &&
+      this._animationCount += 1.5;
+    else if (this.stepAnime)
+      this._animationCount++;
   }
 
+  /** @private */
   updatePattern() {
-    // if (this._stopCount > 0) {
-    //   this.resetPattern();
-    // } else {
-    this._pattern = (this._pattern + 1) % this.maxPattern;
-    // }
+    if (this._stopCount > 0) {
+      this.resetPattern();
+    } else {
+      this._pattern = (this._pattern + 1) % this.maxPattern;
+    }
   }
 
+  /** @private */
   animationWait() {
     // return (9 - this.realMoveSpeed()) * 3;
     return (9 - 3) * 3;
   }
 
+  /** @private */
   resetPattern() {
     this._pattern = 0;
   }
 
+  /** @private */
   setPattern(pattern) {
     this._pattern = pattern;
   }
 
+  /** @private */
   getPattern() {
     return this._pattern;
+  }
+
+  isMoving() {
+    return Input.dir4 !== 0;
+  }
+
+  isStopping() {
+    return Input.dir4 === 0;
   }
 
   /* -------------------Serializable-------------------------- */
@@ -74,5 +101,4 @@ export default class Animator extends Component {
     this._graphicComp = this._owner.getGraphicComp();
     this._graphicComp.setAnimator(this);
   }
-
 }

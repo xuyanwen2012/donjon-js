@@ -69,8 +69,11 @@ export default class ObjectManager extends Manager {
     this.spawnUnit(2, [8.5, 8.5]);
   }
 
+  /**
+   * @param dt
+   */
   tick(dt) {
-    this._objects.forEach(obj => obj.update());
+    this._objects.forEach(obj => obj.sendMessage('update'));
   }
 
   terminate() {
