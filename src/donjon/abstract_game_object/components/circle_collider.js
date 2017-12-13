@@ -3,17 +3,17 @@ import Component from './component';
 
 export default class CircleCollider extends Component {
 
-  constructor(data) {
-    super(data);
+  constructor() {
+    super();
     this._type = Components.CIRCLE_COLLIDER;
+
+    this.offset = 0;
+    this.radius = 0.5;
   }
 
-  /**
-   * @param data {object}
-   */
-  copyConstructor(data) {
-    this.offset = data.offset || 0;
-    this.radius = data.radius || 0.5;
+  clearData() {
+    this.offset = 0;
+    this.radius = 0.5;
   }
 
   /* ---------------------------------------------------- */
