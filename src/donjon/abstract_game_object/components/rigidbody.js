@@ -9,9 +9,6 @@ export default class Rigidbody extends Component {
   constructor() {
     super();
     this._type = Components.RIGIDBODY;
-
-    this.mass = 1.0;
-    this.bodyType = Rigidbody.DYNAMIC;
   }
 
   clearData() {

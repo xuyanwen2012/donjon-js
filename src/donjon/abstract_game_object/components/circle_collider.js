@@ -6,9 +6,6 @@ export default class CircleCollider extends Component {
   constructor() {
     super();
     this._type = Components.CIRCLE_COLLIDER;
-
-    this.offset = 0;
-    this.radius = 0.5;
   }
 
   clearData() {

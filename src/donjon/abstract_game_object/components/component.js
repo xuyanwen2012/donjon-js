@@ -5,28 +5,23 @@
 export default class Component {
 
   constructor() {
-    /**
-     * @type {GameObject}
-     */
-    this._owner = null;
+    this.clearData();
     this._type = 0;
   }
 
   /**
+   * reset data to Empty state
+   */
+  clearData() {
+    this._owner = null;
+  }
+
+  /**
    * Copy constructor
-   * @abstract
    * @param data {object} could be a json file
    */
   setData(data) {
     Object.assign(this, data);
-  }
-
-  /**
-   * reset data to Empty state
-   * @abstract
-   */
-  clearData() {
-    this._owner = null;
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
@@ -58,7 +53,6 @@ export default class Component {
 
   /* ------------------- Game Flow  -------------------------- */
   /**
-   * @abstract
    */
   update() {
   }

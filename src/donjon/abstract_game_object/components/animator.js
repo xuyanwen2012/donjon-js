@@ -8,10 +8,6 @@ export default class Animator extends Component {
     this._stopCount = 0;
     this._pattern = 0;
     this._animationCount = 0;
-
-    this.maxPattern = 4;
-    this.walkAnime = true;
-    this.stepAnime = false;
   }
 
   clearData(data) {

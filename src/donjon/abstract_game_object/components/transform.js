@@ -8,9 +8,6 @@ export default class Transform extends Component {
     this._type = Components.TRANSFORM;
 
     /* create default data (should only construct by Factory) */
-    this.position = [0, 0];
-    this.scale = [1.0, 1.0];
-    this.direction = 2;
   }
 
   /**
@@ -18,8 +15,8 @@ export default class Transform extends Component {
    */
   clearData() {
     super.clearData();
-    this.setPosition();
-    this.setScale();
+    this.position = [0, 0];
+    this.scale = [1.0, 1.0];
     this.direction = 2;
   }
 
