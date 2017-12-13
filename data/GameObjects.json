@@ -1,0 +1,25 @@
+[
+  {
+    "fileName": "GameObjects",
+    "length": 2
+  },
+  {
+    "id": 1,
+    "name": "Player",
+    "data": {
+      "GraphicComponent": {"assetName": "hero"},
+      "Rigidbody": {},
+      "CircleCollider": {"radius": 0.5}
+    }
+  },
+  {
+    "id": 2,
+    "name": "NPC",
+    "data": {
+      "Transform": {"scale": [0.5, 0.5]},
+      "GraphicComponent": {"assetName": "hero"},
+      "Rigidbody": {},
+      "CircleCollider": {"radius": 0.25}
+    }
+  }
+]
