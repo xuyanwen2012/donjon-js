@@ -68,7 +68,9 @@ class SceneMap extends SceneMapBase {
    */
   create() {
     super.create();
+    $game.create();
     console.log('SceneMap::create');
+    Donjon.EventEmitter.emit('onDataFileLoaded', $dataObjects);
   }
 
   start() {
@@ -87,6 +89,7 @@ class SceneMap extends SceneMapBase {
 
   stop() {
     super.stop();
+    $game.stop();
     console.log('SceneMap::stop');
   }
 

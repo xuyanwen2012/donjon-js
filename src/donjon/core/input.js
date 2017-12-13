@@ -8,6 +8,7 @@ import EventEmitter from "../managers/event_emitter";
  */
 export default class Input {
 
+
   constructor() {
     throw new Error('This is a static class');
   }
@@ -34,6 +35,13 @@ export default class Input {
    */
   static get dir8() {
     return this._dir8;
+  }
+
+  /**
+   * @return {Array.<number>}
+   */
+  static get dirVic() {
+    return this._dirVic;
   }
 
   /**
@@ -71,6 +79,7 @@ export default class Input {
     this._pressedTime = 0;
     this._dir4 = 0;
     this._dir8 = 0;
+    this._dirVic = [0, 0];
     this._preferredAxis = '';
     this._date = 0;
   }
@@ -174,7 +183,6 @@ export default class Input {
   static _setupEventHandlers() {
     let self = this;
     EventEmitter.addListener('onKeyDown', event => {
-      console.log(event.keyCode);
       self.onKeyDown(event)
     });
     EventEmitter.addListener('onKeyUp', event => {
@@ -192,7 +200,7 @@ export default class Input {
    * @private
    */
   static onKeyDown(event) {
-    if (this._shouldPreventDefault(event.keyCode)) {
+    if (this.shouldPreventDefault(event.keyCode)) {
       event.preventDefault();
     }
     if (event.keyCode === 144) {    // Numlock
@@ -204,11 +212,11 @@ export default class Input {
 
   /**
    * @static
-   * @method _shouldPreventDefault
+   * @method shouldPreventDefault
    * @param {Number} keyCode
    * @private
    */
-  static _shouldPreventDefault(keyCode) {
+  static shouldPreventDefault(keyCode) {
     switch (keyCode) {
       case 8:     // backspace
       case 33:    // pageup
@@ -224,7 +232,7 @@ export default class Input {
 
   /**
    * @static
-   * @method _onKeyUp
+   * @method onKeyUp
    * @param {KeyboardEvent} event
    * @private
    */
@@ -240,7 +248,7 @@ export default class Input {
 
   /**
    * @static
-   * @method _onLostFocus
+   * @method onLostFocus
    * @private
    */
   static onLostFocus() {
@@ -257,6 +265,8 @@ export default class Input {
     let y = this._signY();
 
     this._dir8 = this._makeNumpadDirection(x, y);
+    this._dirVic[0] = x;
+    this._dirVic[1] = y;
 
     if (x !== 0 && y !== 0) {
       if (this._preferredAxis === 'x') {

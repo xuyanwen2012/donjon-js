@@ -1,6 +1,11 @@
 import Pool from './object_pool';
 import GameObject from './game_object';
-import {BoxCollider, GraphicComponent, Rigidbody,} from '../components/index';
+import {
+  BoxCollider,
+  CircleCollider,
+  GraphicComponent,
+  Rigidbody
+} from '../components/index';
 
 /**
  *
@@ -16,8 +21,9 @@ export default class ObjectFactory {
      */
     this._creatorsMap = new Map([
       ['GraphicComponent', GraphicComponent],
+      ['Rigidbody', Rigidbody],
       ['BoxCollider', BoxCollider],
-      ['Rigidbody', Rigidbody]
+      ['CircleCollider', CircleCollider],
     ]);
 
     /**
@@ -26,7 +32,6 @@ export default class ObjectFactory {
      * @private
      */
     this._objectPool = new Pool(500);
-    this._objectCountMap = new Map();
   }
 
   /** @return {number} generate unique runtime Id for game objects */
@@ -44,7 +49,6 @@ export default class ObjectFactory {
     if (this._creatorsMap.has(key)) {
       let creator = this._creatorsMap.get(key);
       //TODO: use object pool
-      /* _create a new object of type creator */
       return new creator(data);
     }
     console.log(`No such component: ${key}`);

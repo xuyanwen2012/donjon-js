@@ -14,11 +14,13 @@ export default class Rigidbody extends Component {
   /**
    * @param data {object}
    */
-  copyConstructor(data = 1.0) {
-    this.mass = data.mass;
+  copyConstructor(data = {}) {
+    this.mass = data.mass || 1.0;
+    this.bodyType = data.bodyType || Rigidbody.DYNAMIC;
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
+
 
 
   /* -------------------Serializable-------------------------- */
@@ -30,3 +32,21 @@ export default class Rigidbody extends Component {
     return `${this._type}: `
   }
 }
+/**
+ * @const
+ * @static
+ * @type {number}
+ */
+Rigidbody.DYNAMIC = 1;
+/**
+ * @const
+ * @static
+ * @type {number}
+ */
+Rigidbody.STATIC = 2;
+/**
+ * @const
+ * @static
+ * @type {number}
+ */
+Rigidbody.KINEMATIC = 4;

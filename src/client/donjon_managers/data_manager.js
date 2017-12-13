@@ -19,6 +19,7 @@ class DataManager {
       {name: '$dataTilesets', src: 'Tilesets.json'},
       {name: '$dataSystem', src: 'System.json'},
       {name: '$dataMapInfos', src: 'MapInfos.json'},
+      {name: '$dataObjects', src: 'GameObjects.json'},
     ]
   }
 

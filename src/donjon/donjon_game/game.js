@@ -39,8 +39,6 @@ export default class Game {
     Game.log('Game Successfully Initialized.');
   }
 
-  /* -------------------Getter/Setter/Accessor-------------------------- */
-
   /**
    * @param msg {string}
    * @private
@@ -48,6 +46,8 @@ export default class Game {
   static log(msg) {
     console.log(msg);
   }
+
+  /* -------------------Getter/Setter/Accessor-------------------------- */
 
   /** @return {DonjonMap} */
   getMap() {
@@ -77,6 +77,9 @@ export default class Game {
   fixedUpdate() {
     EventEmitter.tick();
 
+    Input.update();
+    /*-----------temp*/
+
     /* update game object's fixedUpdate */
     this._gameMap.update();
     this._gameScreen.update();
@@ -89,15 +92,16 @@ export default class Game {
     this._gameClockReal += new Date().getTime() - this._gameClockReal;
   }
 
-  /**
-   * Update is called once per frame. It is the main workhorse function for
-   * frame updates.
-   */
-  update() {
-    /* Handle Input */
-    console.log(Input);
-    Input.update();
-  }
+  // /**
+  //  * Update is called once per frame. It is the main workhorse function for
+  //  * frame updates.
+  //  */
+  // update() {
+  //   /* Handle Input */
+  //   //console.log(Input);
+  //   // Input.update();
+  //   // console.log(Input.dir8);
+  // }
 
   /**
    * Must load all data and assets before calling start()
@@ -118,10 +122,9 @@ export default class Game {
     /* start tick */
     this._gameClockReal = new Date().getTime();
     Game.log(`Game Started ${this._gameClockReal}`);
-
   }
 
-  pause() {
+  stop() {
 
   }
 

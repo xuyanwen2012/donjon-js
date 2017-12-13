@@ -12,7 +12,7 @@ export default class GraphicComponent extends Component {
    * @param data {object}
    */
   copyConstructor(data) {
-    this.assetName = data.assetName || "";
+    this.assetName = data.assetName || '';
     this.priorityType = data.priorityType || 1;
     this.opacity = data.opacity || 255;
     this.blendMode = data.blendMode || 0;

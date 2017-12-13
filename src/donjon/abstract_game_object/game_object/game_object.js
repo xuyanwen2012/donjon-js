@@ -33,14 +33,13 @@ export default class GameObject {
 
   /**
    * @param type {number} enum of Components
-   * @return {object} Component of type type, null if not found.
+   * @return
    */
   getComponent(type) {
     if (this._components[type]) {
       return this._components[type];
     }
-    console.log(`Could not get component type: ${type}.`);
-    return {};
+    return null;
   }
 
   /**
