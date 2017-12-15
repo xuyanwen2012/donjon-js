@@ -1,8 +1,8 @@
 import p2 from 'p2';
-import EventEmitter from '../managers/event_emitter';
-import Manager from '../managers/manager';
+import EventEmitter from '../core/event_emitter';
+import Manager from './manager';
 import Input from '../core/input';
-import Component from '../abstract_game_object/components/component';
+import Component from '../components/component';
 
 export default class Physics extends Manager {
 
@@ -56,24 +56,16 @@ export default class Physics extends Manager {
     this.world.addBody(body);
   }
 
-  /* --------------------Messages--------------------------- */
-
-  onUnitSpawn(gameObject) {
-    const rigidbody = gameObject.getComponent(Component.RIGIDBODY);
-    if (rigidbody) {
-      this.addRigidbody(rigidbody);
-    }
-  }
-
   /* ----------------------------Game Flow----------------------------------- */
 
-  /**
-   * Create
-   */
-  setup() {
+  create() {
     this.world = new p2.World({
       gravity: [0, 0],
     });
+  }
+
+  start() {
+
   }
 
   tick(dt) {
@@ -93,21 +85,24 @@ export default class Physics extends Manager {
     const player = this.addedBody[0];
     player.velocity[0] = dx;
     player.velocity[1] = dy;
-    //
-    // const enemy = this.addedBody[1];
-    // enemy.velocity[0] = 0;
-    // enemy.velocity[1] = 0;
-    // const enemy2 = this.addedBody[2];
-    // enemy2.velocity[0] = 0;
-    // enemy2.velocity[1] = 0;
+
 
     /*------------------------------*/
 
+  }
 
+  stop() {
   }
 
   terminate() {
+  }
 
+  /* --------------------Messages--------------------------- */
+  onUnitSpawn(gameObject) {
+    const rigidbody = gameObject.getComponent(Component.RIGIDBODY);
+    if (rigidbody) {
+      this.addRigidbody(rigidbody);
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import Database from './game_database';
-import EventEmitter from '../managers/event_emitter';
-import ObjectManager from '../abstract_game_object/object_mannager';
-import Physics from '../physics/physics';
+import EventEmitter from '../core/event_emitter';
+import ObjectManager from '../managers/object_mannager';
+import Physics from '../managers/physics';
 import GameScreen from './game_screen';
 import DonjonMap from './game_map';
 import Input from "../core/input";
@@ -15,29 +15,32 @@ export default class Game {
    *
    */
   constructor() {
-    /* setup game managers */
+    /* update game managers */
     this.database = new Database();
-    this._objectManager = new ObjectManager();
-    Input.initialize();
 
-    /* game instances */
-    /** @private @type {Physics}*/
-    this._physics = new Physics();
+    Input.initialize();
+    EventEmitter.initialize();
+
+    /**
+     * @type {Array.<Manager>}
+     */
+    this.managers = [
+      new ObjectManager(),
+      new Physics(),
+    ];
 
     /** @private @type {GameScreen}*/
-    this._gameScreen = new GameScreen();
+    this.gameScreen = new GameScreen();
 
     /** @private @type {DonjonGameMap}*/
-    this._gameMap = new DonjonMap();
+    this.gameMap = new DonjonMap();
 
-    /* game status */
-    /** @private @type {number}*/
-    this._gameTick = 0;
-    /** @private @type {number}*/
-    this._gameClockReal = 0;
 
+    this._setupClock();
     Game.log('Game Successfully Initialized.');
   }
+
+  /* -----------------------------Static------------------------------------ */
 
   /**
    * @param msg {string}
@@ -49,92 +52,103 @@ export default class Game {
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
 
-  /** @return {DonjonMap} */
+  /** @return {GameMap} */
   getMap() {
-    return this._gameMap;
+    return this.gameMap;
   }
 
   /** @return {GameScreen} */
   getScreen() {
-    return this._gameScreen;
+    return this.gameScreen;
   }
 
-  /* -----------------------------Messages------------------------------------ */
-
-
-
-  /* ----------------------------Game Flow----------------------------------- */
-
-  /** @return {ObjectManager} */
+  /** @return {Manager||ObjectManager} */
   getObjectManager() {
-    return this._objectManager;
+    return this.managers[0];
   }
 
-  create() {
+  /* ----------------------------------------------------------------------- */
 
-  }
-
-  fixedUpdate() {
-    EventEmitter.tick();
-
-    Input.update();
-    /*-----------temp*/
-
-    /* update game object's fixedUpdate */
-    this._gameMap.update();
-    this._gameScreen.update();
-
-    /* update internal physics system, i.e. p2.World */
-    this._physics.tick(1 / 60.0);
-    this._objectManager.tick(1 / 60.0);
-
+  _updateClock() {
     this._gameTick++;
     this._gameClockReal += new Date().getTime() - this._gameClockReal;
   }
 
-  // /**
-  //  * Update is called once per frame. It is the main workhorse function for
-  //  * frame updates.
-  //  */
-  // update() {
-  //   /* Handle Input */
-  //   //console.log(Input);
-  //   // Input.update();
-  //   // console.log(Input.dir8);
-  // }
+  _setupClock() {
+    /** @private @type {number}*/
+    this._gameTick = 0;
+    /** @private @type {number}*/
+    this._gameClockReal = 0;
+  }
+
+  /* ----------------------------Game Flow----------------------------------- */
 
   /**
-   * Must load all data and assets before calling start()
+   * Notify all managers to initialize based on Client's loaded game data.
+   * @param dataObjects
+   */
+  create(dataObjects) {
+    this.managers.forEach(manager => manager.create(dataObjects));
+  }
+
+  /**
+   * After data loaded, Game setup is loaded. Start the game and game clock.
    * Start/Restart the game tick:
-   * For objects added to the scene, the Start function will be called on
-   * all  scripts before Update, etc are called for any of them. Naturally,
-   * this cannot be enforced when an object is instantiated during game play.
    */
   start() {
     if (!this.database.isReady()) {
       throw new Error('Starting game without data.')
     }
 
-    this._gameMap.setup(1, this.database.getMap());
-    this._objectManager.setup();
-    this._physics.setup();
+    this.gameMap.setup(1, this.database.getMap());
+
+    this.managers.forEach(manager => manager.start());
 
     /* start tick */
     this._gameClockReal = new Date().getTime();
     Game.log(`Game Started ${this._gameClockReal}`);
   }
 
-  stop() {
+  /**
+   * Called constantly 60 frame per second.
+   */
+  fixedUpdate() {
+    /* Update Static Class */
+    EventEmitter.tick();
+    Input.update();
 
+    /* Update Game Instance */
+    this.gameMap.update();
+    this.gameScreen.update();
+
+    this.managers.forEach(manager => manager.tick(1 / 60.0));
+
+    this._updateClock();
   }
 
   /**
-   * Stop the game tick
+   * Update is called once per frame. It is the main workhorse function for
+   * frame updates.
+   */
+  update() {
+    /* Handle Input */
+    //console.log(Input);
+    // Input.update();
+    // console.log(Input.dir8);
+  }
+
+  /**
+   *
+   */
+  stop() {
+    this.managers.forEach(manager => manager.stop());
+  }
+
+  /**
+   *
    */
   terminate() {
-    this._gameScreen.clearZoom();
-    /* terminate managers */
-    this._physics.terminate();
-    this._objectManager.terminate();
+    this.gameScreen.clearZoom();
+    this.managers.forEach(manager => manager.terminate());
   }
 }

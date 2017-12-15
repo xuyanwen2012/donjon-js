@@ -1,10 +1,7 @@
 import ObjectPool from './object_pool';
 import GameObject from './game_object';
 import {
-  Animator,
-  BoxCollider,
-  CircleCollider,
-  GraphicComponent,
+  Animator, BoxCollider, CircleCollider, GraphicComponent,
   Rigidbody
 } from '../components/index';
 import ComponentPool from "./component_pool";

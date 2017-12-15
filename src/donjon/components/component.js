@@ -86,3 +86,5 @@ Component.RIGIDBODY = 3;
 Component.CIRCLE_COLLIDER = 4;
 Component.BOX_COLLIDER = 5;
 Component.ANIMATOR = 6;
+Component.FINITE_STATE = 7;
+

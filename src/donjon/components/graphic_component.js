@@ -1,5 +1,4 @@
 import Component from './component';
-import Input from '../../core/input';
 
 export default class GraphicComponent extends Component {
 
@@ -17,13 +16,6 @@ export default class GraphicComponent extends Component {
     this.opacity = 255;
     this.blendMode = 0;
     this.transparent = false;
-  }
-
-  /**
-   * @param data {object}
-   */
-  setData(data) {
-    Object.assign(this, data);
   }
 
   /* -------------------Getter/Setter/Accessor-------------------------- */
@@ -77,7 +69,11 @@ export default class GraphicComponent extends Component {
 
   /** @return {number} */
   frameLength() {
-    return 4;
+    return this._animator ? this._animator.maxPattern : 1;
+  }
+
+  directionLength() {
+    return this._animator ? this._animator.maxDirection : 1;
   }
 
   /** @return {number} */
@@ -87,7 +83,8 @@ export default class GraphicComponent extends Component {
 
   direction() {
     //TODO: count by Input Bottom
-    return Input.dir4 === 0 ? 2 : Input.dir4; // temp
+    return 2;
+    //return Input.dir4 === 0 ? 2 : Input.dir4; // temp
   }
 
   /* ------------------- Game Flow -------------------------- */

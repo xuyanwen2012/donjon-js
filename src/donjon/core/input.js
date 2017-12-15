@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-import EventEmitter from "../managers/event_emitter";
+import EventEmitter from "./event_emitter";
 
 /**
  * The static class that handles input data from the keyboard and gamepads.

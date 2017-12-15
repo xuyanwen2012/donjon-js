@@ -1,6 +1,6 @@
-import ObjectFactory from './game_object/object_factory';
-import EventEmitter from '../managers/event_emitter';
-import Manager from '../managers/manager';
+import ObjectFactory from '../game_object/object_factory';
+import EventEmitter from '../core/event_emitter';
+import Manager from './manager';
 
 export default class ObjectManager extends Manager {
 
@@ -17,9 +17,9 @@ export default class ObjectManager extends Manager {
   }
 
   initializeListeners() {
-    let self = this;
-    EventEmitter.addListener('onDataFileLoaded', data =>
-      self.createPrefabObjects(data));
+    // let self = this;
+    // EventEmitter.addListener('onDataFileLoaded', data =>
+    //   self.createPrefabObjects(data));
   }
 
   /**
@@ -59,11 +59,11 @@ export default class ObjectManager extends Manager {
 
   /* ----------------------------Game Flow----------------------------------- */
 
-  /**
-   * Should read map data, and deploy units accordingly.
-   */
-  setup() {
-    //temp
+  create(dataObjects) {
+    this.createPrefabObjects(dataObjects);
+  }
+
+  start() {
     this.spawnUnit(1, [5, 5]);
     this.spawnUnit(2, [7, 7]);
     this.spawnUnit(2, [8.5, 8.5]);
@@ -76,11 +76,18 @@ export default class ObjectManager extends Manager {
     this._objects.forEach(obj => obj.sendMessage('update'));
   }
 
-  terminate() {
-    this._objects.forEach(obj =>
-      this._factory.deleteObject(obj), this)
+  stop() {
+
   }
+
+  terminate() {
+    this._objects.forEach(obj => this._factory.deleteObject(obj), this);
+  }
+
+  /* --------------------Messages--------------------------- */
+
 }
+
 
 class Extractor {
   /**

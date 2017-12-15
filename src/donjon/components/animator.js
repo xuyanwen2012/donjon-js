@@ -1,5 +1,5 @@
 import Component from './component';
-import Input from '../../core/input';
+import Input from '../core/input';
 
 export default class Animator extends Component {
 
@@ -14,6 +14,8 @@ export default class Animator extends Component {
 
   clearData(data) {
     super.clearData();
+    this.speed = 3;
+    this.maxDirection = 4;
     this.maxPattern = 4;
     this.walkAnime = true;
     this.stepAnime = false;
@@ -29,7 +31,6 @@ export default class Animator extends Component {
     if (this.isStopping()) {
       //this.updateStop();
     }
-
     this.updateAnimationCount();
     if (this._animationCount >= this.animationWait()) {
       this.updatePattern();
@@ -64,8 +65,7 @@ export default class Animator extends Component {
 
   /** @private */
   animationWait() {
-    // return (9 - this.realMoveSpeed()) * 3;
-    return (9 - 3) * 3;
+    return (9 - this.speed) * 3;
   }
 
   /** @private */

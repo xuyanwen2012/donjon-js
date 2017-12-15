@@ -1,10 +1,12 @@
+import GameInstance from './game_instance';
+
 /**
  *
  */
-export default class DonjonMap {
+export default class GameMap extends GameInstance {
 
   constructor() {
-
+    super();
     /**
      * @type {{tilesetId, parallaxSx, parallaxSy, parallaxLoopX, parallaxLoopY}}
      * @private
@@ -57,6 +59,8 @@ export default class DonjonMap {
     this._parallaxY = 0;
   }
 
+  /* ----------------------------Game Flow----------------------------------- */
+
   /**
    *
    * @param mapId {number}
@@ -64,7 +68,7 @@ export default class DonjonMap {
    */
   setup(mapId, map) {
     if (map === undefined) {
-      throw new Error('DonjonMap: The map data is not available');
+      throw new Error('GameMap: The map data is not available');
     }
     this._dataMap = map;
     this._mapId = mapId;
@@ -76,19 +80,39 @@ export default class DonjonMap {
     this.setupParallax();
   }
 
+  update() {
+    this.updateScroll();
+    this.updateParallax();
+  }
+
+  /* ------------------Public functional method-------------------------- */
+
+  /**
+   * @param direction {number}
+   * @param distance {number}
+   * @param speed {number}
+   */
+  startScroll(direction, distance, speed) {
+    this._scrollDirection = direction;
+    this._scrollRest = distance;
+    this._scrollSpeed = speed;
+  }
+
+  /* -------------------Getter/Setter/Accessor-------------------------- */
+
   /** @return {number} */
   tileWidth() {
-    return 48
+    return 48;
   }
 
   /** @return {number} */
   tileHeight() {
-    return 48
+    return 48;
   }
 
   /** @return {number} */
   mapId() {
-    return this._mapId
+    return this._mapId;
   }
 
   /** @return {number} */
@@ -104,26 +128,6 @@ export default class DonjonMap {
   /** @return {String} */
   parallaxName() {
     return this._parallaxName
-  }
-
-  /** @private */
-  setupScroll() {
-    this._scrollDirection = 2;
-    this._scrollRest = 0;
-    this._scrollSpeed = 4;
-  }
-
-  /** @private */
-  setupParallax() {
-    this._parallaxName = this._dataMap.parallaxName || '';
-    // this._parallaxZero = ImageManager.isZeroParallax(this._parallaxName);
-    this._parallaxZero = false;
-    this._parallaxLoopX = this._dataMap.parallaxLoopX;
-    this._parallaxLoopY = this._dataMap.parallaxLoopY;
-    this._parallaxSx = this._dataMap.parallaxSx;
-    this._parallaxSy = this._dataMap.parallaxSy;
-    this._parallaxX = 0;
-    this._parallaxY = 0;
   }
 
   /**
@@ -354,16 +358,6 @@ export default class DonjonMap {
     return this.isValid(x, y) ? this.tileId(x, y, 5) : 0;
   }
 
-  /**
-   * @param direction {number}
-   * @param distance {number}
-   * @param speed {number}
-   */
-  startScroll(direction, distance, speed) {
-    this._scrollDirection = direction;
-    this._scrollRest = distance;
-    this._scrollSpeed = speed;
-  }
 
   /**
    * @return {boolean}
@@ -372,11 +366,6 @@ export default class DonjonMap {
     return this._scrollRest > 0;
   }
 
-  update() {
-    //this.refreshIfNeeded();
-    this.updateScroll();
-    this.updateParallax();
-  }
 
   /** @private */
   updateScroll() {
@@ -426,34 +415,25 @@ export default class DonjonMap {
     }
   }
 
-  // /**
-  //  * @param tilesetId {number}
-  //  */
-  // changeTileset(tilesetId) {
-  //   this._tilesetId = tilesetId;
-  //   this.refresh();
-  // }
-  //
-  // /**
-  //  * @param name {string}
-  //  * @param loopX {number}
-  //  * @param loopY {number}
-  //  * @param sx {number}
-  //  * @param sy {number}
-  //  */
-  // changeParallax(name, loopX, loopY, sx, sy) {
-  //   this._parallaxName = name;
-  //   // this._parallaxZero = ImageManager.isZeroParallax(this._parallaxName);
-  //   this._parallaxZero = false;
-  //   if (this._parallaxLoopX && !loopX) {
-  //     this._parallaxX = 0;
-  //   }
-  //   if (this._parallaxLoopY && !loopY) {
-  //     this._parallaxY = 0;
-  //   }
-  //   this._parallaxLoopX = loopX;
-  //   this._parallaxLoopY = loopY;
-  //   this._parallaxSx = sx;
-  //   this._parallaxSy = sy;
-  // }
+
+  /** @private */
+  setupScroll() {
+    this._scrollDirection = 2;
+    this._scrollRest = 0;
+    this._scrollSpeed = 4;
+  }
+
+  /** @private */
+  setupParallax() {
+    this._parallaxName = this._dataMap.parallaxName || '';
+    // this._parallaxZero = ImageManager.isZeroParallax(this._parallaxName);
+    this._parallaxZero = false;
+    this._parallaxLoopX = this._dataMap.parallaxLoopX;
+    this._parallaxLoopY = this._dataMap.parallaxLoopY;
+    this._parallaxSx = this._dataMap.parallaxSx;
+    this._parallaxSy = this._dataMap.parallaxSy;
+    this._parallaxX = 0;
+    this._parallaxY = 0;
+  }
+
 }

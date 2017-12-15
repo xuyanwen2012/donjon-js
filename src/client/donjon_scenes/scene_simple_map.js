@@ -14,7 +14,7 @@ class SceneMap extends SceneMapBase {
   constructor() {
     super();
 
-    /* setup listeners */
+    /* update listeners */
     let self = this;
     Donjon.EventEmitter.addListener('onUnitSpawn', obj => {
       self.onUnitSpawn(obj)
@@ -44,7 +44,7 @@ class SceneMap extends SceneMapBase {
    * @override
    */
   onMapLoaded() {
-    $game.getMap().setup(1, $dataMap); //setup map data before construct
+    $game.getMap().setup(1, $dataMap); //update map data before construct
 
     $game.database.setMapInfos($dataMapInfos);
     $game.database.setSystem($dataSystem);
@@ -68,9 +68,9 @@ class SceneMap extends SceneMapBase {
    */
   create() {
     super.create();
-    $game.create();
+    $game.create($dataObjects);
     console.log('SceneMap::create');
-    Donjon.EventEmitter.emit('onDataFileLoaded', $dataObjects);
+    //Donjon.EventEmitter.emit('onDataFileLoaded', $dataObjects);
   }
 
   start() {

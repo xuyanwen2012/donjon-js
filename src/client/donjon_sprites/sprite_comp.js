@@ -122,7 +122,7 @@ class SpriteGraphicComp extends SpriteBase {
   }
 
   patternHeight() {
-    return this.bitmap.height / 4;
+    return this.bitmap.height / this._graphicComp.directionLength();
   }
 
   characterBlockX() {

@@ -17,3 +17,28 @@ class Serializable {
   deserialize(str) {
   }
 }
+
+/**
+ * @interface
+ */
+class InterfaceGameFlow {
+  /** @abstract */
+  create() {
+  }
+
+  /** @abstract */
+  start() {
+  }
+
+  /** @abstract */
+  tick(dt) {
+  }
+
+  /** @abstract */
+  stop() {
+  }
+
+  /** @abstract */
+  terminate() {
+  }
+}

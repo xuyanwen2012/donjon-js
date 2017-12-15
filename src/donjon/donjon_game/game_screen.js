@@ -16,6 +16,16 @@ export default class GameScreen {
     this.clearWeather();
   }
 
+  update() {
+    this.updateFadeOut();
+    this.updateFadeIn();
+    this.updateTone();
+    this.updateFlash();
+    this.updateShake();
+    this.updateZoom();
+    this.updateWeather();
+  }
+
   /**
    * @return {number}
    */
@@ -218,16 +228,6 @@ export default class GameScreen {
     if (duration === 0) {
       this._weatherPower = this._weatherPowerTarget;
     }
-  }
-
-  update() {
-    this.updateFadeOut();
-    this.updateFadeIn();
-    this.updateTone();
-    this.updateFlash();
-    this.updateShake();
-    this.updateZoom();
-    this.updateWeather();
   }
 
   updateFadeOut() {

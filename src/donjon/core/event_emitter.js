@@ -7,6 +7,11 @@ export default class EventEmitter {
     throw new Error('This is a static class');
   }
 
+  static initialize() {
+    this.listeners.clear();
+    EventEmitter.queuedEvents = [[], []];
+  }
+
   /**
    * Subscribe to an event.
    *

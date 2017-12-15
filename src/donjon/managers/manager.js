@@ -1,3 +1,7 @@
+/**
+ * @abstract
+ * @implements {InterfaceGameFlow}
+ */
 export default class Manager {
 
   constructor() {
@@ -14,7 +18,11 @@ export default class Manager {
   /* ----------------------------Game Flow----------------------------------- */
 
   /** @abstract */
-  setup() {
+  create(dataObjects) {
+  }
+
+  /** @abstract */
+  start() {
   }
 
   /** @abstract */
@@ -22,9 +30,12 @@ export default class Manager {
   }
 
   /** @abstract */
+  stop() {
+  }
+
+  /** @abstract */
   terminate() {
   }
 
   /* -----------------------------Messages------------------------------------ */
-
 }
