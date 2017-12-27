@@ -103,9 +103,14 @@ export default class Animator extends Component {
 
   /* --------------------Messages--------------------------- */
 
-  onInstantiate() {
+  onInstantiate(msg) {
+    super.onInstantiate(msg);
     /* Animator must have a GraphicComp */
     this._graphicComp = this._owner.getGraphicComp();
-    this._graphicComp.setAnimator(this);
+    if (this._graphicComp) {
+      this._graphicComp.setAnimator(this);
+    } else {
+      console.log("Cannot!!!!!!!!");
+    }
   }
 }

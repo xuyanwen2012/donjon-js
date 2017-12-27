@@ -2,8 +2,8 @@ import Component from './component';
 
 export default class GraphicComponent extends Component {
 
-  constructor(data) {
-    super(data);
+  constructor() {
+    super();
     this._type = Component.GRAPHIC;
 
     /* non data properties */

@@ -79,6 +79,7 @@ export default class Component {
   }
 }
 
+/* Const */
 Component.NULL = 0;
 Component.TRANSFORM = 1;
 Component.GRAPHIC = 2;
@@ -86,5 +87,5 @@ Component.RIGIDBODY = 3;
 Component.CIRCLE_COLLIDER = 4;
 Component.BOX_COLLIDER = 5;
 Component.ANIMATOR = 6;
-Component.FINITE_STATE = 7;
+Component.ACTOR = 7;
 

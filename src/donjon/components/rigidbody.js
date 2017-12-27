@@ -34,8 +34,7 @@ export default class Rigidbody extends Component {
   }
 
   updateBodyEuler() {
-    this.getOwner().getTransform()
-      .setPosition(this._body.position);
+    this.getOwner().getTransform().setPosition(this._body.position);
     this._body.velocity[0] = 0;
     this._body.velocity[1] = 0;
   }
@@ -50,9 +49,6 @@ export default class Rigidbody extends Component {
   }
 
   /* --------------------Messages--------------------------- */
-  onInstantiate(owner) {
-
-  }
 
 }
 /**

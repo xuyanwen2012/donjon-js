@@ -3,7 +3,6 @@
  */
 export default class GameInstance {
   constructor() {
-
   }
 
   /** @abstract */

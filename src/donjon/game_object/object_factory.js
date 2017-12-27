@@ -1,7 +1,7 @@
 import ObjectPool from './object_pool';
 import GameObject from './game_object';
 import {
-  Animator, BoxCollider, CircleCollider, GraphicComponent,
+  Actor, Animator, BoxCollider, CircleCollider, GraphicComponent,
   Rigidbody
 } from '../components/index';
 import ComponentPool from "./component_pool";
@@ -19,6 +19,7 @@ export default class ObjectFactory {
       ['BoxCollider', new ComponentPool(BoxCollider, DEFAULT_CAPACITY)],
       ['CircleCollider', new ComponentPool(CircleCollider, DEFAULT_CAPACITY)],
       ['Animator', new ComponentPool(Animator, DEFAULT_CAPACITY)],
+      ['Actor', new ComponentPool(Actor, DEFAULT_CAPACITY)],
     ]);
 
     this._objectPool = new ObjectPool(DEFAULT_CAPACITY);
@@ -108,14 +109,17 @@ export default class ObjectFactory {
     const cloned = this._objectPool.get();
     cloned.id = ObjectFactory.generateRunTimeId();
 
-    // /* Clone transform and each components */
+    /* Clone transform and each components */
     this._cloneTransform(cloned._transform, origin.getTransform());
     origin._components.forEach(ori_comp =>
         cloned.addComponent(this._cloneComponent(ori_comp))
       , this);
 
     /* Fire event::onInstantiate */
-    cloned.sendMessage('onInstantiate', cloned, position);
+    cloned.sendMessage('onInstantiate', {
+      owner: cloned,
+      newPos: position
+    });
     return cloned;
   }
 

@@ -3,7 +3,7 @@ import EventEmitter from '../core/event_emitter';
 import ObjectManager from '../managers/object_mannager';
 import Physics from '../managers/physics';
 import GameScreen from './game_screen';
-import DonjonMap from './game_map';
+import GameMap from './game_map';
 import Input from "../core/input";
 
 /**
@@ -15,25 +15,25 @@ export default class Game {
    *
    */
   constructor() {
-    /* update game managers */
-    this.database = new Database();
-
-    Input.initialize();
+    /* Initialize Static Managers */
     EventEmitter.initialize();
+    Input.initialize();
+
+    this.database = new Database();
 
     /**
      * @type {Array.<Manager>}
      */
     this.managers = [
-      new ObjectManager(),
       new Physics(),
+      new ObjectManager(),
     ];
 
     /** @private @type {GameScreen}*/
     this.gameScreen = new GameScreen();
 
-    /** @private @type {DonjonGameMap}*/
-    this.gameMap = new DonjonMap();
+    /** @private @type {GameMap}*/
+    this.gameMap = new GameMap();
 
 
     this._setupClock();
@@ -62,24 +62,10 @@ export default class Game {
     return this.gameScreen;
   }
 
-  /** @return {Manager||ObjectManager} */
-  getObjectManager() {
-    return this.managers[0];
-  }
-
-  /* ----------------------------------------------------------------------- */
-
-  _updateClock() {
-    this._gameTick++;
-    this._gameClockReal += new Date().getTime() - this._gameClockReal;
-  }
-
-  _setupClock() {
-    /** @private @type {number}*/
-    this._gameTick = 0;
-    /** @private @type {number}*/
-    this._gameClockReal = 0;
-  }
+  // /** @return {Manager||ObjectManager} */
+  // getObjectManager() {
+  //   return this.managers[1];
+  // }
 
   /* ----------------------------Game Flow----------------------------------- */
 
@@ -150,5 +136,19 @@ export default class Game {
   terminate() {
     this.gameScreen.clearZoom();
     this.managers.forEach(manager => manager.terminate());
+  }
+
+  /* ----------------------------------------------------------------------- */
+
+  _updateClock() {
+    this._gameTick++;
+    this._gameClockReal += new Date().getTime() - this._gameClockReal;
+  }
+
+  _setupClock() {
+    /** @private @type {number}*/
+    this._gameTick = 0;
+    /** @private @type {number}*/
+    this._gameClockReal = 0;
   }
 }

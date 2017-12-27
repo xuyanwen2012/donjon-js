@@ -103,14 +103,13 @@ export default class Transform extends Component {
   /* --------------------Messages--------------------------- */
   /**
    *
-   * @param owner
-   * @param newPos
+   * @param msg {{newPos,owner}}
    */
-  onInstantiate(owner, newPos) {
-    super.onInstantiate(owner);
+  onInstantiate(msg) {
+    super.onInstantiate(msg);
     /* Assign new position, if applies */
-    if (newPos) {
-      owner._transform.setPosition(newPos);
+    if (msg.newPos) {
+      msg.owner._transform.setPosition(msg.newPos);
     }
   }
 }

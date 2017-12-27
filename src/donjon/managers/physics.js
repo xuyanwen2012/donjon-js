@@ -85,7 +85,7 @@ export default class Physics extends Manager {
     const player = this.addedBody[0];
     player.velocity[0] = dx;
     player.velocity[1] = dy;
-
+    // console.log(`${player.velocity[0]}, ${player.velocity[1]}`)
 
     /*------------------------------*/
 
